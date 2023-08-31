@@ -1,0 +1,3 @@
+S:/STM32SSC/STM32/STM32SSC_F103/Code/Clion_Project/1_Test/cmake-build-debug/CMakeFiles/1_Test.elf.dir
+S:/STM32SSC/STM32/STM32SSC_F103/Code/Clion_Project/1_Test/cmake-build-debug/CMakeFiles/edit_cache.dir
+S:/STM32SSC/STM32/STM32SSC_F103/Code/Clion_Project/1_Test/cmake-build-debug/CMakeFiles/rebuild_cache.dir

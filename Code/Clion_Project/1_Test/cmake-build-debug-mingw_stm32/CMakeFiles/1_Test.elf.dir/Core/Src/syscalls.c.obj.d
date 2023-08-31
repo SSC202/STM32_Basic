@@ -1,0 +1,45 @@
+CMakeFiles/1_Test.elf.dir/Core/Src/syscalls.c.obj: \
+ S:\STM32SSC\STM32\STM32SSC_F103\Code\Clion_Project\1_Test\Core\Src\syscalls.c \
+ r:\user_download\environment_install\gnu\ arm\ toolchain\gnu\ arm\ embedded\ toolchain\10\ 2021.10\arm-none-eabi\include\sys\stat.h \
+ r:\user_download\environment_install\gnu\ arm\ toolchain\gnu\ arm\ embedded\ toolchain\10\ 2021.10\arm-none-eabi\include\_ansi.h \
+ r:\user_download\environment_install\gnu\ arm\ toolchain\gnu\ arm\ embedded\ toolchain\10\ 2021.10\arm-none-eabi\include\newlib.h \
+ r:\user_download\environment_install\gnu\ arm\ toolchain\gnu\ arm\ embedded\ toolchain\10\ 2021.10\arm-none-eabi\include\_newlib_version.h \
+ r:\user_download\environment_install\gnu\ arm\ toolchain\gnu\ arm\ embedded\ toolchain\10\ 2021.10\arm-none-eabi\include\sys\config.h \
+ r:\user_download\environment_install\gnu\ arm\ toolchain\gnu\ arm\ embedded\ toolchain\10\ 2021.10\arm-none-eabi\include\machine\ieeefp.h \
+ r:\user_download\environment_install\gnu\ arm\ toolchain\gnu\ arm\ embedded\ toolchain\10\ 2021.10\arm-none-eabi\include\sys\features.h \
+ r:\user_download\environment_install\gnu\ arm\ toolchain\gnu\ arm\ embedded\ toolchain\10\ 2021.10\arm-none-eabi\include\time.h \
+ r:\user_download\environment_install\gnu\ arm\ toolchain\gnu\ arm\ embedded\ toolchain\10\ 2021.10\arm-none-eabi\include\_ansi.h \
+ r:\user_download\environment_install\gnu\ arm\ toolchain\gnu\ arm\ embedded\ toolchain\10\ 2021.10\arm-none-eabi\include\sys\cdefs.h \
+ r:\user_download\environment_install\gnu\ arm\ toolchain\gnu\ arm\ embedded\ toolchain\10\ 2021.10\arm-none-eabi\include\machine\_default_types.h \
+ r:\user_download\environment_install\gnu\ arm\ toolchain\gnu\ arm\ embedded\ toolchain\10\ 2021.10\lib\gcc\arm-none-eabi\10.3.1\include\stddef.h \
+ r:\user_download\environment_install\gnu\ arm\ toolchain\gnu\ arm\ embedded\ toolchain\10\ 2021.10\arm-none-eabi\include\sys\reent.h \
+ r:\user_download\environment_install\gnu\ arm\ toolchain\gnu\ arm\ embedded\ toolchain\10\ 2021.10\arm-none-eabi\include\sys\_types.h \
+ r:\user_download\environment_install\gnu\ arm\ toolchain\gnu\ arm\ embedded\ toolchain\10\ 2021.10\arm-none-eabi\include\machine\_types.h \
+ r:\user_download\environment_install\gnu\ arm\ toolchain\gnu\ arm\ embedded\ toolchain\10\ 2021.10\arm-none-eabi\include\sys\lock.h \
+ r:\user_download\environment_install\gnu\ arm\ toolchain\gnu\ arm\ embedded\ toolchain\10\ 2021.10\arm-none-eabi\include\machine\time.h \
+ r:\user_download\environment_install\gnu\ arm\ toolchain\gnu\ arm\ embedded\ toolchain\10\ 2021.10\arm-none-eabi\include\sys\types.h \
+ r:\user_download\environment_install\gnu\ arm\ toolchain\gnu\ arm\ embedded\ toolchain\10\ 2021.10\arm-none-eabi\include\sys\_stdint.h \
+ r:\user_download\environment_install\gnu\ arm\ toolchain\gnu\ arm\ embedded\ toolchain\10\ 2021.10\arm-none-eabi\include\machine\endian.h \
+ r:\user_download\environment_install\gnu\ arm\ toolchain\gnu\ arm\ embedded\ toolchain\10\ 2021.10\arm-none-eabi\include\machine\_endian.h \
+ r:\user_download\environment_install\gnu\ arm\ toolchain\gnu\ arm\ embedded\ toolchain\10\ 2021.10\arm-none-eabi\include\sys\select.h \
+ r:\user_download\environment_install\gnu\ arm\ toolchain\gnu\ arm\ embedded\ toolchain\10\ 2021.10\arm-none-eabi\include\sys\_sigset.h \
+ r:\user_download\environment_install\gnu\ arm\ toolchain\gnu\ arm\ embedded\ toolchain\10\ 2021.10\arm-none-eabi\include\sys\_timeval.h \
+ r:\user_download\environment_install\gnu\ arm\ toolchain\gnu\ arm\ embedded\ toolchain\10\ 2021.10\arm-none-eabi\include\sys\timespec.h \
+ r:\user_download\environment_install\gnu\ arm\ toolchain\gnu\ arm\ embedded\ toolchain\10\ 2021.10\arm-none-eabi\include\sys\_timespec.h \
+ r:\user_download\environment_install\gnu\ arm\ toolchain\gnu\ arm\ embedded\ toolchain\10\ 2021.10\arm-none-eabi\include\sys\_pthreadtypes.h \
+ r:\user_download\environment_install\gnu\ arm\ toolchain\gnu\ arm\ embedded\ toolchain\10\ 2021.10\arm-none-eabi\include\sys\sched.h \
+ r:\user_download\environment_install\gnu\ arm\ toolchain\gnu\ arm\ embedded\ toolchain\10\ 2021.10\arm-none-eabi\include\machine\types.h \
+ r:\user_download\environment_install\gnu\ arm\ toolchain\gnu\ arm\ embedded\ toolchain\10\ 2021.10\arm-none-eabi\include\sys\_locale.h \
+ r:\user_download\environment_install\gnu\ arm\ toolchain\gnu\ arm\ embedded\ toolchain\10\ 2021.10\arm-none-eabi\include\stdlib.h \
+ r:\user_download\environment_install\gnu\ arm\ toolchain\gnu\ arm\ embedded\ toolchain\10\ 2021.10\arm-none-eabi\include\machine\stdlib.h \
+ r:\user_download\environment_install\gnu\ arm\ toolchain\gnu\ arm\ embedded\ toolchain\10\ 2021.10\arm-none-eabi\include\alloca.h \
+ r:\user_download\environment_install\gnu\ arm\ toolchain\gnu\ arm\ embedded\ toolchain\10\ 2021.10\arm-none-eabi\include\errno.h \
+ r:\user_download\environment_install\gnu\ arm\ toolchain\gnu\ arm\ embedded\ toolchain\10\ 2021.10\arm-none-eabi\include\sys\errno.h \
+ r:\user_download\environment_install\gnu\ arm\ toolchain\gnu\ arm\ embedded\ toolchain\10\ 2021.10\arm-none-eabi\include\stdio.h \
+ r:\user_download\environment_install\gnu\ arm\ toolchain\gnu\ arm\ embedded\ toolchain\10\ 2021.10\lib\gcc\arm-none-eabi\10.3.1\include\stdarg.h \
+ r:\user_download\environment_install\gnu\ arm\ toolchain\gnu\ arm\ embedded\ toolchain\10\ 2021.10\arm-none-eabi\include\sys\stdio.h \
+ r:\user_download\environment_install\gnu\ arm\ toolchain\gnu\ arm\ embedded\ toolchain\10\ 2021.10\arm-none-eabi\include\signal.h \
+ r:\user_download\environment_install\gnu\ arm\ toolchain\gnu\ arm\ embedded\ toolchain\10\ 2021.10\arm-none-eabi\include\sys\signal.h \
+ r:\user_download\environment_install\gnu\ arm\ toolchain\gnu\ arm\ embedded\ toolchain\10\ 2021.10\arm-none-eabi\include\sys\time.h \
+ r:\user_download\environment_install\gnu\ arm\ toolchain\gnu\ arm\ embedded\ toolchain\10\ 2021.10\arm-none-eabi\include\machine\_time.h \
+ r:\user_download\environment_install\gnu\ arm\ toolchain\gnu\ arm\ embedded\ toolchain\10\ 2021.10\arm-none-eabi\include\sys\times.h

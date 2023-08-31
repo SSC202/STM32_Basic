@@ -1,0 +1,268 @@
+The target system is: Generic - 1 - 
+The host system is: Windows - 10.0.19045 - AMD64
+Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+Compiler: D:/Program/GNU_ARM/GNU_Tool_Arm_Embedded/bin/arm-none-eabi-gcc.exe 
+Build flags: 
+Id flags: -c 
+
+The output was:
+0
+
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.o"
+
+The C compiler identification is GNU, found in "S:/STM32SSC/STM32/STM32SSC_F103/Code/Clion_Project/1_Test/cmake-build-debug/CMakeFiles/3.25.2/CompilerIdC/CMakeCCompilerId.o"
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+Compiler: D:/Program/GNU_ARM/GNU_Tool_Arm_Embedded/bin/arm-none-eabi-g++.exe 
+Build flags: 
+Id flags: -c 
+
+The output was:
+0
+
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CMakeCXXCompilerId.o"
+
+The CXX compiler identification is GNU, found in "S:/STM32SSC/STM32/STM32SSC_F103/Code/Clion_Project/1_Test/cmake-build-debug/CMakeFiles/3.25.2/CompilerIdCXX/CMakeCXXCompilerId.o"
+
+Checking whether the ASM compiler is GNU using "--version" matched "(GNU assembler)|(GCC)|(Free Software Foundation)":
+arm-none-eabi-gcc.exe (GNU Tools for Arm Embedded Processors 9-2019-q4-major) 9.2.1 20191025 (release) [ARM/arm-9-branch revision 277599]
+Copyright (C) 2019 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+Detecting C compiler ABI info compiled with the following output:
+Change Dir: S:/STM32SSC/STM32/STM32SSC_F103/Code/Clion_Project/1_Test/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-4aaooy
+
+Run Build Command(s):R:/Program Files/JetBrains/CLion 2023.1.1/bin/ninja/win/x64/ninja.exe cmTC_58781 && [1/2] Building C object CMakeFiles/cmTC_58781.dir/CMakeCCompilerABI.c.obj
+Using built-in specs.
+COLLECT_GCC=D:\Program\GNU_ARM\GNU_Tool_Arm_Embedded\bin\arm-none-eabi-gcc.exe
+Target: arm-none-eabi
+Configured with: /mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/src/gcc/configure --build=x86_64-linux-gnu --host=i686-w64-mingw32 --target=arm-none-eabi --prefix=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/install-mingw --libexecdir=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/install-mingw/lib --infodir=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/install-mingw/share/doc/gcc-arm-none-eabi/info --mandir=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/install-mingw/share/doc/gcc-arm-none-eabi/man --htmldir=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/install-mingw/share/doc/gcc-arm-none-eabi/html --pdfdir=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/install-mingw/share/doc/gcc-arm-none-eabi/pdf --enable-languages=c,c++ --enable-mingw-wildcard --disable-decimal-float --disable-libffi --disable-libgomp --disable-libmudflap --disable-libquadmath --disable-libssp --disable-libstdcxx-pch --disable-nls --disable-shared --disable-threads --disable-tls --with-gnu-as --with-gnu-ld --with-headers=yes --with-newlib --with-python-dir=share/gcc-arm-none-eabi --with-sysroot=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/install-mingw/arm-none-eabi --with-libiconv-prefix=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/build-mingw/host-libs/usr --with-gmp=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/build-mingw/host-libs/usr --with-mpfr=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/build-mingw/host-libs/usr --with-mpc=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/build-mingw/host-libs/usr --with-isl=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/build-mingw/host-libs/usr --with-libelf=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/build-mingw/host-libs/usr --with-host-libstdcxx='-static-libgcc -Wl,-Bstatic,-lstdc++,-Bdynamic -lm' --with-pkgversion='GNU Tools for Arm Embedded Processors 9-2019-q4-major' --with-multilib-list=rmprofile
+Thread model: single
+gcc version 9.2.1 20191025 (release) [ARM/arm-9-branch revision 277599] (GNU Tools for Arm Embedded Processors 9-2019-q4-major) 
+COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-o' 'CMakeFiles/cmTC_58781.dir/CMakeCCompilerABI.c.obj' '-c' '-mcpu=arm7tdmi' '-mfloat-abi=soft' '-marm' '-march=armv4t'
+ d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/arm-none-eabi/9.2.1/cc1.exe -quiet -v -iprefix d:\program\gnu_arm\gnu_tool_arm_embedded\bin\../lib/gcc/arm-none-eabi/9.2.1/ -isysroot d:\program\gnu_arm\gnu_tool_arm_embedded\bin\../arm-none-eabi -D__USES_INITFINI__ R:/Program Files/JetBrains/CLion 2023.1.1/bin/cmake/win/x64/share/cmake-3.25/Modules/CMakeCCompilerABI.c -quiet -dumpbase CMakeCCompilerABI.c -mcpu=arm7tdmi -mfloat-abi=soft -marm -march=armv4t -auxbase-strip CMakeFiles/cmTC_58781.dir/CMakeCCompilerABI.c.obj -version -fdiagnostics-color=always -o C:\Users\ssc\AppData\Local\Temp\ccLudADr.s
+GNU C17 (GNU Tools for Arm Embedded Processors 9-2019-q4-major) version 9.2.1 20191025 (release) [ARM/arm-9-branch revision 277599] (arm-none-eabi)
+	compiled by GNU C version 5.3.1 20160211, GMP version 6.1.0, MPFR version 3.1.4, MPC version 1.0.3, isl version isl-0.18-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+ignoring duplicate directory "d:/program/gnu_arm/gnu_tool_arm_embedded/lib/gcc/../../lib/gcc/arm-none-eabi/9.2.1/include"
+ignoring nonexistent directory "d:\program\gnu_arm\gnu_tool_arm_embedded\bin\../arm-none-eabi/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/install-mingw/lib/gcc/arm-none-eabi/9.2.1/../../../../include"
+ignoring duplicate directory "d:/program/gnu_arm/gnu_tool_arm_embedded/lib/gcc/../../lib/gcc/arm-none-eabi/9.2.1/include-fixed"
+ignoring duplicate directory "d:/program/gnu_arm/gnu_tool_arm_embedded/lib/gcc/../../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/include"
+ignoring nonexistent directory "d:\program\gnu_arm\gnu_tool_arm_embedded\bin\../arm-none-eabi/usr/include"
+#include "..." search starts here:
+#include <...> search starts here:
+ d:\program\gnu_arm\gnu_tool_arm_embedded\bin\../lib/gcc/arm-none-eabi/9.2.1/include
+ d:\program\gnu_arm\gnu_tool_arm_embedded\bin\../lib/gcc/arm-none-eabi/9.2.1/include-fixed
+ d:\program\gnu_arm\gnu_tool_arm_embedded\bin\../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/include
+End of search list.
+GNU C17 (GNU Tools for Arm Embedded Processors 9-2019-q4-major) version 9.2.1 20191025 (release) [ARM/arm-9-branch revision 277599] (arm-none-eabi)
+	compiled by GNU C version 5.3.1 20160211, GMP version 6.1.0, MPFR version 3.1.4, MPC version 1.0.3, isl version isl-0.18-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+Compiler executable checksum: d48d906eaae8455a6540c74ba2cbe16a
+COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-o' 'CMakeFiles/cmTC_58781.dir/CMakeCCompilerABI.c.obj' '-c' '-mcpu=arm7tdmi' '-mfloat-abi=soft' '-marm' '-march=armv4t'
+ d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/bin/as.exe -v -march=armv4t -mfloat-abi=soft -meabi=5 -o CMakeFiles/cmTC_58781.dir/CMakeCCompilerABI.c.obj C:\Users\ssc\AppData\Local\Temp\ccLudADr.s
+GNU assembler version 2.33.1 (arm-none-eabi) using BFD version (GNU Tools for Arm Embedded Processors 9-2019-q4-major) 2.33.1.20191025
+COMPILER_PATH=d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/arm-none-eabi/9.2.1/;d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/;d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/bin/
+LIBRARY_PATH=d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/arm-none-eabi/9.2.1/;d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/;d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/;d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../arm-none-eabi/lib/
+COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-o' 'CMakeFiles/cmTC_58781.dir/CMakeCCompilerABI.c.obj' '-c' '-mcpu=arm7tdmi' '-mfloat-abi=soft' '-marm' '-march=armv4t'
+[2/2] Linking C static library libcmTC_58781.a
+
+
+
+Parsed C implicit include dir info from above output: rv=done
+  found start of include info
+  found start of implicit include info
+    add: [d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/arm-none-eabi/9.2.1/include]
+    add: [d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/arm-none-eabi/9.2.1/include-fixed]
+    add: [d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/include]
+  end of search list found
+  collapse include dir [d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/arm-none-eabi/9.2.1/include] ==> [D:/Program/GNU_ARM/GNU_Tool_Arm_Embedded/lib/gcc/arm-none-eabi/9.2.1/include]
+  collapse include dir [d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/arm-none-eabi/9.2.1/include-fixed] ==> [D:/Program/GNU_ARM/GNU_Tool_Arm_Embedded/lib/gcc/arm-none-eabi/9.2.1/include-fixed]
+  collapse include dir [d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/include] ==> [D:/Program/GNU_ARM/GNU_Tool_Arm_Embedded/arm-none-eabi/include]
+  implicit include dirs: [D:/Program/GNU_ARM/GNU_Tool_Arm_Embedded/lib/gcc/arm-none-eabi/9.2.1/include;D:/Program/GNU_ARM/GNU_Tool_Arm_Embedded/lib/gcc/arm-none-eabi/9.2.1/include-fixed;D:/Program/GNU_ARM/GNU_Tool_Arm_Embedded/arm-none-eabi/include]
+
+
+Parsed C implicit link information from above output:
+  link line regex: [^( *|.*[/\])(arm-none-eabi-ld\.exe|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: S:/STM32SSC/STM32/STM32SSC_F103/Code/Clion_Project/1_Test/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-4aaooy]
+  ignore line: []
+  ignore line: [Run Build Command(s):R:/Program Files/JetBrains/CLion 2023.1.1/bin/ninja/win/x64/ninja.exe cmTC_58781 && [1/2] Building C object CMakeFiles/cmTC_58781.dir/CMakeCCompilerABI.c.obj]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=D:\Program\GNU_ARM\GNU_Tool_Arm_Embedded\bin\arm-none-eabi-gcc.exe]
+  ignore line: [Target: arm-none-eabi]
+  ignore line: [Configured with: /mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/src/gcc/configure --build=x86_64-linux-gnu --host=i686-w64-mingw32 --target=arm-none-eabi --prefix=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/install-mingw --libexecdir=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/install-mingw/lib --infodir=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/install-mingw/share/doc/gcc-arm-none-eabi/info --mandir=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/install-mingw/share/doc/gcc-arm-none-eabi/man --htmldir=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/install-mingw/share/doc/gcc-arm-none-eabi/html --pdfdir=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/install-mingw/share/doc/gcc-arm-none-eabi/pdf --enable-languages=c,c++ --enable-mingw-wildcard --disable-decimal-float --disable-libffi --disable-libgomp --disable-libmudflap --disable-libquadmath --disable-libssp --disable-libstdcxx-pch --disable-nls --disable-shared --disable-threads --disable-tls --with-gnu-as --with-gnu-ld --with-headers=yes --with-newlib --with-python-dir=share/gcc-arm-none-eabi --with-sysroot=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/install-mingw/arm-none-eabi --with-libiconv-prefix=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/build-mingw/host-libs/usr --with-gmp=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/build-mingw/host-libs/usr --with-mpfr=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/build-mingw/host-libs/usr --with-mpc=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/build-mingw/host-libs/usr --with-isl=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/build-mingw/host-libs/usr --with-libelf=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/build-mingw/host-libs/usr --with-host-libstdcxx='-static-libgcc -Wl,-Bstatic,-lstdc++,-Bdynamic -lm' --with-pkgversion='GNU Tools for Arm Embedded Processors 9-2019-q4-major' --with-multilib-list=rmprofile]
+  ignore line: [Thread model: single]
+  ignore line: [gcc version 9.2.1 20191025 (release) [ARM/arm-9-branch revision 277599] (GNU Tools for Arm Embedded Processors 9-2019-q4-major) ]
+  ignore line: [COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-o' 'CMakeFiles/cmTC_58781.dir/CMakeCCompilerABI.c.obj' '-c' '-mcpu=arm7tdmi' '-mfloat-abi=soft' '-marm' '-march=armv4t']
+  ignore line: [ d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/arm-none-eabi/9.2.1/cc1.exe -quiet -v -iprefix d:\program\gnu_arm\gnu_tool_arm_embedded\bin\../lib/gcc/arm-none-eabi/9.2.1/ -isysroot d:\program\gnu_arm\gnu_tool_arm_embedded\bin\../arm-none-eabi -D__USES_INITFINI__ R:/Program Files/JetBrains/CLion 2023.1.1/bin/cmake/win/x64/share/cmake-3.25/Modules/CMakeCCompilerABI.c -quiet -dumpbase CMakeCCompilerABI.c -mcpu=arm7tdmi -mfloat-abi=soft -marm -march=armv4t -auxbase-strip CMakeFiles/cmTC_58781.dir/CMakeCCompilerABI.c.obj -version -fdiagnostics-color=always -o C:\Users\ssc\AppData\Local\Temp\ccLudADr.s]
+  ignore line: [GNU C17 (GNU Tools for Arm Embedded Processors 9-2019-q4-major) version 9.2.1 20191025 (release) [ARM/arm-9-branch revision 277599] (arm-none-eabi)]
+  ignore line: [	compiled by GNU C version 5.3.1 20160211  GMP version 6.1.0  MPFR version 3.1.4  MPC version 1.0.3  isl version isl-0.18-GMP]
+  ignore line: []
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [ignoring duplicate directory "d:/program/gnu_arm/gnu_tool_arm_embedded/lib/gcc/../../lib/gcc/arm-none-eabi/9.2.1/include"]
+  ignore line: [ignoring nonexistent directory "d:\program\gnu_arm\gnu_tool_arm_embedded\bin\../arm-none-eabi/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/install-mingw/lib/gcc/arm-none-eabi/9.2.1/../../../../include"]
+  ignore line: [ignoring duplicate directory "d:/program/gnu_arm/gnu_tool_arm_embedded/lib/gcc/../../lib/gcc/arm-none-eabi/9.2.1/include-fixed"]
+  ignore line: [ignoring duplicate directory "d:/program/gnu_arm/gnu_tool_arm_embedded/lib/gcc/../../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/include"]
+  ignore line: [ignoring nonexistent directory "d:\program\gnu_arm\gnu_tool_arm_embedded\bin\../arm-none-eabi/usr/include"]
+  ignore line: [#include "..." search starts here:]
+  ignore line: [#include <...> search starts here:]
+  ignore line: [ d:\program\gnu_arm\gnu_tool_arm_embedded\bin\../lib/gcc/arm-none-eabi/9.2.1/include]
+  ignore line: [ d:\program\gnu_arm\gnu_tool_arm_embedded\bin\../lib/gcc/arm-none-eabi/9.2.1/include-fixed]
+  ignore line: [ d:\program\gnu_arm\gnu_tool_arm_embedded\bin\../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/include]
+  ignore line: [End of search list.]
+  ignore line: [GNU C17 (GNU Tools for Arm Embedded Processors 9-2019-q4-major) version 9.2.1 20191025 (release) [ARM/arm-9-branch revision 277599] (arm-none-eabi)]
+  ignore line: [	compiled by GNU C version 5.3.1 20160211  GMP version 6.1.0  MPFR version 3.1.4  MPC version 1.0.3  isl version isl-0.18-GMP]
+  ignore line: []
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [Compiler executable checksum: d48d906eaae8455a6540c74ba2cbe16a]
+  ignore line: [COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-o' 'CMakeFiles/cmTC_58781.dir/CMakeCCompilerABI.c.obj' '-c' '-mcpu=arm7tdmi' '-mfloat-abi=soft' '-marm' '-march=armv4t']
+  ignore line: [ d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/bin/as.exe -v -march=armv4t -mfloat-abi=soft -meabi=5 -o CMakeFiles/cmTC_58781.dir/CMakeCCompilerABI.c.obj C:\Users\ssc\AppData\Local\Temp\ccLudADr.s]
+  ignore line: [GNU assembler version 2.33.1 (arm-none-eabi) using BFD version (GNU Tools for Arm Embedded Processors 9-2019-q4-major) 2.33.1.20191025]
+  ignore line: [COMPILER_PATH=d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/arm-none-eabi/9.2.1/]
+  ignore line: [d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/]
+  ignore line: [d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/bin/]
+  ignore line: [LIBRARY_PATH=d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/arm-none-eabi/9.2.1/]
+  ignore line: [d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/]
+  ignore line: [d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/]
+  ignore line: [d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../arm-none-eabi/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-o' 'CMakeFiles/cmTC_58781.dir/CMakeCCompilerABI.c.obj' '-c' '-mcpu=arm7tdmi' '-mfloat-abi=soft' '-marm' '-march=armv4t']
+  ignore line: [[2/2] Linking C static library libcmTC_58781.a]
+  ignore line: []
+  ignore line: []
+  implicit libs: []
+  implicit objs: []
+  implicit dirs: []
+  implicit fwks: []
+
+
+Detecting CXX compiler ABI info compiled with the following output:
+Change Dir: S:/STM32SSC/STM32/STM32SSC_F103/Code/Clion_Project/1_Test/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-wiklin
+
+Run Build Command(s):R:/Program Files/JetBrains/CLion 2023.1.1/bin/ninja/win/x64/ninja.exe cmTC_e6fa2 && [1/2] Building CXX object CMakeFiles/cmTC_e6fa2.dir/CMakeCXXCompilerABI.cpp.obj
+Using built-in specs.
+COLLECT_GCC=D:\Program\GNU_ARM\GNU_Tool_Arm_Embedded\bin\arm-none-eabi-g++.exe
+Target: arm-none-eabi
+Configured with: /mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/src/gcc/configure --build=x86_64-linux-gnu --host=i686-w64-mingw32 --target=arm-none-eabi --prefix=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/install-mingw --libexecdir=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/install-mingw/lib --infodir=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/install-mingw/share/doc/gcc-arm-none-eabi/info --mandir=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/install-mingw/share/doc/gcc-arm-none-eabi/man --htmldir=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/install-mingw/share/doc/gcc-arm-none-eabi/html --pdfdir=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/install-mingw/share/doc/gcc-arm-none-eabi/pdf --enable-languages=c,c++ --enable-mingw-wildcard --disable-decimal-float --disable-libffi --disable-libgomp --disable-libmudflap --disable-libquadmath --disable-libssp --disable-libstdcxx-pch --disable-nls --disable-shared --disable-threads --disable-tls --with-gnu-as --with-gnu-ld --with-headers=yes --with-newlib --with-python-dir=share/gcc-arm-none-eabi --with-sysroot=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/install-mingw/arm-none-eabi --with-libiconv-prefix=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/build-mingw/host-libs/usr --with-gmp=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/build-mingw/host-libs/usr --with-mpfr=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/build-mingw/host-libs/usr --with-mpc=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/build-mingw/host-libs/usr --with-isl=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/build-mingw/host-libs/usr --with-libelf=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/build-mingw/host-libs/usr --with-host-libstdcxx='-static-libgcc -Wl,-Bstatic,-lstdc++,-Bdynamic -lm' --with-pkgversion='GNU Tools for Arm Embedded Processors 9-2019-q4-major' --with-multilib-list=rmprofile
+Thread model: single
+gcc version 9.2.1 20191025 (release) [ARM/arm-9-branch revision 277599] (GNU Tools for Arm Embedded Processors 9-2019-q4-major) 
+COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-o' 'CMakeFiles/cmTC_e6fa2.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mcpu=arm7tdmi' '-mfloat-abi=soft' '-marm' '-march=armv4t'
+ d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/arm-none-eabi/9.2.1/cc1plus.exe -quiet -v -iprefix d:\program\gnu_arm\gnu_tool_arm_embedded\bin\../lib/gcc/arm-none-eabi/9.2.1/ -isysroot d:\program\gnu_arm\gnu_tool_arm_embedded\bin\../arm-none-eabi -D__USES_INITFINI__ R:/Program Files/JetBrains/CLion 2023.1.1/bin/cmake/win/x64/share/cmake-3.25/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpbase CMakeCXXCompilerABI.cpp -mcpu=arm7tdmi -mfloat-abi=soft -marm -march=armv4t -auxbase-strip CMakeFiles/cmTC_e6fa2.dir/CMakeCXXCompilerABI.cpp.obj -version -fdiagnostics-color=always -o C:\Users\ssc\AppData\Local\Temp\ccX0nBa9.s
+GNU C++14 (GNU Tools for Arm Embedded Processors 9-2019-q4-major) version 9.2.1 20191025 (release) [ARM/arm-9-branch revision 277599] (arm-none-eabi)
+	compiled by GNU C version 5.3.1 20160211, GMP version 6.1.0, MPFR version 3.1.4, MPC version 1.0.3, isl version isl-0.18-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+ignoring duplicate directory "d:/program/gnu_arm/gnu_tool_arm_embedded/lib/gcc/../../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/include/c++/9.2.1"
+ignoring duplicate directory "d:/program/gnu_arm/gnu_tool_arm_embedded/lib/gcc/../../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/include/c++/9.2.1/arm-none-eabi"
+ignoring duplicate directory "d:/program/gnu_arm/gnu_tool_arm_embedded/lib/gcc/../../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/include/c++/9.2.1/backward"
+ignoring duplicate directory "d:/program/gnu_arm/gnu_tool_arm_embedded/lib/gcc/../../lib/gcc/arm-none-eabi/9.2.1/include"
+ignoring nonexistent directory "d:\program\gnu_arm\gnu_tool_arm_embedded\bin\../arm-none-eabi/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/install-mingw/lib/gcc/arm-none-eabi/9.2.1/../../../../include"
+ignoring duplicate directory "d:/program/gnu_arm/gnu_tool_arm_embedded/lib/gcc/../../lib/gcc/arm-none-eabi/9.2.1/include-fixed"
+ignoring duplicate directory "d:/program/gnu_arm/gnu_tool_arm_embedded/lib/gcc/../../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/include"
+ignoring nonexistent directory "d:\program\gnu_arm\gnu_tool_arm_embedded\bin\../arm-none-eabi/usr/include"
+#include "..." search starts here:
+#include <...> search starts here:
+ d:\program\gnu_arm\gnu_tool_arm_embedded\bin\../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/include/c++/9.2.1
+ d:\program\gnu_arm\gnu_tool_arm_embedded\bin\../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/include/c++/9.2.1/arm-none-eabi
+ d:\program\gnu_arm\gnu_tool_arm_embedded\bin\../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/include/c++/9.2.1/backward
+ d:\program\gnu_arm\gnu_tool_arm_embedded\bin\../lib/gcc/arm-none-eabi/9.2.1/include
+ d:\program\gnu_arm\gnu_tool_arm_embedded\bin\../lib/gcc/arm-none-eabi/9.2.1/include-fixed
+ d:\program\gnu_arm\gnu_tool_arm_embedded\bin\../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/include
+End of search list.
+GNU C++14 (GNU Tools for Arm Embedded Processors 9-2019-q4-major) version 9.2.1 20191025 (release) [ARM/arm-9-branch revision 277599] (arm-none-eabi)
+	compiled by GNU C version 5.3.1 20160211, GMP version 6.1.0, MPFR version 3.1.4, MPC version 1.0.3, isl version isl-0.18-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+Compiler executable checksum: 170ff1c01984ee844c36675da8099675
+COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-o' 'CMakeFiles/cmTC_e6fa2.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mcpu=arm7tdmi' '-mfloat-abi=soft' '-marm' '-march=armv4t'
+ d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/bin/as.exe -v -march=armv4t -mfloat-abi=soft -meabi=5 -o CMakeFiles/cmTC_e6fa2.dir/CMakeCXXCompilerABI.cpp.obj C:\Users\ssc\AppData\Local\Temp\ccX0nBa9.s
+GNU assembler version 2.33.1 (arm-none-eabi) using BFD version (GNU Tools for Arm Embedded Processors 9-2019-q4-major) 2.33.1.20191025
+COMPILER_PATH=d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/arm-none-eabi/9.2.1/;d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/;d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/bin/
+LIBRARY_PATH=d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/arm-none-eabi/9.2.1/;d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/;d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/;d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../arm-none-eabi/lib/
+COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-o' 'CMakeFiles/cmTC_e6fa2.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mcpu=arm7tdmi' '-mfloat-abi=soft' '-marm' '-march=armv4t'
+[2/2] Linking CXX static library libcmTC_e6fa2.a
+
+
+
+Parsed CXX implicit include dir info from above output: rv=done
+  found start of include info
+  found start of implicit include info
+    add: [d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/include/c++/9.2.1]
+    add: [d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/include/c++/9.2.1/arm-none-eabi]
+    add: [d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/include/c++/9.2.1/backward]
+    add: [d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/arm-none-eabi/9.2.1/include]
+    add: [d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/arm-none-eabi/9.2.1/include-fixed]
+    add: [d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/include]
+  end of search list found
+  collapse include dir [d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/include/c++/9.2.1] ==> [D:/Program/GNU_ARM/GNU_Tool_Arm_Embedded/arm-none-eabi/include/c++/9.2.1]
+  collapse include dir [d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/include/c++/9.2.1/arm-none-eabi] ==> [D:/Program/GNU_ARM/GNU_Tool_Arm_Embedded/arm-none-eabi/include/c++/9.2.1/arm-none-eabi]
+  collapse include dir [d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/include/c++/9.2.1/backward] ==> [D:/Program/GNU_ARM/GNU_Tool_Arm_Embedded/arm-none-eabi/include/c++/9.2.1/backward]
+  collapse include dir [d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/arm-none-eabi/9.2.1/include] ==> [D:/Program/GNU_ARM/GNU_Tool_Arm_Embedded/lib/gcc/arm-none-eabi/9.2.1/include]
+  collapse include dir [d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/arm-none-eabi/9.2.1/include-fixed] ==> [D:/Program/GNU_ARM/GNU_Tool_Arm_Embedded/lib/gcc/arm-none-eabi/9.2.1/include-fixed]
+  collapse include dir [d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/include] ==> [D:/Program/GNU_ARM/GNU_Tool_Arm_Embedded/arm-none-eabi/include]
+  implicit include dirs: [D:/Program/GNU_ARM/GNU_Tool_Arm_Embedded/arm-none-eabi/include/c++/9.2.1;D:/Program/GNU_ARM/GNU_Tool_Arm_Embedded/arm-none-eabi/include/c++/9.2.1/arm-none-eabi;D:/Program/GNU_ARM/GNU_Tool_Arm_Embedded/arm-none-eabi/include/c++/9.2.1/backward;D:/Program/GNU_ARM/GNU_Tool_Arm_Embedded/lib/gcc/arm-none-eabi/9.2.1/include;D:/Program/GNU_ARM/GNU_Tool_Arm_Embedded/lib/gcc/arm-none-eabi/9.2.1/include-fixed;D:/Program/GNU_ARM/GNU_Tool_Arm_Embedded/arm-none-eabi/include]
+
+
+Parsed CXX implicit link information from above output:
+  link line regex: [^( *|.*[/\])(arm-none-eabi-ld\.exe|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: S:/STM32SSC/STM32/STM32SSC_F103/Code/Clion_Project/1_Test/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-wiklin]
+  ignore line: []
+  ignore line: [Run Build Command(s):R:/Program Files/JetBrains/CLion 2023.1.1/bin/ninja/win/x64/ninja.exe cmTC_e6fa2 && [1/2] Building CXX object CMakeFiles/cmTC_e6fa2.dir/CMakeCXXCompilerABI.cpp.obj]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=D:\Program\GNU_ARM\GNU_Tool_Arm_Embedded\bin\arm-none-eabi-g++.exe]
+  ignore line: [Target: arm-none-eabi]
+  ignore line: [Configured with: /mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/src/gcc/configure --build=x86_64-linux-gnu --host=i686-w64-mingw32 --target=arm-none-eabi --prefix=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/install-mingw --libexecdir=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/install-mingw/lib --infodir=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/install-mingw/share/doc/gcc-arm-none-eabi/info --mandir=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/install-mingw/share/doc/gcc-arm-none-eabi/man --htmldir=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/install-mingw/share/doc/gcc-arm-none-eabi/html --pdfdir=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/install-mingw/share/doc/gcc-arm-none-eabi/pdf --enable-languages=c,c++ --enable-mingw-wildcard --disable-decimal-float --disable-libffi --disable-libgomp --disable-libmudflap --disable-libquadmath --disable-libssp --disable-libstdcxx-pch --disable-nls --disable-shared --disable-threads --disable-tls --with-gnu-as --with-gnu-ld --with-headers=yes --with-newlib --with-python-dir=share/gcc-arm-none-eabi --with-sysroot=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/install-mingw/arm-none-eabi --with-libiconv-prefix=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/build-mingw/host-libs/usr --with-gmp=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/build-mingw/host-libs/usr --with-mpfr=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/build-mingw/host-libs/usr --with-mpc=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/build-mingw/host-libs/usr --with-isl=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/build-mingw/host-libs/usr --with-libelf=/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/build-mingw/host-libs/usr --with-host-libstdcxx='-static-libgcc -Wl,-Bstatic,-lstdc++,-Bdynamic -lm' --with-pkgversion='GNU Tools for Arm Embedded Processors 9-2019-q4-major' --with-multilib-list=rmprofile]
+  ignore line: [Thread model: single]
+  ignore line: [gcc version 9.2.1 20191025 (release) [ARM/arm-9-branch revision 277599] (GNU Tools for Arm Embedded Processors 9-2019-q4-major) ]
+  ignore line: [COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-o' 'CMakeFiles/cmTC_e6fa2.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mcpu=arm7tdmi' '-mfloat-abi=soft' '-marm' '-march=armv4t']
+  ignore line: [ d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/arm-none-eabi/9.2.1/cc1plus.exe -quiet -v -iprefix d:\program\gnu_arm\gnu_tool_arm_embedded\bin\../lib/gcc/arm-none-eabi/9.2.1/ -isysroot d:\program\gnu_arm\gnu_tool_arm_embedded\bin\../arm-none-eabi -D__USES_INITFINI__ R:/Program Files/JetBrains/CLion 2023.1.1/bin/cmake/win/x64/share/cmake-3.25/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpbase CMakeCXXCompilerABI.cpp -mcpu=arm7tdmi -mfloat-abi=soft -marm -march=armv4t -auxbase-strip CMakeFiles/cmTC_e6fa2.dir/CMakeCXXCompilerABI.cpp.obj -version -fdiagnostics-color=always -o C:\Users\ssc\AppData\Local\Temp\ccX0nBa9.s]
+  ignore line: [GNU C++14 (GNU Tools for Arm Embedded Processors 9-2019-q4-major) version 9.2.1 20191025 (release) [ARM/arm-9-branch revision 277599] (arm-none-eabi)]
+  ignore line: [	compiled by GNU C version 5.3.1 20160211  GMP version 6.1.0  MPFR version 3.1.4  MPC version 1.0.3  isl version isl-0.18-GMP]
+  ignore line: []
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [ignoring duplicate directory "d:/program/gnu_arm/gnu_tool_arm_embedded/lib/gcc/../../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/include/c++/9.2.1"]
+  ignore line: [ignoring duplicate directory "d:/program/gnu_arm/gnu_tool_arm_embedded/lib/gcc/../../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/include/c++/9.2.1/arm-none-eabi"]
+  ignore line: [ignoring duplicate directory "d:/program/gnu_arm/gnu_tool_arm_embedded/lib/gcc/../../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/include/c++/9.2.1/backward"]
+  ignore line: [ignoring duplicate directory "d:/program/gnu_arm/gnu_tool_arm_embedded/lib/gcc/../../lib/gcc/arm-none-eabi/9.2.1/include"]
+  ignore line: [ignoring nonexistent directory "d:\program\gnu_arm\gnu_tool_arm_embedded\bin\../arm-none-eabi/mnt/workspace/workspace/GCC-9-pipeline/jenkins-GCC-9-pipeline-100_20191030_1572397542/install-mingw/lib/gcc/arm-none-eabi/9.2.1/../../../../include"]
+  ignore line: [ignoring duplicate directory "d:/program/gnu_arm/gnu_tool_arm_embedded/lib/gcc/../../lib/gcc/arm-none-eabi/9.2.1/include-fixed"]
+  ignore line: [ignoring duplicate directory "d:/program/gnu_arm/gnu_tool_arm_embedded/lib/gcc/../../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/include"]
+  ignore line: [ignoring nonexistent directory "d:\program\gnu_arm\gnu_tool_arm_embedded\bin\../arm-none-eabi/usr/include"]
+  ignore line: [#include "..." search starts here:]
+  ignore line: [#include <...> search starts here:]
+  ignore line: [ d:\program\gnu_arm\gnu_tool_arm_embedded\bin\../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/include/c++/9.2.1]
+  ignore line: [ d:\program\gnu_arm\gnu_tool_arm_embedded\bin\../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/include/c++/9.2.1/arm-none-eabi]
+  ignore line: [ d:\program\gnu_arm\gnu_tool_arm_embedded\bin\../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/include/c++/9.2.1/backward]
+  ignore line: [ d:\program\gnu_arm\gnu_tool_arm_embedded\bin\../lib/gcc/arm-none-eabi/9.2.1/include]
+  ignore line: [ d:\program\gnu_arm\gnu_tool_arm_embedded\bin\../lib/gcc/arm-none-eabi/9.2.1/include-fixed]
+  ignore line: [ d:\program\gnu_arm\gnu_tool_arm_embedded\bin\../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/include]
+  ignore line: [End of search list.]
+  ignore line: [GNU C++14 (GNU Tools for Arm Embedded Processors 9-2019-q4-major) version 9.2.1 20191025 (release) [ARM/arm-9-branch revision 277599] (arm-none-eabi)]
+  ignore line: [	compiled by GNU C version 5.3.1 20160211  GMP version 6.1.0  MPFR version 3.1.4  MPC version 1.0.3  isl version isl-0.18-GMP]
+  ignore line: []
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [Compiler executable checksum: 170ff1c01984ee844c36675da8099675]
+  ignore line: [COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-o' 'CMakeFiles/cmTC_e6fa2.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mcpu=arm7tdmi' '-mfloat-abi=soft' '-marm' '-march=armv4t']
+  ignore line: [ d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/bin/as.exe -v -march=armv4t -mfloat-abi=soft -meabi=5 -o CMakeFiles/cmTC_e6fa2.dir/CMakeCXXCompilerABI.cpp.obj C:\Users\ssc\AppData\Local\Temp\ccX0nBa9.s]
+  ignore line: [GNU assembler version 2.33.1 (arm-none-eabi) using BFD version (GNU Tools for Arm Embedded Processors 9-2019-q4-major) 2.33.1.20191025]
+  ignore line: [COMPILER_PATH=d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/arm-none-eabi/9.2.1/]
+  ignore line: [d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/]
+  ignore line: [d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/bin/]
+  ignore line: [LIBRARY_PATH=d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/arm-none-eabi/9.2.1/]
+  ignore line: [d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/]
+  ignore line: [d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../lib/gcc/arm-none-eabi/9.2.1/../../../../arm-none-eabi/lib/]
+  ignore line: [d:/program/gnu_arm/gnu_tool_arm_embedded/bin/../arm-none-eabi/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-o' 'CMakeFiles/cmTC_e6fa2.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mcpu=arm7tdmi' '-mfloat-abi=soft' '-marm' '-march=armv4t']
+  ignore line: [[2/2] Linking CXX static library libcmTC_e6fa2.a]
+  ignore line: []
+  ignore line: []
+  implicit libs: []
+  implicit objs: []
+  implicit dirs: []
+  implicit fwks: []
+
+
