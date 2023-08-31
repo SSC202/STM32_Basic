@@ -3,16 +3,16 @@
         {
             "name": "3_HEX_Frame",
             "includePath": [
-                "s:\\STM32SSC\\STM32\\STM32SSC_F103\\Code\\4_USART\\3_HEX_Frame\\Core\\Inc",
-                "s:\\STM32SSC\\STM32\\STM32SSC_F103\\Code\\4_USART\\3_HEX_Frame\\Drivers\\STM32F1xx_HAL_Driver\\Inc",
-                "s:\\STM32SSC\\STM32\\STM32SSC_F103\\Code\\4_USART\\3_HEX_Frame\\Drivers\\STM32F1xx_HAL_Driver\\Inc\\Legacy",
-                "s:\\STM32SSC\\STM32\\STM32SSC_F103\\Code\\4_USART\\3_HEX_Frame\\Drivers\\CMSIS\\Device\\ST\\STM32F1xx\\Include",
-                "s:\\STM32SSC\\STM32\\STM32SSC_F103\\Code\\4_USART\\3_HEX_Frame\\Drivers\\CMSIS\\Include",
+                "s:\\STM32SSC\\STM32\\STM32SSC_Basic\\Code\\4_USART\\3_HEX_Frame\\Core\\Inc",
+                "s:\\STM32SSC\\STM32\\STM32SSC_Basic\\Code\\4_USART\\3_HEX_Frame\\Drivers\\STM32F1xx_HAL_Driver\\Inc",
+                "s:\\STM32SSC\\STM32\\STM32SSC_Basic\\Code\\4_USART\\3_HEX_Frame\\Drivers\\STM32F1xx_HAL_Driver\\Inc\\Legacy",
+                "s:\\STM32SSC\\STM32\\STM32SSC_Basic\\Code\\4_USART\\3_HEX_Frame\\Drivers\\CMSIS\\Device\\ST\\STM32F1xx\\Include",
+                "s:\\STM32SSC\\STM32\\STM32SSC_Basic\\Code\\4_USART\\3_HEX_Frame\\Drivers\\CMSIS\\Include",
                 "R:\\Program Files\\Keil v5\\ARM\\ARMCC\\include",
                 "R:\\Program Files\\Keil v5\\ARM\\ARMCC\\include\\rw",
-                "s:\\STM32SSC\\STM32\\STM32SSC_F103\\Code\\4_USART\\3_HEX_Frame\\MDK-ARM",
-                "s:\\STM32SSC\\STM32\\STM32SSC_F103\\Code\\4_USART\\3_HEX_Frame\\Core\\Src",
-                "s:\\STM32SSC\\STM32\\STM32SSC_F103\\Code\\4_USART\\3_HEX_Frame\\Drivers\\STM32F1xx_HAL_Driver\\Src"
+                "s:\\STM32SSC\\STM32\\STM32SSC_Basic\\Code\\4_USART\\3_HEX_Frame\\MDK-ARM",
+                "s:\\STM32SSC\\STM32\\STM32SSC_Basic\\Code\\4_USART\\3_HEX_Frame\\Core\\Src",
+                "s:\\STM32SSC\\STM32\\STM32SSC_Basic\\Code\\4_USART\\3_HEX_Frame\\Drivers\\STM32F1xx_HAL_Driver\\Src"
             ],
             "defines": [
                 "USE_HAL_DRIVER",
