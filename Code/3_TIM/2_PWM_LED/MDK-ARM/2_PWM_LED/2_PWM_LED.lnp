@@ -1,0 +1,25 @@
+--cpu Cortex-M3
+"2_pwm_led\startup_stm32f103xe.o"
+"2_pwm_led\main.o"
+"2_pwm_led\gpio.o"
+"2_pwm_led\tim.o"
+"2_pwm_led\stm32f1xx_it.o"
+"2_pwm_led\stm32f1xx_hal_msp.o"
+"2_pwm_led\stm32f1xx_hal_gpio_ex.o"
+"2_pwm_led\stm32f1xx_hal_tim.o"
+"2_pwm_led\stm32f1xx_hal_tim_ex.o"
+"2_pwm_led\stm32f1xx_hal.o"
+"2_pwm_led\stm32f1xx_hal_rcc.o"
+"2_pwm_led\stm32f1xx_hal_rcc_ex.o"
+"2_pwm_led\stm32f1xx_hal_gpio.o"
+"2_pwm_led\stm32f1xx_hal_dma.o"
+"2_pwm_led\stm32f1xx_hal_cortex.o"
+"2_pwm_led\stm32f1xx_hal_pwr.o"
+"2_pwm_led\stm32f1xx_hal_flash.o"
+"2_pwm_led\stm32f1xx_hal_flash_ex.o"
+"2_pwm_led\stm32f1xx_hal_exti.o"
+"2_pwm_led\system_stm32f1xx.o"
+--strict --scatter "2_PWM_LED\2_PWM_LED.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "2_PWM_LED.map" -o 2_PWM_LED\2_PWM_LED.axf

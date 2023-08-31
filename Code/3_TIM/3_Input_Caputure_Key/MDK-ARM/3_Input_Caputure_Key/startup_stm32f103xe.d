@@ -1,0 +1,1 @@
+3_input_caputure_key\startup_stm32f103xe.o: startup_stm32f103xe.s
