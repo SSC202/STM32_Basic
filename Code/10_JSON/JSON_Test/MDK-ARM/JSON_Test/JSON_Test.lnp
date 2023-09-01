@@ -1,0 +1,28 @@
+--cpu Cortex-M3
+"json_test\startup_stm32f103xb.o"
+"json_test\main.o"
+"json_test\gpio.o"
+"json_test\usart.o"
+"json_test\stm32f1xx_it.o"
+"json_test\stm32f1xx_hal_msp.o"
+"json_test\stm32f1xx_hal_gpio_ex.o"
+"json_test\stm32f1xx_hal_tim.o"
+"json_test\stm32f1xx_hal_tim_ex.o"
+"json_test\stm32f1xx_hal_uart.o"
+"json_test\stm32f1xx_hal.o"
+"json_test\stm32f1xx_hal_rcc.o"
+"json_test\stm32f1xx_hal_rcc_ex.o"
+"json_test\stm32f1xx_hal_gpio.o"
+"json_test\stm32f1xx_hal_dma.o"
+"json_test\stm32f1xx_hal_cortex.o"
+"json_test\stm32f1xx_hal_pwr.o"
+"json_test\stm32f1xx_hal_flash.o"
+"json_test\stm32f1xx_hal_flash_ex.o"
+"json_test\stm32f1xx_hal_exti.o"
+"json_test\system_stm32f1xx.o"
+"D:\Program\Keil\Pack\Keil\Jansson\1.0.0\lib\jansson_CM3LE.lib"
+"json_test\jansson_config.o"
+--library_type=microlib --strict --scatter "JSON_Test\JSON_Test.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "JSON_Test.map" -o JSON_Test\JSON_Test.axf

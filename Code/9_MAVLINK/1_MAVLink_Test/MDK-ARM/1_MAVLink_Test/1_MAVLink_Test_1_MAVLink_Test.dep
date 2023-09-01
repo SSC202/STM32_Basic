@@ -1,0 +1,630 @@
+Dependencies for Project '1_MAVLink_Test', Target '1_MAVLink_Test': (DO NOT MODIFY !)
+CompilerVersion: 5060960::V5.06 update 7 (build 960)::.\ARMCC
+F (startup_stm32f103xb.s)(0x64760A89)(--cpu Cortex-M3 -g --apcs=interwork --pd "__MICROLIB SETA 1"-I.\RTE\_1_MAVLink_Test-ID:\Program\Keil\Pack\ARM\CMSIS\5.8.0\CMSIS\Core\Include-ID:\Program\Keil\Pack\Keil\STM32F1xx_DFP\2.2.0\Device\Include--pd "__UVISION_VERSION SETA 536" --pd "_RTE_ SETA 1" --pd "STM32F10X_MD SETA 1" --pd "_RTE_ SETA 1"--list startup_stm32f103xb.lst --xref -o 1_mavlink_test\startup_stm32f103xb.o --depend 1_mavlink_test\startup_stm32f103xb.d)
+F (../Core/Src/main.c)(0x64760B36)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../BSP -I ../MAVLINK/mavlink/mavlink_msg -I ../MAVLINK/mavlink --gnu-I.\RTE\_1_MAVLink_Test-ID:\Program\Keil\Pack\ARM\CMSIS\5.8.0\CMSIS\Core\Include-ID:\Program\Keil\Pack\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o 1_mavlink_test\main.o --omf_browse 1_mavlink_test\main.crf --depend 1_mavlink_test\main.d)
+I (../Core/Inc/main.h)(0x6475FF4F)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x645D0BE0)
+I (../Core/Inc/stm32f1xx_hal_conf.h)(0x6475FF4F)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Include/core_cm3.h)(0x645D0BD4)
+I (D:\Program\Keil\ARM\ARMCC\include\stdint.h)(0x6025237E)
+I (../Drivers/CMSIS/Include/cmsis_version.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Include/cmsis_compiler.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h)(0x645D0BE0)
+I (D:\Program\Keil\ARM\ARMCC\include\stddef.h)(0x6025237E)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_exti.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x645D0BE0)
+I (../Core/Inc/usart.h)(0x64760A85)
+I (../Core/Inc/gpio.h)(0x6475FF4E)
+I (../MAVLINK/mavlink/mavlink_user.h)(0x6476067D)
+I (../MAVLINK/mavlink/mavlink_types.h)(0x6476009B)
+I (../MAVLINK/mavlink/mavlink_msg/mavlink.h)(0x6476009A)
+I (../MAVLINK/mavlink/mavlink_msg/version.h)(0x6476009B)
+I (../MAVLINK/mavlink/mavlink_msg/mavlink_msg.h)(0x6476009B)
+I (../MAVLINK/mavlink/mavlink_msg/../protocol.h)(0x6476009B)
+I (D:\Program\Keil\ARM\ARMCC\include\string.h)(0x6025237E)
+I (../MAVLINK/mavlink/mavlink_msg/../mavlink_helpers.h)(0x6476009B)
+I (../MAVLINK/mavlink/mavlink_msg/../checksum.h)(0x6476009B)
+I (../MAVLINK/mavlink/mavlink_msg/../mavlink_conversions.h)(0x6476009B)
+I (D:\Program\Keil\ARM\ARMCC\include\math.h)(0x60252378)
+I (../MAVLINK/mavlink/mavlink_msg/./mavlink_msg_speed.h)(0x6476009B)
+I (../MAVLINK/mavlink/mavlink_msg/./mavlink_msg_gyro.h)(0x6476009B)
+I (../BSP/retarget.h)(0x644FC6BD)
+I (D:\Program\Keil\ARM\ARMCC\include\stdio.h)(0x60252374)
+F (../Core/Src/gpio.c)(0x6475FF4E)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../BSP -I ../MAVLINK/mavlink/mavlink_msg -I ../MAVLINK/mavlink --gnu-I.\RTE\_1_MAVLink_Test-ID:\Program\Keil\Pack\ARM\CMSIS\5.8.0\CMSIS\Core\Include-ID:\Program\Keil\Pack\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o 1_mavlink_test\gpio.o --omf_browse 1_mavlink_test\gpio.crf --depend 1_mavlink_test\gpio.d)
+I (../Core/Inc/gpio.h)(0x6475FF4E)
+I (../Core/Inc/main.h)(0x6475FF4F)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x645D0BE0)
+I (../Core/Inc/stm32f1xx_hal_conf.h)(0x6475FF4F)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Include/core_cm3.h)(0x645D0BD4)
+I (D:\Program\Keil\ARM\ARMCC\include\stdint.h)(0x6025237E)
+I (../Drivers/CMSIS/Include/cmsis_version.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Include/cmsis_compiler.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h)(0x645D0BE0)
+I (D:\Program\Keil\ARM\ARMCC\include\stddef.h)(0x6025237E)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_exti.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x645D0BE0)
+F (../Core/Src/usart.c)(0x64760A85)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../BSP -I ../MAVLINK/mavlink/mavlink_msg -I ../MAVLINK/mavlink --gnu-I.\RTE\_1_MAVLink_Test-ID:\Program\Keil\Pack\ARM\CMSIS\5.8.0\CMSIS\Core\Include-ID:\Program\Keil\Pack\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o 1_mavlink_test\usart.o --omf_browse 1_mavlink_test\usart.crf --depend 1_mavlink_test\usart.d)
+I (../Core/Inc/usart.h)(0x64760A85)
+I (../Core/Inc/main.h)(0x6475FF4F)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x645D0BE0)
+I (../Core/Inc/stm32f1xx_hal_conf.h)(0x6475FF4F)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Include/core_cm3.h)(0x645D0BD4)
+I (D:\Program\Keil\ARM\ARMCC\include\stdint.h)(0x6025237E)
+I (../Drivers/CMSIS/Include/cmsis_version.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Include/cmsis_compiler.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h)(0x645D0BE0)
+I (D:\Program\Keil\ARM\ARMCC\include\stddef.h)(0x6025237E)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_exti.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x645D0BE0)
+F (../Core/Src/stm32f1xx_it.c)(0x6475FF4F)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../BSP -I ../MAVLINK/mavlink/mavlink_msg -I ../MAVLINK/mavlink --gnu-I.\RTE\_1_MAVLink_Test-ID:\Program\Keil\Pack\ARM\CMSIS\5.8.0\CMSIS\Core\Include-ID:\Program\Keil\Pack\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o 1_mavlink_test\stm32f1xx_it.o --omf_browse 1_mavlink_test\stm32f1xx_it.crf --depend 1_mavlink_test\stm32f1xx_it.d)
+I (../Core/Inc/main.h)(0x6475FF4F)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x645D0BE0)
+I (../Core/Inc/stm32f1xx_hal_conf.h)(0x6475FF4F)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Include/core_cm3.h)(0x645D0BD4)
+I (D:\Program\Keil\ARM\ARMCC\include\stdint.h)(0x6025237E)
+I (../Drivers/CMSIS/Include/cmsis_version.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Include/cmsis_compiler.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h)(0x645D0BE0)
+I (D:\Program\Keil\ARM\ARMCC\include\stddef.h)(0x6025237E)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_exti.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x645D0BE0)
+I (../Core/Inc/stm32f1xx_it.h)(0x6475FF4F)
+F (../Core/Src/stm32f1xx_hal_msp.c)(0x6475FF4F)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../BSP -I ../MAVLINK/mavlink/mavlink_msg -I ../MAVLINK/mavlink --gnu-I.\RTE\_1_MAVLink_Test-ID:\Program\Keil\Pack\ARM\CMSIS\5.8.0\CMSIS\Core\Include-ID:\Program\Keil\Pack\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o 1_mavlink_test\stm32f1xx_hal_msp.o --omf_browse 1_mavlink_test\stm32f1xx_hal_msp.crf --depend 1_mavlink_test\stm32f1xx_hal_msp.d)
+I (../Core/Inc/main.h)(0x6475FF4F)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x645D0BE0)
+I (../Core/Inc/stm32f1xx_hal_conf.h)(0x6475FF4F)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Include/core_cm3.h)(0x645D0BD4)
+I (D:\Program\Keil\ARM\ARMCC\include\stdint.h)(0x6025237E)
+I (../Drivers/CMSIS/Include/cmsis_version.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Include/cmsis_compiler.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h)(0x645D0BE0)
+I (D:\Program\Keil\ARM\ARMCC\include\stddef.h)(0x6025237E)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_exti.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x645D0BE0)
+F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio_ex.c)(0x645D0BE1)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../BSP -I ../MAVLINK/mavlink/mavlink_msg -I ../MAVLINK/mavlink --gnu-I.\RTE\_1_MAVLink_Test-ID:\Program\Keil\Pack\ARM\CMSIS\5.8.0\CMSIS\Core\Include-ID:\Program\Keil\Pack\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o 1_mavlink_test\stm32f1xx_hal_gpio_ex.o --omf_browse 1_mavlink_test\stm32f1xx_hal_gpio_ex.crf --depend 1_mavlink_test\stm32f1xx_hal_gpio_ex.d)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x645D0BE0)
+I (../Core/Inc/stm32f1xx_hal_conf.h)(0x6475FF4F)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Include/core_cm3.h)(0x645D0BD4)
+I (D:\Program\Keil\ARM\ARMCC\include\stdint.h)(0x6025237E)
+I (../Drivers/CMSIS/Include/cmsis_version.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Include/cmsis_compiler.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h)(0x645D0BE0)
+I (D:\Program\Keil\ARM\ARMCC\include\stddef.h)(0x6025237E)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_exti.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x645D0BE0)
+F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.c)(0x645D0BE1)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../BSP -I ../MAVLINK/mavlink/mavlink_msg -I ../MAVLINK/mavlink --gnu-I.\RTE\_1_MAVLink_Test-ID:\Program\Keil\Pack\ARM\CMSIS\5.8.0\CMSIS\Core\Include-ID:\Program\Keil\Pack\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o 1_mavlink_test\stm32f1xx_hal_tim.o --omf_browse 1_mavlink_test\stm32f1xx_hal_tim.crf --depend 1_mavlink_test\stm32f1xx_hal_tim.d)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x645D0BE0)
+I (../Core/Inc/stm32f1xx_hal_conf.h)(0x6475FF4F)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Include/core_cm3.h)(0x645D0BD4)
+I (D:\Program\Keil\ARM\ARMCC\include\stdint.h)(0x6025237E)
+I (../Drivers/CMSIS/Include/cmsis_version.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Include/cmsis_compiler.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h)(0x645D0BE0)
+I (D:\Program\Keil\ARM\ARMCC\include\stddef.h)(0x6025237E)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_exti.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x645D0BE0)
+F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim_ex.c)(0x645D0BE1)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../BSP -I ../MAVLINK/mavlink/mavlink_msg -I ../MAVLINK/mavlink --gnu-I.\RTE\_1_MAVLink_Test-ID:\Program\Keil\Pack\ARM\CMSIS\5.8.0\CMSIS\Core\Include-ID:\Program\Keil\Pack\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o 1_mavlink_test\stm32f1xx_hal_tim_ex.o --omf_browse 1_mavlink_test\stm32f1xx_hal_tim_ex.crf --depend 1_mavlink_test\stm32f1xx_hal_tim_ex.d)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x645D0BE0)
+I (../Core/Inc/stm32f1xx_hal_conf.h)(0x6475FF4F)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Include/core_cm3.h)(0x645D0BD4)
+I (D:\Program\Keil\ARM\ARMCC\include\stdint.h)(0x6025237E)
+I (../Drivers/CMSIS/Include/cmsis_version.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Include/cmsis_compiler.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h)(0x645D0BE0)
+I (D:\Program\Keil\ARM\ARMCC\include\stddef.h)(0x6025237E)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_exti.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x645D0BE0)
+F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_uart.c)(0x645D0BE1)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../BSP -I ../MAVLINK/mavlink/mavlink_msg -I ../MAVLINK/mavlink --gnu-I.\RTE\_1_MAVLink_Test-ID:\Program\Keil\Pack\ARM\CMSIS\5.8.0\CMSIS\Core\Include-ID:\Program\Keil\Pack\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o 1_mavlink_test\stm32f1xx_hal_uart.o --omf_browse 1_mavlink_test\stm32f1xx_hal_uart.crf --depend 1_mavlink_test\stm32f1xx_hal_uart.d)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x645D0BE0)
+I (../Core/Inc/stm32f1xx_hal_conf.h)(0x6475FF4F)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Include/core_cm3.h)(0x645D0BD4)
+I (D:\Program\Keil\ARM\ARMCC\include\stdint.h)(0x6025237E)
+I (../Drivers/CMSIS/Include/cmsis_version.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Include/cmsis_compiler.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h)(0x645D0BE0)
+I (D:\Program\Keil\ARM\ARMCC\include\stddef.h)(0x6025237E)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_exti.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x645D0BE0)
+F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c)(0x645D0BE1)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../BSP -I ../MAVLINK/mavlink/mavlink_msg -I ../MAVLINK/mavlink --gnu-I.\RTE\_1_MAVLink_Test-ID:\Program\Keil\Pack\ARM\CMSIS\5.8.0\CMSIS\Core\Include-ID:\Program\Keil\Pack\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o 1_mavlink_test\stm32f1xx_hal.o --omf_browse 1_mavlink_test\stm32f1xx_hal.crf --depend 1_mavlink_test\stm32f1xx_hal.d)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x645D0BE0)
+I (../Core/Inc/stm32f1xx_hal_conf.h)(0x6475FF4F)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Include/core_cm3.h)(0x645D0BD4)
+I (D:\Program\Keil\ARM\ARMCC\include\stdint.h)(0x6025237E)
+I (../Drivers/CMSIS/Include/cmsis_version.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Include/cmsis_compiler.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h)(0x645D0BE0)
+I (D:\Program\Keil\ARM\ARMCC\include\stddef.h)(0x6025237E)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_exti.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x645D0BE0)
+F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c)(0x645D0BE1)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../BSP -I ../MAVLINK/mavlink/mavlink_msg -I ../MAVLINK/mavlink --gnu-I.\RTE\_1_MAVLink_Test-ID:\Program\Keil\Pack\ARM\CMSIS\5.8.0\CMSIS\Core\Include-ID:\Program\Keil\Pack\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o 1_mavlink_test\stm32f1xx_hal_rcc.o --omf_browse 1_mavlink_test\stm32f1xx_hal_rcc.crf --depend 1_mavlink_test\stm32f1xx_hal_rcc.d)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x645D0BE0)
+I (../Core/Inc/stm32f1xx_hal_conf.h)(0x6475FF4F)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Include/core_cm3.h)(0x645D0BD4)
+I (D:\Program\Keil\ARM\ARMCC\include\stdint.h)(0x6025237E)
+I (../Drivers/CMSIS/Include/cmsis_version.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Include/cmsis_compiler.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h)(0x645D0BE0)
+I (D:\Program\Keil\ARM\ARMCC\include\stddef.h)(0x6025237E)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_exti.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x645D0BE0)
+F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.c)(0x645D0BE1)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../BSP -I ../MAVLINK/mavlink/mavlink_msg -I ../MAVLINK/mavlink --gnu-I.\RTE\_1_MAVLink_Test-ID:\Program\Keil\Pack\ARM\CMSIS\5.8.0\CMSIS\Core\Include-ID:\Program\Keil\Pack\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o 1_mavlink_test\stm32f1xx_hal_rcc_ex.o --omf_browse 1_mavlink_test\stm32f1xx_hal_rcc_ex.crf --depend 1_mavlink_test\stm32f1xx_hal_rcc_ex.d)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x645D0BE0)
+I (../Core/Inc/stm32f1xx_hal_conf.h)(0x6475FF4F)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Include/core_cm3.h)(0x645D0BD4)
+I (D:\Program\Keil\ARM\ARMCC\include\stdint.h)(0x6025237E)
+I (../Drivers/CMSIS/Include/cmsis_version.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Include/cmsis_compiler.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h)(0x645D0BE0)
+I (D:\Program\Keil\ARM\ARMCC\include\stddef.h)(0x6025237E)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_exti.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x645D0BE0)
+F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c)(0x645D0BE1)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../BSP -I ../MAVLINK/mavlink/mavlink_msg -I ../MAVLINK/mavlink --gnu-I.\RTE\_1_MAVLink_Test-ID:\Program\Keil\Pack\ARM\CMSIS\5.8.0\CMSIS\Core\Include-ID:\Program\Keil\Pack\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o 1_mavlink_test\stm32f1xx_hal_gpio.o --omf_browse 1_mavlink_test\stm32f1xx_hal_gpio.crf --depend 1_mavlink_test\stm32f1xx_hal_gpio.d)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x645D0BE0)
+I (../Core/Inc/stm32f1xx_hal_conf.h)(0x6475FF4F)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Include/core_cm3.h)(0x645D0BD4)
+I (D:\Program\Keil\ARM\ARMCC\include\stdint.h)(0x6025237E)
+I (../Drivers/CMSIS/Include/cmsis_version.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Include/cmsis_compiler.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h)(0x645D0BE0)
+I (D:\Program\Keil\ARM\ARMCC\include\stddef.h)(0x6025237E)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_exti.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x645D0BE0)
+F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c)(0x645D0BE1)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../BSP -I ../MAVLINK/mavlink/mavlink_msg -I ../MAVLINK/mavlink --gnu-I.\RTE\_1_MAVLink_Test-ID:\Program\Keil\Pack\ARM\CMSIS\5.8.0\CMSIS\Core\Include-ID:\Program\Keil\Pack\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o 1_mavlink_test\stm32f1xx_hal_dma.o --omf_browse 1_mavlink_test\stm32f1xx_hal_dma.crf --depend 1_mavlink_test\stm32f1xx_hal_dma.d)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x645D0BE0)
+I (../Core/Inc/stm32f1xx_hal_conf.h)(0x6475FF4F)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Include/core_cm3.h)(0x645D0BD4)
+I (D:\Program\Keil\ARM\ARMCC\include\stdint.h)(0x6025237E)
+I (../Drivers/CMSIS/Include/cmsis_version.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Include/cmsis_compiler.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h)(0x645D0BE0)
+I (D:\Program\Keil\ARM\ARMCC\include\stddef.h)(0x6025237E)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_exti.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x645D0BE0)
+F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c)(0x645D0BE1)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../BSP -I ../MAVLINK/mavlink/mavlink_msg -I ../MAVLINK/mavlink --gnu-I.\RTE\_1_MAVLink_Test-ID:\Program\Keil\Pack\ARM\CMSIS\5.8.0\CMSIS\Core\Include-ID:\Program\Keil\Pack\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o 1_mavlink_test\stm32f1xx_hal_cortex.o --omf_browse 1_mavlink_test\stm32f1xx_hal_cortex.crf --depend 1_mavlink_test\stm32f1xx_hal_cortex.d)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x645D0BE0)
+I (../Core/Inc/stm32f1xx_hal_conf.h)(0x6475FF4F)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Include/core_cm3.h)(0x645D0BD4)
+I (D:\Program\Keil\ARM\ARMCC\include\stdint.h)(0x6025237E)
+I (../Drivers/CMSIS/Include/cmsis_version.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Include/cmsis_compiler.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h)(0x645D0BE0)
+I (D:\Program\Keil\ARM\ARMCC\include\stddef.h)(0x6025237E)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_exti.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x645D0BE0)
+F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_pwr.c)(0x645D0BE1)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../BSP -I ../MAVLINK/mavlink/mavlink_msg -I ../MAVLINK/mavlink --gnu-I.\RTE\_1_MAVLink_Test-ID:\Program\Keil\Pack\ARM\CMSIS\5.8.0\CMSIS\Core\Include-ID:\Program\Keil\Pack\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o 1_mavlink_test\stm32f1xx_hal_pwr.o --omf_browse 1_mavlink_test\stm32f1xx_hal_pwr.crf --depend 1_mavlink_test\stm32f1xx_hal_pwr.d)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x645D0BE0)
+I (../Core/Inc/stm32f1xx_hal_conf.h)(0x6475FF4F)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Include/core_cm3.h)(0x645D0BD4)
+I (D:\Program\Keil\ARM\ARMCC\include\stdint.h)(0x6025237E)
+I (../Drivers/CMSIS/Include/cmsis_version.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Include/cmsis_compiler.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h)(0x645D0BE0)
+I (D:\Program\Keil\ARM\ARMCC\include\stddef.h)(0x6025237E)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_exti.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x645D0BE0)
+F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash.c)(0x645D0BE1)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../BSP -I ../MAVLINK/mavlink/mavlink_msg -I ../MAVLINK/mavlink --gnu-I.\RTE\_1_MAVLink_Test-ID:\Program\Keil\Pack\ARM\CMSIS\5.8.0\CMSIS\Core\Include-ID:\Program\Keil\Pack\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o 1_mavlink_test\stm32f1xx_hal_flash.o --omf_browse 1_mavlink_test\stm32f1xx_hal_flash.crf --depend 1_mavlink_test\stm32f1xx_hal_flash.d)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x645D0BE0)
+I (../Core/Inc/stm32f1xx_hal_conf.h)(0x6475FF4F)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Include/core_cm3.h)(0x645D0BD4)
+I (D:\Program\Keil\ARM\ARMCC\include\stdint.h)(0x6025237E)
+I (../Drivers/CMSIS/Include/cmsis_version.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Include/cmsis_compiler.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h)(0x645D0BE0)
+I (D:\Program\Keil\ARM\ARMCC\include\stddef.h)(0x6025237E)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_exti.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x645D0BE0)
+F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash_ex.c)(0x645D0BE1)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../BSP -I ../MAVLINK/mavlink/mavlink_msg -I ../MAVLINK/mavlink --gnu-I.\RTE\_1_MAVLink_Test-ID:\Program\Keil\Pack\ARM\CMSIS\5.8.0\CMSIS\Core\Include-ID:\Program\Keil\Pack\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o 1_mavlink_test\stm32f1xx_hal_flash_ex.o --omf_browse 1_mavlink_test\stm32f1xx_hal_flash_ex.crf --depend 1_mavlink_test\stm32f1xx_hal_flash_ex.d)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x645D0BE0)
+I (../Core/Inc/stm32f1xx_hal_conf.h)(0x6475FF4F)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Include/core_cm3.h)(0x645D0BD4)
+I (D:\Program\Keil\ARM\ARMCC\include\stdint.h)(0x6025237E)
+I (../Drivers/CMSIS/Include/cmsis_version.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Include/cmsis_compiler.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h)(0x645D0BE0)
+I (D:\Program\Keil\ARM\ARMCC\include\stddef.h)(0x6025237E)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_exti.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x645D0BE0)
+F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_exti.c)(0x645D0BE1)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../BSP -I ../MAVLINK/mavlink/mavlink_msg -I ../MAVLINK/mavlink --gnu-I.\RTE\_1_MAVLink_Test-ID:\Program\Keil\Pack\ARM\CMSIS\5.8.0\CMSIS\Core\Include-ID:\Program\Keil\Pack\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o 1_mavlink_test\stm32f1xx_hal_exti.o --omf_browse 1_mavlink_test\stm32f1xx_hal_exti.crf --depend 1_mavlink_test\stm32f1xx_hal_exti.d)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x645D0BE0)
+I (../Core/Inc/stm32f1xx_hal_conf.h)(0x6475FF4F)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Include/core_cm3.h)(0x645D0BD4)
+I (D:\Program\Keil\ARM\ARMCC\include\stdint.h)(0x6025237E)
+I (../Drivers/CMSIS/Include/cmsis_version.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Include/cmsis_compiler.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h)(0x645D0BE0)
+I (D:\Program\Keil\ARM\ARMCC\include\stddef.h)(0x6025237E)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_exti.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x645D0BE0)
+F (../Core/Src/system_stm32f1xx.c)(0x645D0BE0)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../BSP -I ../MAVLINK/mavlink/mavlink_msg -I ../MAVLINK/mavlink --gnu-I.\RTE\_1_MAVLink_Test-ID:\Program\Keil\Pack\ARM\CMSIS\5.8.0\CMSIS\Core\Include-ID:\Program\Keil\Pack\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o 1_mavlink_test\system_stm32f1xx.o --omf_browse 1_mavlink_test\system_stm32f1xx.crf --depend 1_mavlink_test\system_stm32f1xx.d)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Include/core_cm3.h)(0x645D0BD4)
+I (D:\Program\Keil\ARM\ARMCC\include\stdint.h)(0x6025237E)
+I (../Drivers/CMSIS/Include/cmsis_version.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Include/cmsis_compiler.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x645D0BE0)
+I (../Core/Inc/stm32f1xx_hal_conf.h)(0x6475FF4F)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h)(0x645D0BE0)
+I (D:\Program\Keil\ARM\ARMCC\include\stddef.h)(0x6025237E)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_exti.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x645D0BE0)
+F (..\BSP\retarget.c)(0x644FC6BF)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../BSP -I ../MAVLINK/mavlink/mavlink_msg -I ../MAVLINK/mavlink --gnu-I.\RTE\_1_MAVLink_Test-ID:\Program\Keil\Pack\ARM\CMSIS\5.8.0\CMSIS\Core\Include-ID:\Program\Keil\Pack\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o 1_mavlink_test\retarget.o --omf_browse 1_mavlink_test\retarget.crf --depend 1_mavlink_test\retarget.d)
+I (..\BSP\retarget.h)(0x644FC6BD)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Include/core_cm3.h)(0x645D0BD4)
+I (D:\Program\Keil\ARM\ARMCC\include\stdint.h)(0x6025237E)
+I (../Drivers/CMSIS/Include/cmsis_version.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Include/cmsis_compiler.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x645D0BE0)
+I (../Core/Inc/stm32f1xx_hal_conf.h)(0x6475FF4F)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h)(0x645D0BE0)
+I (D:\Program\Keil\ARM\ARMCC\include\stddef.h)(0x6025237E)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_exti.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x645D0BE0)
+I (../Core/Inc/usart.h)(0x64760A85)
+I (../Core/Inc/main.h)(0x6475FF4F)
+I (D:\Program\Keil\ARM\ARMCC\include\stdio.h)(0x60252374)
+F (..\MAVLINK\mavlink\checksum.h)(0x6476009B)()
+F (..\MAVLINK\mavlink\mavlink_conversions.h)(0x6476009B)()
+F (..\MAVLINK\mavlink\mavlink_helpers.h)(0x6476009B)()
+F (..\MAVLINK\mavlink\mavlink_types.h)(0x6476009B)()
+F (..\MAVLINK\mavlink\protocol.h)(0x6476009B)()
+F (..\MAVLINK\mavlink\mavlink_msg\mavlink.h)(0x6476009A)()
+F (..\MAVLINK\mavlink\mavlink_msg\mavlink_msg.h)(0x6476009B)()
+F (..\MAVLINK\mavlink\mavlink_msg\mavlink_msg_gyro.h)(0x6476009B)()
+F (..\MAVLINK\mavlink\mavlink_msg\mavlink_msg_speed.h)(0x6476009B)()
+F (..\MAVLINK\mavlink\mavlink_msg\testsuite.h)(0x6476009B)()
+F (..\MAVLINK\mavlink\mavlink_msg\version.h)(0x6476009B)()
+F (..\MAVLINK\mavlink\mavlink_user.c)(0x64760711)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../BSP -I ../MAVLINK/mavlink/mavlink_msg -I ../MAVLINK/mavlink --gnu-I.\RTE\_1_MAVLink_Test-ID:\Program\Keil\Pack\ARM\CMSIS\5.8.0\CMSIS\Core\Include-ID:\Program\Keil\Pack\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o 1_mavlink_test\mavlink_user.o --omf_browse 1_mavlink_test\mavlink_user.crf --depend 1_mavlink_test\mavlink_user.d)
+I (..\MAVLINK\mavlink\mavlink_user.h)(0x6476067D)
+I (../Core/Inc/main.h)(0x6475FF4F)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x645D0BE0)
+I (../Core/Inc/stm32f1xx_hal_conf.h)(0x6475FF4F)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h)(0x645D0BE0)
+I (../Drivers/CMSIS/Include/core_cm3.h)(0x645D0BD4)
+I (D:\Program\Keil\ARM\ARMCC\include\stdint.h)(0x6025237E)
+I (../Drivers/CMSIS/Include/cmsis_version.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Include/cmsis_compiler.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x645D0BD4)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h)(0x645D0BE0)
+I (D:\Program\Keil\ARM\ARMCC\include\stddef.h)(0x6025237E)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_exti.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x645D0BE0)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x645D0BE0)
+I (..\MAVLINK\mavlink\mavlink_types.h)(0x6476009B)
+I (../Core/Inc/usart.h)(0x64760A85)
+I (..\MAVLINK\mavlink\mavlink_msg\mavlink.h)(0x6476009A)
+I (..\MAVLINK\mavlink\mavlink_msg\version.h)(0x6476009B)
+I (..\MAVLINK\mavlink\mavlink_msg\mavlink_msg.h)(0x6476009B)
+I (..\MAVLINK\mavlink\mavlink_msg\../protocol.h)(0x6476009B)
+I (D:\Program\Keil\ARM\ARMCC\include\string.h)(0x6025237E)
+I (..\MAVLINK\mavlink\mavlink_msg\../mavlink_helpers.h)(0x6476009B)
+I (..\MAVLINK\mavlink\mavlink_msg\../checksum.h)(0x6476009B)
+I (..\MAVLINK\mavlink\mavlink_msg\../mavlink_conversions.h)(0x6476009B)
+I (D:\Program\Keil\ARM\ARMCC\include\math.h)(0x60252378)
+I (..\MAVLINK\mavlink\mavlink_msg\./mavlink_msg_speed.h)(0x6476009B)
+I (..\MAVLINK\mavlink\mavlink_msg\./mavlink_msg_gyro.h)(0x6476009B)

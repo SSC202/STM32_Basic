@@ -1,0 +1,5 @@
+{
+    "files.associations": {
+        "mavlink_user.h": "c"
+    }
+}

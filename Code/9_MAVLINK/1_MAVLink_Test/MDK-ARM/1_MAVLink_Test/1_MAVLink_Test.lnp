@@ -1,0 +1,28 @@
+--cpu Cortex-M3
+"1_mavlink_test\startup_stm32f103xb.o"
+"1_mavlink_test\main.o"
+"1_mavlink_test\gpio.o"
+"1_mavlink_test\usart.o"
+"1_mavlink_test\stm32f1xx_it.o"
+"1_mavlink_test\stm32f1xx_hal_msp.o"
+"1_mavlink_test\stm32f1xx_hal_gpio_ex.o"
+"1_mavlink_test\stm32f1xx_hal_tim.o"
+"1_mavlink_test\stm32f1xx_hal_tim_ex.o"
+"1_mavlink_test\stm32f1xx_hal_uart.o"
+"1_mavlink_test\stm32f1xx_hal.o"
+"1_mavlink_test\stm32f1xx_hal_rcc.o"
+"1_mavlink_test\stm32f1xx_hal_rcc_ex.o"
+"1_mavlink_test\stm32f1xx_hal_gpio.o"
+"1_mavlink_test\stm32f1xx_hal_dma.o"
+"1_mavlink_test\stm32f1xx_hal_cortex.o"
+"1_mavlink_test\stm32f1xx_hal_pwr.o"
+"1_mavlink_test\stm32f1xx_hal_flash.o"
+"1_mavlink_test\stm32f1xx_hal_flash_ex.o"
+"1_mavlink_test\stm32f1xx_hal_exti.o"
+"1_mavlink_test\system_stm32f1xx.o"
+"1_mavlink_test\retarget.o"
+"1_mavlink_test\mavlink_user.o"
+--library_type=microlib --strict --scatter "1_MAVLink_Test\1_MAVLink_Test.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "1_MAVLink_Test.map" -o 1_MAVLink_Test\1_MAVLink_Test.axf
