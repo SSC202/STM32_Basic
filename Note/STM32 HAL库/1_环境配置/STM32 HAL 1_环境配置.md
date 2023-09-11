@@ -209,55 +209,104 @@ shutdown command invoked
 > set _CPUTAPID 0x2ba01477
 > ```
 
+### 1.3 STM32CubeMX + VSCode + EIDE 环境配置
+
+- 首先在VSCode上下载以下插件：
+
+![NULL](picture_16.jpg)
 
 
 
+![NULL](picture_17.jpg)
+
+- 进行以下配置：
+
+1. 编译链配置
+
+> 1. 如果安装了Keil，则可以配置以下编译链
+>
+> ![NULL](picture_18.jpg)
+>
+> 2. arm-none-eabi-gcc 交叉编译链
+>
+> ![NULL](picture_19.jpg)
+
+2. 生成配置
+
+![NULL](picture_20.jpg)
+
+点击左侧边框生成的EIDE插件：
+
+![NULL](picture_22.jpg)
+
+在”设置编译链“里面如果看到相关编译链旁边显示√，则配置完成。
+
+![NULL](picture_21.jpg)
+
+- 工程配置
+
+1. 使用STM32CubeMX中的`Makefile`选项生成工程。
+
+2. 用 VS Code 打开刚才生成的工程目录，随后EIDE - 新建项目 - 空项目 - Cortex-M - 输入项目名称（需要和 CubeMX 生成的文件夹名称相同）；
+
+3. 弹出文件夹选择窗口，选择工程目录的**上一级文件夹**。
+
+   出现如下警告时，点 yes，并在之后的弹窗中选择切换到工作区；
+
+![NULL](picture_23.jpg)
 
 
 
+在资源管理器中可以看到以下文件：
 
+![NULL](picture_24.jpg)
 
+4. 选择项目资源，将以下类型的文件添加进项目资源中：
 
+> 1. 源代码文件夹（包含.c/.h文件）；
+> 2. 启动文件（.s文件）。
+> ![NULL](picture_25.jpg)
 
+5. 构建配置选项中的连接脚本路径修改为工程文件夹下后缀名为`.ld`的文件名（包含后缀）；
 
+![NULL](picture_26.jpg)
 
+6. 烧录配置选择STLink
+7. 打开项目属性右侧的钳子图标：
 
+![NULL](picture_27.jpg)
 
+添加以下内容（包含文件目录和全局宏定义）：
 
+![NULL](picture_28.jpg)
 
+注意：**这些内容可以从工程文件夹中的Makefile文件中获得。**
 
+![NULL](picture_29.jpg)
 
+8. 随后可以进行编译和运行。
 
+![NULL](picture_30.jpg)
 
+从左到右为编译，清理，下载，重新编译。
 
+- 调试配置
 
+在调试中选择设置，出现的`launch.json`文件中有以下配置选项：
 
+![NULL](picture_31.jpg)
 
+注意只需要修改第二个.cfg文件的文件名。
 
+在Cortex Debug插件中，使用settings.json文件编辑方式，在此文件中加入以下几行：
 
+```json
+    "cortex-debug.armToolchainPath": "R:\\User_Download\\Environment_Install\\GNU Arm Toolchain\\GNU Arm Embedded Toolchain\\10 2021.10\\bin", \\ 交叉编译链路径
+    "cortex-debug.variableUseNaturalFormat": false,
+    "cortex-debug.openocdPath": "R:\\User_Download\\Environment_Install\\OpenOCD\\OpenOCD-20230712-0.12.0\\bin\\openocd.exe", \\ OpenOCD路径
+```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+随后即可使用stlink进行调试。
 
 
 
