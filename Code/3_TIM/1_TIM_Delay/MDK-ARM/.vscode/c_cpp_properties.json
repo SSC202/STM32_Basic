@@ -3,16 +3,16 @@
         {
             "name": "1_TIM_Delay",
             "includePath": [
-                "s:\\STM32SSC\\STM32\\STM32SSC_F103\\Code\\3_TIM\\1_TIM_Delay\\Core\\Inc",
-                "s:\\STM32SSC\\STM32\\STM32SSC_F103\\Code\\3_TIM\\1_TIM_Delay\\Drivers\\STM32F1xx_HAL_Driver\\Inc",
-                "s:\\STM32SSC\\STM32\\STM32SSC_F103\\Code\\3_TIM\\1_TIM_Delay\\Drivers\\STM32F1xx_HAL_Driver\\Inc\\Legacy",
-                "s:\\STM32SSC\\STM32\\STM32SSC_F103\\Code\\3_TIM\\1_TIM_Delay\\Drivers\\CMSIS\\Device\\ST\\STM32F1xx\\Include",
-                "s:\\STM32SSC\\STM32\\STM32SSC_F103\\Code\\3_TIM\\1_TIM_Delay\\Drivers\\CMSIS\\Include",
+                "s:\\STM32SSC\\STM32\\STM32SSC_Basic\\Code\\3_TIM\\1_TIM_Delay\\Core\\Inc",
+                "s:\\STM32SSC\\STM32\\STM32SSC_Basic\\Code\\3_TIM\\1_TIM_Delay\\Drivers\\STM32F1xx_HAL_Driver\\Inc",
+                "s:\\STM32SSC\\STM32\\STM32SSC_Basic\\Code\\3_TIM\\1_TIM_Delay\\Drivers\\STM32F1xx_HAL_Driver\\Inc\\Legacy",
+                "s:\\STM32SSC\\STM32\\STM32SSC_Basic\\Code\\3_TIM\\1_TIM_Delay\\Drivers\\CMSIS\\Device\\ST\\STM32F1xx\\Include",
+                "s:\\STM32SSC\\STM32\\STM32SSC_Basic\\Code\\3_TIM\\1_TIM_Delay\\Drivers\\CMSIS\\Include",
                 "R:\\Program Files\\Keil v5\\ARM\\ARMCC\\include",
                 "R:\\Program Files\\Keil v5\\ARM\\ARMCC\\include\\rw",
-                "s:\\STM32SSC\\STM32\\STM32SSC_F103\\Code\\3_TIM\\1_TIM_Delay\\MDK-ARM",
-                "s:\\STM32SSC\\STM32\\STM32SSC_F103\\Code\\3_TIM\\1_TIM_Delay\\Core\\Src",
-                "s:\\STM32SSC\\STM32\\STM32SSC_F103\\Code\\3_TIM\\1_TIM_Delay\\Drivers\\STM32F1xx_HAL_Driver\\Src"
+                "s:\\STM32SSC\\STM32\\STM32SSC_Basic\\Code\\3_TIM\\1_TIM_Delay\\MDK-ARM",
+                "s:\\STM32SSC\\STM32\\STM32SSC_Basic\\Code\\3_TIM\\1_TIM_Delay\\Core\\Src",
+                "s:\\STM32SSC\\STM32\\STM32SSC_Basic\\Code\\3_TIM\\1_TIM_Delay\\Drivers\\STM32F1xx_HAL_Driver\\Src"
             ],
             "defines": [
                 "USE_HAL_DRIVER",
