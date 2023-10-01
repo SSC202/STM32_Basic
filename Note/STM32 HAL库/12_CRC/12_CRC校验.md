@@ -38,3 +38,30 @@ $$
 最后得到的为CRC校验值，**长度为CRC除数长度减一（即多项式的阶数）**。将校验值加到未处理前的数据串末尾。
 
 将含CRC数据发出后，接收端将接收到的数据重新计算CRC值进行检验，如果与接收CRC值不符，则接收出错，反之则成功接收。
+
+## 2. STM32 CRC校验
+
+### HAL库函数
+
+```c
+/**
+  * @brief CRC校验值计算函数
+  * @param  hcrc CRC句柄
+  * @param  pBuffer 接收32位数据数组
+  * @param  BufferLength 32位数组长度
+  * @retval CRC校验值
+  * @attention 此函数执行完毕后不清空数据接收寄存器
+  */
+uint32_t HAL_CRC_Accumulate(CRC_HandleTypeDef *hcrc, uint32_t pBuffer[], uint32_t BufferLength);
+
+/**
+  * @brief CRC校验值计算函数
+  * @param  hcrc CRC句柄
+  * @param  pBuffer 接收32位数据数组
+  * @param  BufferLength 32位数组长度
+  * @retval CRC校验值
+  * @attention 此函数执行完毕后不清空数据接收寄存器
+  */
+uint32_t HAL_CRC_Calculate(CRC_HandleTypeDef *hcrc, uint32_t pBuffer[], uint32_t BufferLength);
+```
+
