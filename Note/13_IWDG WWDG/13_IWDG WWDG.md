@@ -49,10 +49,18 @@ STM32 存在以下的复位方式：
 - 超时时间
 
 $$
-	T_{out} = \frac{PSC \times (RLR + 1)}{LSI}
+T_{out} = \frac{PSC}{LSI \times (RLR + 1)}
 $$
 
 $RLR$为重装载值，$LSI$为IWDG时钟频率。
 
 ### HAL 库函数
+
+```c
+/**
+ * @brief 独立看门狗喂狗函数，喂狗后会使得计数器重装载
+ * @param hiwdg IWDG句柄
+ */
+HAL_StatusTypeDef HAL_IWDG_Refresh(IWDG_HandleTypeDef *hiwdg);
+```
 
