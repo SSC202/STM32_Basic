@@ -64,3 +64,54 @@ $RLR$为重装载值，$LSI$为IWDG时钟频率。
 HAL_StatusTypeDef HAL_IWDG_Refresh(IWDG_HandleTypeDef *hiwdg);
 ```
 
+## 3. WWDG 窗口看门狗
+
+### WWDG 原理
+
+窗口看门狗跟独立看门狗一样，也是一个递减计数器不断的往下递减计数，当减到一个固定值 `0x3F`时还不喂狗的话，产生复位，这个值叫窗口的下限，是固定的值，不能改变。
+
+喂狗时间是在一个有上下限的范围内（计数器减到某个值~计数器减到`0x3F`），在这个范围内才可以喂狗，可以通过设定相关寄存器，设定其上限时间（但是下限是固定的`0x3F`）。
+
+![NULL](picture_3.jpg)
+
+![NULL](picture_4.jpg)
+
+如果使能了提前唤醒中断，系统出现问题，喂狗函数没有生效，那么在计数器由减到`0x40 `的时候，会先进入中断，之后才会复位，也可以在中断里面喂狗使得不复位。
+
+- 时间计算公式
+
+WWDG计数周期：
+$$
+T = \frac{1000 \times 4096 \times PSC}{PCLK1}
+$$
+$PSC$为WWDG预分频值。
+
+最小超时时间：
+$$
+T_{min} = T \times (DownCounter\_Value - Windows\_Value)
+$$
+$DownCounter\_Value$为递减计数器重装载值，$Windows\_Value$为窗口值。
+
+最大超时时间：
+$$
+T_{max} = T\times(DownCounter\_Value - 0x40)
+$$
+
+### HAL 库函数
+
+```c
+/**
+ * @brief 窗口看门狗喂狗函数，喂狗后会使得计数器重装载
+ * @param hwwdg WWDG句柄
+ */
+HAL_StatusTypeDef HAL_WWDG_Refresh(WWDG_HandleTypeDef *hwwdg);
+
+/**
+ * @brief 窗口看门狗中断回调函数
+ */
+void HAL_WWDG_EarlyWakeupCallback(WWDG_HandleTypeDef *hwwdg)
+{
+
+}
+```
+
