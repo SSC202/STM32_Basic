@@ -80,7 +80,9 @@ ADC有一个内置自校准模式。校准可大幅减小因内部电容器组�
 
 ## 3. ADC 的使用
 
-### HAL 库函数
+### 规则组读取函数
+
+#### HAL 库函数
 
 ```c
 /**
@@ -142,7 +144,7 @@ uint32_t HAL_ADC_GetValue(ADC_HandleTypeDef* hadc);
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc);
 ```
 
-### ADC 单通道转换
+#### ADC 单通道转换
 
 > 1. ADC 校准；
 > 2. 如果为非扫描模式，在循环中启动ADC，如果为扫描模式，在循环前启动ADC。
@@ -150,6 +152,74 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc);
 > 4. 读取值（可用`HAL_IS_BIT_SET(HAL_ADC_GetState(&hadcx), HAL_ADC_STATE_REG_EOC)`条件辅助判断）
 > 5. 进行结果转换。
 
-### ADC 多通道转换
+#### ADC 多通道转换
 
 > 应打开连续和扫描模式，配合DMA使用。
+
+### 注入组读取函数
+
+| 模式     | 组别   | 数据储存                                                     |
+| -------- | ------ | ------------------------------------------------------------ |
+| 单次模式 | 规则组 | 单通道转换结束后选择是否进入中断，数据存入`ADC_DR`寄存器     |
+|          | 注入组 | 单通道转换结束后进入中断，数据存入`ADC_JDRx`寄存器           |
+| 连续模式 | 规则组 | 本组道转换结束后选择是否进入中断，最新数据存入`ADC_DR`寄存器 |
+|          | 注入组 | 支持规则组连续模式触发，结束后进入读取注入组                 |
+| 扫描模式 | 规则组 | 通道转换结束，选择是否进入中断，必须使用DMA转换              |
+|          | 注入组 | 通道转换结束进入中断，数据存入`ADC_JDRx`寄存器               |
+
+#### HAL 库函数
+
+```c
+/**
+  * @brief  注入组ADC轮询方式启动函数，若为单次模式，应在循环中启动
+  * @param  hadc ADC句柄 hadcx
+  */
+HAL_StatusTypeDef HAL_ADCEx_InjectedStart(ADC_HandleTypeDef *hadc);
+
+/**
+  * @brief   注入组ADC轮询方式停止函数
+  * @param  hadc ADC句柄 hadcx
+  */
+HAL_StatusTypeDef HAL_ADCEx_InjectedStop(ADC_HandleTypeDef *hadc);
+
+/**
+  * @brief  注入组等待转换完成（EOC标志）函数
+  * @param  hadc ADC句柄 hadcx
+  * @param  Timeout 超时时间
+  */
+HAL_StatusTypeDef HAL_ADCEx_InjectedPollForConversion(ADC_HandleTypeDef *hadc, uint32_t Timeout);
+
+/**
+  * @brief  注入组ADC中断方式启动函数，若为单次模式，应在中断中启动
+  * @param  hadc ADC句柄 hadcx
+  */
+HAL_StatusTypeDef HAL_ADCEx_InjectedStart_IT(ADC_HandleTypeDef *hadc);
+
+/**
+  * @brief  注入组ADC中断方式停止函数
+  * @param  hadc ADC句柄 hadcx
+  */
+HAL_StatusTypeDef HAL_ADCEx_InjectedStop_IT(ADC_HandleTypeDef *hadc);
+
+/**
+  * @brief  注入组ADC DMA方式启动函数
+  * @param  hadc ADC句柄 hadcx
+  * @param  pData 数据缓存区地址
+  * @param  Length 数据缓存区字节数
+  * @retval None
+  */
+HAL_StatusTypeDef HAL_ADCEx_MultiModeStart_DMA(ADC_HandleTypeDef *hadc, uint32_t *pData, uint32_t Length);
+    
+/**
+  * @brief  注入组读取ADC值函数（0-4096）
+  * @param  hadc ADC句柄 hadcx
+  * @retval ADC数值
+  */
+uint32_t HAL_ADCEx_InjectedGetValue(ADC_HandleTypeDef *hadc, uint32_t InjectedRank);
+
+/**
+  * @brief  注入组ADC转换完成中断回调函数
+  */
+void HAL_ADCEx_InjectedConvCpltCallback(ADC_HandleTypeDef *hadc);
+```
+
