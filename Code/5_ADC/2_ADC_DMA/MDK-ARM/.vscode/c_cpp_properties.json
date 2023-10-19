@@ -3,17 +3,17 @@
         {
             "name": "2_ADC_DMA",
             "includePath": [
-                "s:\\STM32SSC\\STM32\\STM32SSC_F103\\Code\\5_ADC\\2_ADC_DMA\\Core\\Inc",
-                "s:\\STM32SSC\\STM32\\STM32SSC_F103\\Code\\5_ADC\\2_ADC_DMA\\Drivers\\STM32F1xx_HAL_Driver\\Inc",
-                "s:\\STM32SSC\\STM32\\STM32SSC_F103\\Code\\5_ADC\\2_ADC_DMA\\Drivers\\STM32F1xx_HAL_Driver\\Inc\\Legacy",
-                "s:\\STM32SSC\\STM32\\STM32SSC_F103\\Code\\5_ADC\\2_ADC_DMA\\Drivers\\CMSIS\\Device\\ST\\STM32F1xx\\Include",
-                "s:\\STM32SSC\\STM32\\STM32SSC_F103\\Code\\5_ADC\\2_ADC_DMA\\Drivers\\CMSIS\\Include",
-                "s:\\STM32SSC\\STM32\\STM32SSC_F103\\Code\\5_ADC\\2_ADC_DMA\\BSP",
+                "s:\\STM32SSC\\STM32\\STM32SSC_Basic\\Code\\5_ADC\\2_ADC_DMA\\Core\\Inc",
+                "s:\\STM32SSC\\STM32\\STM32SSC_Basic\\Code\\5_ADC\\2_ADC_DMA\\Drivers\\STM32F1xx_HAL_Driver\\Inc",
+                "s:\\STM32SSC\\STM32\\STM32SSC_Basic\\Code\\5_ADC\\2_ADC_DMA\\Drivers\\STM32F1xx_HAL_Driver\\Inc\\Legacy",
+                "s:\\STM32SSC\\STM32\\STM32SSC_Basic\\Code\\5_ADC\\2_ADC_DMA\\Drivers\\CMSIS\\Device\\ST\\STM32F1xx\\Include",
+                "s:\\STM32SSC\\STM32\\STM32SSC_Basic\\Code\\5_ADC\\2_ADC_DMA\\Drivers\\CMSIS\\Include",
+                "s:\\STM32SSC\\STM32\\STM32SSC_Basic\\Code\\5_ADC\\2_ADC_DMA\\BSP",
                 "R:\\Program Files\\Keil v5\\ARM\\ARMCC\\include",
                 "R:\\Program Files\\Keil v5\\ARM\\ARMCC\\include\\rw",
-                "s:\\STM32SSC\\STM32\\STM32SSC_F103\\Code\\5_ADC\\2_ADC_DMA\\MDK-ARM",
-                "s:\\STM32SSC\\STM32\\STM32SSC_F103\\Code\\5_ADC\\2_ADC_DMA\\Core\\Src",
-                "s:\\STM32SSC\\STM32\\STM32SSC_F103\\Code\\5_ADC\\2_ADC_DMA\\Drivers\\STM32F1xx_HAL_Driver\\Src"
+                "s:\\STM32SSC\\STM32\\STM32SSC_Basic\\Code\\5_ADC\\2_ADC_DMA\\MDK-ARM",
+                "s:\\STM32SSC\\STM32\\STM32SSC_Basic\\Code\\5_ADC\\2_ADC_DMA\\Core\\Src",
+                "s:\\STM32SSC\\STM32\\STM32SSC_Basic\\Code\\5_ADC\\2_ADC_DMA\\Drivers\\STM32F1xx_HAL_Driver\\Src"
             ],
             "defines": [
                 "USE_HAL_DRIVER",
