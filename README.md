@@ -45,3 +45,10 @@ ROS2 学习（更新中）：[Click Here](https://github.com/SSC202/ROS2)
 | [12_CRC](https://github.com/SSC202/STM32_Basic/tree/main/Note/12_CRC) | STM32 CRC 校验介绍           | [CRC校验例程](https://github.com/SSC202/STM32_Basic/tree/main/Code/7_CRC/CRC_Test) |
 | [13_IWDG WWDG](https://github.com/SSC202/STM32_Basic/tree/main/Note/13_IWDG%20WWDG) | STM32 看门狗介绍             | 1. [独立看门狗实验](https://github.com/SSC202/STM32_Basic/tree/main/Code/8_IWDG%20WWDG/IWDG_Test) 2. [窗口看门狗实验](https://github.com/SSC202/STM32_Basic/tree/main/Code/8_IWDG%20WWDG/WWDG_Test) |
 
+### 补充内容
+
+1. C语言补充：[Click Here](https://github.com/SSC202/STM32_Basic/blob/main/Note/A1_C语言扩展/A1_C语言扩展.md)
+
+2. 环形缓冲区：[Click Here](https://github.com/SSC202/STM32_Basic/blob/main/Note/A3_环形缓冲区/环形缓冲区.md)
+
+3. `PySerial`串口通信：[Click Here](https://github.com/SSC202/STM32_Basic/tree/main/Note/A4_上下位机的串口通信(PySerial))
