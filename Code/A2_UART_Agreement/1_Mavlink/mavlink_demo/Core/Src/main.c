@@ -155,6 +155,12 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+    // 接收通道0的消息
+    wtrMavlink_UARTRxCpltCallback(huart, MAVLINK_COMM_0);
+}
+
 void wtrMavlink_MsgRxCpltCallback(mavlink_message_t *msg)
 {
     switch (msg->msgid) {
