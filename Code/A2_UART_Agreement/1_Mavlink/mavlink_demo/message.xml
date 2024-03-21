@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<mavlink>
+    <version>3</version>
+    <messages>
+        <message id="1" name="SPEED">
+            <description>SpeedData</description>
+            <field type="double" name="vx">vx</field>
+            <field type="double" name="vy">vy</field>
+            <field type="double" name="vz">vz</field>
+        </message>
+        <message id="2" name="GYRO">
+            <description>IMUData</description>
+            <field type="int16_t" name="gx">gx</field>
+            <field type="int16_t" name="gy">gy</field>
+            <field type="int16_t" name="gz">gz</field>
+            <field type="int16_t" name="ax">ax</field>
+            <field type="int16_t" name="ay">ay</field>
+            <field type="int16_t" name="az">az</field>
+        </message>
+    </messages>
+</mavlink>
