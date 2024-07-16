@@ -362,3 +362,8 @@ __HAL_TIM_SET_CAPTUREPOLARITY(__HANDLE__, __CHANNEL__, __POLARITY__);
 uint32_t HAL_TIM_ReadCapturedValue(const TIM_HandleTypeDef *htim, uint32_t Channel);
 ```
 
+## 4. 注意事项
+
+1. 使用TIM前，请阅读芯片的数据手册以确定该TIM在哪一个APB总线上，**不同APB总线上的TIM频率可能会有差别**。
+2. TIM可以用来进行定时采样，是最可靠的定时方式。(HAL_Delay或者osDelay定时误差较大)
+
