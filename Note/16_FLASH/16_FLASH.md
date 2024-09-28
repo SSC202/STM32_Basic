@@ -94,3 +94,41 @@ data = *(volatile uint32_t *)addr;		/* 读取一个字数据 */
 
 ## 3. HAL 库函数
 
+```c
+/**
+  * @brief  解锁 FLASH
+  */
+HAL_StatusTypeDef HAL_FLASH_Unlock(void);
+
+/**
+  * @brief  锁定 FLASH
+  */
+HAL_StatusTypeDef HAL_FLASH_Lock(void);
+
+/**
+  * @brief  FLASH 半字/字/字节写入
+  * @note   使用前应当对 FLASH 解锁，使用后对 FLASH 加锁
+  * @note   FLASH 应当被提前擦除
+  * @param  TypeProgram:  写入方式
+  * @param  Address:      写入地址
+  * @param  Data:         写入数据
+  */
+HAL_StatusTypeDef HAL_FLASH_Program(uint32_t TypeProgram, uint32_t Address, uint64_t Data);
+
+/**
+  * @brief  大量擦除或擦除指定的闪存扇区
+  * @note   使用前应当对 FLASH 解锁，使用后对 FLASH 上锁
+  * @param[in]   Flash擦除结构体
+  * @param[out]  擦除过程的错误代码
+  */
+HAL_StatusTypeDef HAL_FLASHEx_Erase(FLASH_EraseInitTypeDef *pEraseInit, uint32_t *PageError);
+
+typedef struct
+{
+  uint32_t TypeErase;   /* 擦除类型 */
+  uint32_t Banks;      /* 擦除的bank编号（整片擦除） */
+  uint32_t PageAddress; /* 擦除页面地址 */
+  uint32_t NbPages;     /* 擦除的页面数 */                 
+} FLASH_EraseInitTypeDef;
+```
+
