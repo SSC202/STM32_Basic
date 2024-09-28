@@ -83,6 +83,12 @@
 
 ![NULL](./assets/picture_7.jpg)
 
+5. `RTC_CRL`寄存器
+
+![NULL](./assets/picture_8.jpg)
+
+![NULL](./assets/picture_9.jpg)
+
 ### HAL 库函数
 
 ```c
