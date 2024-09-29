@@ -51,4 +51,4 @@ ROS2 学习（更新中）：[Click Here](https://github.com/SSC202/ROS2)
 
 2. 环形缓冲区：[Click Here](https://github.com/SSC202/STM32_Basic/blob/main/Note/A3_环形缓冲区/环形缓冲区.md)
 
-3. `PySerial`串口通信：[Click Here](https://github.com/SSC202/STM32_Basic/tree/main/Note/A4_上下位机的串口通信(PySerial))
+   
