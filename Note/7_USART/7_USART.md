@@ -132,11 +132,31 @@ $比特率 = 波特率*log_2M$ ，M表示每个码元承载的信息量；
 
 ## 4. STM32 USART使用
 
+### 串口的工作模式
+
+1. **轮询方式**：类似一个延时函数,当这个函数没处理完时所有的按照流程需要执行的代码都不会被执行,需要等到这个延时完成。
+
+    > 串口的轮询实现就是通过不停的轮询状态寄存器的状态判断是否有数据需要接收或发送。发送时先向数据寄存器或发送FIFO写入数据，然后不断检查状态寄存器，查看发送是否完成。发送完成才能发送下一字节或退出发送状态。
+    >
+    > 对于接收则要先创建一个循环定时器或线程死循环，不断的轮询状态寄存器，检查是否有数据收到，有数据收到则读取数据，然后调用接收回调，将数据传递给上层应用。
+
+2. **中断方式**：非阻塞模式一般用中断,执行这条语句的时候,开启相应的中断达到一定的条件才进行处理,这样不会影响到流程的执行。
+
+    > 接收时，不需要有一个任务专门用来检测是否有数据收到，收到数据会触发接收中断，在中断中收取数据并传递给上层应用。
+    >
+    > 发送时，只需要发送第一个字节即可让出CPU，之后每发送完成一字节都会触发发送完成中断，在中断中将后面需要发送的数据发送出去或者退出发送模式。
+
+    > 中断方式接收数据产生的中断称为接收中断。
+
+3. **DMA方式**：DMA 方式是指数据在内存和设备之间能够直接进行数据的传输，只需要CPU执行一下开始和完成操作即可，不需处理每一字节的收发，是一种比中断模式效率更高的方式。
+
+    > 发送时需要把数据先拷贝到连续的无 Cache 的内存区，然后配置 DMA 源地址、目标地址、数据长度等参数并启动 DMA 传输。这时就可以让出 CPU 了。当传输完成，会触发一个完成中断，通知应用层传输完成。
+    >
+    > 接收时，要提前准备好连续的无 Cache 的内存区供给 DMA 自动接收。设置 DMA 各个接收参数并启动。当有数据收到后会触发中断，中断通知上层应用去处理。
+    
+    > DMA 接收数据通常采用空闲中断方式。空闲的定义是总线上在一个字节的时间内没有再接收到数据。空闲中断是检测到有数据被接收后，总线上在一个字节的时间内没有再接收到数据的时候发生的。
+
 ### HAL 库函数
-
-**轮询方式**：类似一个延时函数,当这个函数没处理完时所有的按照流程需要执行的代码都不会被执行,需要等到这个延时完成。
-
-**中断方式**：非阻塞模式一般用中断,执行这条语句的时候,开启相应的中断达到一定的条件才进行处理,这样不会影响到流程的执行。
 
 ```c
 /**
@@ -215,30 +235,84 @@ HAL_StatusTypeDef HAL_UART_DMAStop(UART_HandleTypeDef *huart);
   * @param  _HANDLE_ 串口句柄huartx
   * @param  _MODE_ 中断模式（UART_IT_IDLE为空闲中断，UART_IT_RXLE为接收中断）
   */
-__HAL_UART_ENABLE_IT(_HANDLE_,_MODE_)
+__HAL_UART_ENABLE_IT(_HANDLE_,_MODE_);
+
+/**
+  * @brief  串口空闲接收函数
+  * @param  huart 串口句柄huartx
+  * @param	pData 接收数据地址，注意需要以 uint8_t 数组形式接收
+  * @param  Size  接收数据字节数
+  * @param  RxLen   最终接收到的数据长度(小于Size)
+  * @param  Timeout 超时时间
+  * @retval HAL status
+  */
+HAL_StatusTypeDef HAL_UARTEx_ReceiveToIdle(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint16_t *RxLen, uint32_t Timeout);
+
+/**
+  * @brief  串口空闲中断接收函数
+  * @param  huart 串口句柄huartx
+  * @param	pData 接收数据地址，注意需要以 uint8_t 数组形式接收
+  * @param  Size  接收数据字节数
+  * @attention	接收完毕之后可触发接收中断或者空闲中断，应调用接收完成中断回调函数HAL_UARTEx_RxEventCallback()
+  				中断回调结束后中接收中断会关闭，如果需要连续接收，建议在回调函数中再次使用此函数。
+  * @retval HAL status
+  */
+HAL_StatusTypeDef HAL_UARTEx_ReceiveToIdle_IT(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
+
+/**
+  * @brief  串口空闲DMA接收函数
+  * @param  huart 串口句柄huartx
+  * @param	pData 接收数据地址，注意需要以 uint8_t 数组形式接收
+  * @param  Size  接收数据字节数
+  * @attention	接收完毕之后可触发接收中断或者空闲中断，应调用接收完成中断回调函数HAL_UARTEx_RxEventCallback()
+  				中断回调结束后中接收中断会关闭，如果需要连续接收，建议在回调函数中再次使用此函数。
+  * @retval HAL status
+  */
+HAL_StatusTypeDef HAL_UARTEx_ReceiveToIdle_DMA(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
 ```
 
-### 自定义通讯协议
+### 串口的应用
+
+#### 自定义通讯协议
+
+**发送设备和接收设备应当指定应用层通信协议（和硬件协议不同），便于解析发送设备传来的数据**。
+
+> 1. 串口通信两方制定好通信协议，最好写出一份协议手册；
+> 2. 串口通信最好指定发送的数据长度，方便接收方进行数据解码；
+> 3. 串口通信最好指定特殊的头帧和尾帧，用以进行数据对齐和纠错；
+> 4. 串口通信最好指明一个命令位，用以区分不同数据的不同用途；
 
 可以自定义通讯数据包，分为HEX数据包和文本数据包两种。
 
-> HEX 数据包
+> - HEX 数据包
 >
 > <img src="picture_8.jpg" alt="NULL" style="zoom:67%;" />
 
-> 文本数据包
+> - 文本数据包
 >
 > <img src="picture_9.jpg" alt="NULL" style="zoom:67%;" />
 
-使用**有限状态机方式**进行解包。
+1. 使用**有限状态机方式**进行解包。
 
-接收到帧头 -> 开始接收数据 -> 接收到帧尾 -> 处理数据并进行相应操作。
+	接收到帧头 -> 开始接收数据 -> 接收到帧尾 -> 处理数据并进行相应操作。
+	
+	此时需要配合中断接收，缺点在于无法验证数据正确性，需要附加校验。
 
-### 串口重定向
+2. 使用中断解包。
+	
+	一次性接收定长数据包然后解析，前提是不能丢包。
 
-在C语言中，printf 函数默认的输出是在屏幕上。为了使得 printf 的输出能够传到串口上，需要进行串口重定向。
+3. 使用DMA解包。
 
-**方法1**：（需要使用Keil的MicroLIB微库，引入stdio.h）--- 重写 fputc 文件
+	不定长数据包接收，通过空闲中断判断传输结束。
+
+#### 串口重定向
+
+在C语言中，`printf` 函数默认的输出是在屏幕上。为了使得 `printf` 的输出能够传到串口上，需要进行串口重定向。
+
+##### AC5/6 编译环境
+
+**方法1**：（需要使用Keil的MicroLIB微库，引入`stdio.h`）--- 重写 `fputc` 函数
 
 ![NULL](picture_10.jpg)
 
@@ -259,7 +333,7 @@ int fgetc(FILE *f)
 /* USER CODE END 0 */
 ```
 
-**方法2**：retarget.h文件
+**方法2**：`retarget.h`文件
 
 ```c
 #ifndef	__RETARGET_H
@@ -316,38 +390,135 @@ static char USART_BUFFER[BUFFER_MAX_SIZE];
 #endif
 ```
 
-### DMA 方式进行不定长数据收发
+##### GCC 编译环境
 
-在没有DMA之前，串口每次发送数据时都要由CPU将源地址上的数据拷贝到串口发送的相关寄存器上；串口每次接收数据时都要由CPU将发送来的数据拷贝到主存上。使用DMA后，只需要告诉DMA源地址和目标地址，DMA通道就能够自动进行数据的转移，转移期间CPU就可以去处理别的事情，这就大大提高了CPU的运行效率。
+主要修改`write`函数：
 
-
-**空闲中断：** 空闲的定义是总线上在一个字节的时间内没有再接收到数据。空闲中断是检测到有数据被接收后，总线上在一个字节的时间内没有再接收到数据的时候发生的。
+- `retarget.c`文件
 
 ```c
-void USART1_IRQHandler(void)
+#include <_ansi.h>
+#include <_syslist.h>
+#include <errno.h>
+#include <sys/time.h>
+#include <sys/times.h>
+#include <stdint.h>
+#include "userdebug.h"
+
+#if !defined(OS_USE_SEMIHOSTING)
+
+#define STDIN_FILENO  0
+#define STDOUT_FILENO 1
+#define STDERR_FILENO 2
+UART_HandleTypeDef *gHuart;
+
+void RetargetInit(UART_HandleTypeDef *huart)
 {
-  /* USER CODE BEGIN USART1_IRQn 0 */
+    gHuart = huart;
 
-  /* USER CODE END USART1_IRQn 0 */
-  HAL_UART_IRQHandler(&huart1);
-  /* USER CODE BEGIN USART1_IRQn 1 */
-  uint8_t flag = __HAL_UART_GET_FLAG(&huart1, UART_FLAG_IDLE); // 获取空闲中断标志位
-  if (flag != RESET)                                         // 判断接收结束
-  {
-    rx_flag = 1;
-    __HAL_UART_CLEAR_IDLEFLAG(&huart1); // 清除标志位
-    HAL_UART_DMAStop(&huart1);
-    uint8_t temp = __HAL_DMA_GET_COUNTER(&hdma_usart1_rx);
-    rx_len = LENGTH - temp;                            // 计算出数据长度
-    HAL_UART_Transmit_DMA(&huart1, rx_buffer, rx_len); // 将受到的数据发送出去
-    HAL_UART_Receive_DMA(&huart1, rx_buffer, LENGTH);     // 开启DMA接收，方便下一次接收数据
-  }
-
-  /* USER CODE END USART1_IRQn 1 */
+    /* Disable I/O buffering for STDOUT stream, so that
+     * chars are sent out as soon as they are printed. */
+    setvbuf(stdout, NULL, _IONBF, 0);
 }
+int _isatty(int fd)
+{
+    if (fd >= STDIN_FILENO && fd <= STDERR_FILENO)
+        return 1;
+    errno = EBADF;
+    return 0;
+}
+int _write(int fd, char *ptr, int len)
+{
+    HAL_StatusTypeDef hstatus;
+    if (fd == STDOUT_FILENO || fd == STDERR_FILENO) {
+        hstatus = HAL_UART_Transmit(gHuart, (uint8_t *)ptr, len, HAL_MAX_DELAY);
+        if (hstatus == HAL_OK)
+            return len;
+        else
+            return EIO;
+    }
+    errno = EBADF;
+    return -1;
+}
+
+int _close(int fd)
+{
+    if (fd >= STDIN_FILENO && fd <= STDERR_FILENO)
+        return 0;
+    errno = EBADF;
+    return -1;
+}
+
+int _lseek(int fd, int ptr, int dir)
+{
+    (void)fd;
+    (void)ptr;
+    (void)dir;
+    errno = EBADF;
+    return -1;
+}
+
+int _read(int fd, char *ptr, int len)
+{
+    HAL_StatusTypeDef hstatus;
+    if (fd == STDIN_FILENO) {
+        hstatus = HAL_UART_Receive(gHuart, (uint8_t *)ptr, 1, HAL_MAX_DELAY);
+        if (hstatus == HAL_OK)
+            return 1;
+        else
+            return EIO;
+    }
+    errno = EBADF;
+    return -1;
+}
+
+int _fstat(int fd, struct stat *st)
+{
+    if (fd >= STDIN_FILENO && fd <= STDERR_FILENO) {
+        st->st_mode = S_IFCHR;
+        return 0;
+    }
+    errno = EBADF;
+    return 0;
+}
+
+#endif // #if !defined(OS_USE_SEMIHOSTING)
 ```
 
-### 16/32位数据处理
+- `retarget.h`文件
+
+```c
+#ifndef _RETARGET_H__
+#define _RETARGET_H__
+
+#include "usart.h"
+#include <sys/stat.h>
+#include <stdio.h>
+
+void RetargetInit(UART_HandleTypeDef *huart);
+
+int _isatty(int fd);
+
+int _write(int fd, char *ptr, int len);
+
+int _close(int fd);
+
+int _lseek(int fd, int ptr, int dir);
+
+int _read(int fd, char *ptr, int len);
+
+int _fstat(int fd, struct stat *st);
+
+#endif // #ifndef _RETARGET_H__
+```
+
+- 附加编译选项
+
+```cmake
+set(COMMON_FLAGS "-specs=nosys.specs -specs=nano.specs -u _printf_float -u _scanf_float")
+```
+
+#### 16/32位数据处理
 
 STM32 的 USART 只支持发送8位无符号数。
 
@@ -361,7 +532,7 @@ typedef union
 }num;
 ```
 
-发送时，将数据传入 float 类型的 num ，再以数组形式发送数据。
+发送时，将数据传入 float 类型的数据 ，再以数组形式发送数据。
 
 接收时，以数组形式接收数据，再将数据以 float 类型取出。  
 
