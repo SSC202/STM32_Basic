@@ -1,4 +1,4 @@
-# STM32 A2_串口协议 1_Mavlink协议
+# STM32 A2_软件层通信协议 1_Mavlink协议
 
 [Mavlink 官网](https://mavlink.io/en/)
 
