@@ -1,0 +1,1 @@
+4_usart_dma_transmit_receive\startup_stm32f103xe.o: startup_stm32f103xe.s

@@ -1,0 +1,5 @@
+"R:\Program Files\JetBrains\CLion 2023.1.1\bin\cmake\win\x64\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=R:/User_Download/Environment_Install/mingw64/bin/mingw32-make.exe "-DCMAKE_C_COMPILER=R:/User_Download/Environment_Install/GNU Arm Toolchain/GNU Arm Embedded Toolchain/10 2021.10/bin/arm-none-eabi-gcc.exe" "-DCMAKE_CXX_COMPILER=R:/User_Download/Environment_Install/GNU Arm Toolchain/GNU Arm Embedded Toolchain/10 2021.10/bin/arm-none-eabi-g++.exe" -G "CodeBlocks - MinGW Makefiles" -S S:\STM32SSC\STM32\STM32SSC_F103\Code\Clion_Project\1_Test -B S:\STM32SSC\STM32\STM32SSC_F103\Code\Clion_Project\1_Test\cmake-build-debug-mingw_stm32
+-- Minimal optimization, debug info included
+-- Configuring done
+-- Generating done
+-- Build files have been written to: S:/STM32SSC/STM32/STM32SSC_F103/Code/Clion_Project/1_Test/cmake-build-debug-mingw_stm32

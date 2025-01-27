@@ -1,0 +1,91 @@
+{
+	"kind" : "toolchains",
+	"toolchains" : 
+	[
+		{
+			"compiler" : 
+			{
+				"id" : "GNU",
+				"implicit" : {},
+				"path" : "D:/Program/GNU_ARM/GNU_Tool_Arm_Embedded/bin/arm-none-eabi-gcc.exe",
+				"version" : ""
+			},
+			"language" : "ASM",
+			"sourceFileExtensions" : 
+			[
+				"s",
+				"S",
+				"asm"
+			]
+		},
+		{
+			"compiler" : 
+			{
+				"id" : "GNU",
+				"implicit" : 
+				{
+					"includeDirectories" : 
+					[
+						"D:/Program/GNU_ARM/GNU_Tool_Arm_Embedded/lib/gcc/arm-none-eabi/9.2.1/include",
+						"D:/Program/GNU_ARM/GNU_Tool_Arm_Embedded/lib/gcc/arm-none-eabi/9.2.1/include-fixed",
+						"D:/Program/GNU_ARM/GNU_Tool_Arm_Embedded/arm-none-eabi/include"
+					],
+					"linkDirectories" : [],
+					"linkFrameworkDirectories" : [],
+					"linkLibraries" : []
+				},
+				"path" : "D:/Program/GNU_ARM/GNU_Tool_Arm_Embedded/bin/arm-none-eabi-gcc.exe",
+				"version" : "9.2.1"
+			},
+			"language" : "C",
+			"sourceFileExtensions" : 
+			[
+				"c",
+				"m"
+			]
+		},
+		{
+			"compiler" : 
+			{
+				"id" : "GNU",
+				"implicit" : 
+				{
+					"includeDirectories" : 
+					[
+						"D:/Program/GNU_ARM/GNU_Tool_Arm_Embedded/arm-none-eabi/include/c++/9.2.1",
+						"D:/Program/GNU_ARM/GNU_Tool_Arm_Embedded/arm-none-eabi/include/c++/9.2.1/arm-none-eabi",
+						"D:/Program/GNU_ARM/GNU_Tool_Arm_Embedded/arm-none-eabi/include/c++/9.2.1/backward",
+						"D:/Program/GNU_ARM/GNU_Tool_Arm_Embedded/lib/gcc/arm-none-eabi/9.2.1/include",
+						"D:/Program/GNU_ARM/GNU_Tool_Arm_Embedded/lib/gcc/arm-none-eabi/9.2.1/include-fixed",
+						"D:/Program/GNU_ARM/GNU_Tool_Arm_Embedded/arm-none-eabi/include"
+					],
+					"linkDirectories" : [],
+					"linkFrameworkDirectories" : [],
+					"linkLibraries" : []
+				},
+				"path" : "D:/Program/GNU_ARM/GNU_Tool_Arm_Embedded/bin/arm-none-eabi-g++.exe",
+				"version" : "9.2.1"
+			},
+			"language" : "CXX",
+			"sourceFileExtensions" : 
+			[
+				"C",
+				"M",
+				"c++",
+				"cc",
+				"cpp",
+				"cxx",
+				"mm",
+				"mpp",
+				"CPP",
+				"ixx",
+				"cppm"
+			]
+		}
+	],
+	"version" : 
+	{
+		"major" : 1,
+		"minor" : 0
+	}
+}

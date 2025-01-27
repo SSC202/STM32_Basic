@@ -1,0 +1,26 @@
+--cpu Cortex-M3
+"3_input_caputure_key\startup_stm32f103xe.o"
+"3_input_caputure_key\main.o"
+"3_input_caputure_key\gpio.o"
+"3_input_caputure_key\tim.o"
+"3_input_caputure_key\stm32f1xx_it.o"
+"3_input_caputure_key\stm32f1xx_hal_msp.o"
+"3_input_caputure_key\stm32f1xx_hal_gpio_ex.o"
+"3_input_caputure_key\stm32f1xx_hal_tim.o"
+"3_input_caputure_key\stm32f1xx_hal_tim_ex.o"
+"3_input_caputure_key\stm32f1xx_hal.o"
+"3_input_caputure_key\stm32f1xx_hal_rcc.o"
+"3_input_caputure_key\stm32f1xx_hal_rcc_ex.o"
+"3_input_caputure_key\stm32f1xx_hal_gpio.o"
+"3_input_caputure_key\stm32f1xx_hal_dma.o"
+"3_input_caputure_key\stm32f1xx_hal_cortex.o"
+"3_input_caputure_key\stm32f1xx_hal_pwr.o"
+"3_input_caputure_key\stm32f1xx_hal_flash.o"
+"3_input_caputure_key\stm32f1xx_hal_flash_ex.o"
+"3_input_caputure_key\stm32f1xx_hal_exti.o"
+"3_input_caputure_key\system_stm32f1xx.o"
+"3_input_caputure_key\oled.o"
+--strict --scatter "3_Input_Caputure_Key\3_Input_Caputure_Key.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "3_Input_Caputure_Key.map" -o 3_Input_Caputure_Key\3_Input_Caputure_Key.axf
