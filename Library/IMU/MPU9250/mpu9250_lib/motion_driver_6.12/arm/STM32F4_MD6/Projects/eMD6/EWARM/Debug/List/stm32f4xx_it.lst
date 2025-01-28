@@ -1,0 +1,313 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V7.30.1.7746/W32 for ARM        05/May/2015  09:12:35
+# Copyright 1999-2014 IAR Systems AB.
+#
+#    Cpu mode     =  thumb
+#    Endian       =  little
+#    Source file  =  
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\DeviceSupport\src\stm32f4xx_it.c
+#    Command line =  
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\DeviceSupport\src\stm32f4xx_it.c
+#        -D USE_STDPERIPH_DRIVER -D USE_DMP -D MPL_LOG_NDEBUG=1 -D EMPL -D
+#        MPU9250 -D EMPL_TARGET_STM32F4 -lcN
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\Debug\List\ -o
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\Debug\Obj\ --no_cse
+#        --no_unroll --no_inline --no_code_motion --no_tbaa --no_clustering
+#        --no_scheduling --debug --endian=little --cpu=Cortex-M4F -e
+#        --fpu=VFPv4_sp --dlib_config "C:\Program Files (x86)\IAR
+#        Systems\Embedded Workbench 7.0_2\arm\INC\c\DLib_Config_Normal.h" -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\User\inc\ -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\User\src\ -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\Peripheral\inc\ -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\Peripheral\src\ -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\STM32F4xx_StdPeriph_Driver\inc\
+#        -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\STM32F4xx_StdPeriph_Driver\src\
+#        -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\DeviceSupport\inc\
+#        -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\DeviceSupport\inc\
+#        -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\core\driver\include\
+#        -I C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\core\driver\eMPL\
+#        -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\core\driver\stm32l\
+#        -I C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\core\mllite\ -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\core\mpl\ -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\core\eMPL-hal\ -Ol
+#        -I "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        7.0_2\arm\CMSIS\Include\"
+#    List file    =  
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\Debug\List\stm32f4xx_it.lst
+#    Object file  =  
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\Debug\Obj\stm32f4xx_it.o
+#
+###############################################################################
+
+C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\DeviceSupport\src\stm32f4xx_it.c
+      1          /**
+      2            ******************************************************************************
+      3            * @file    TIM_PWM_Input/stm32f4xx_it.c 
+      4            * @author  MCD Application Team
+      5            * @version V1.0.0
+      6            * @date    19-September-2011
+      7            * @brief   Main Interrupt Service Routines.
+      8            *          This file provides template for all exceptions handler and peripherals
+      9            *          interrupt service routine.
+     10            ******************************************************************************
+     11            * @attention
+     12            *
+     13            * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
+     14            * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
+     15            * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY
+     16            * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING
+     17            * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
+     18            * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
+     19            *
+     20            * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>
+     21            ******************************************************************************
+     22            */ 
+     23          
+     24          /* Includes ------------------------------------------------------------------*/
+     25          #include "stm32f4xx_it.h"
+     26          #include "stm32f4xx_rcc.h"  
+     27          #include "stm32f4xx_tim.h"  
+     28          #include "stm32f4xx_gpio.h" 
+     29          #include "main.h"
+     30          
+     31          /** @addtogroup STM32F4_Discovery_Peripheral_Examples
+     32            * @{
+     33            */
+     34          
+     35          /** @addtogroup TIM_PWM_Input
+     36            * @{
+     37            */ 
+     38          
+     39          /* Private typedef -----------------------------------------------------------*/
+     40          /* Private define ------------------------------------------------------------*/
+     41          /* Private macro -------------------------------------------------------------*/
+     42          /* Private variables ---------------------------------------------------------*/
+     43          __IO uint16_t IC2Value = 0;
+     44          __IO uint16_t DutyCycle = 0;
+     45          __IO uint32_t Frequency = 0;
+     46          
+     47          /* Private function prototypes -----------------------------------------------*/
+     48          /* Private functions ---------------------------------------------------------*/
+     49          
+     50          /******************************************************************************/
+     51          /*            Cortex-M4 Processor Exceptions Handlers                         */
+     52          /******************************************************************************/
+     53          
+     54          /**
+     55            * @brief  This function handles NMI exception.
+     56            * @param  None
+     57            * @retval None
+     58            */
+     59          void NMI_Handler(void)
+     60          {
+     61          }
+     62          
+     63          ///**
+     64          //  * @brief  This function handles Hard Fault exception.
+     65          //  * @param  None
+     66          //  * @retval None
+     67          //  */
+     68          //void HardFault_Handler(void)
+     69          //{
+     70          //  /* Go to infinite loop when Hard Fault exception occurs */
+     71          //  while (1)
+     72          //  {}
+     73          //}
+     74          
+     75          /**
+     76            * @brief  This function handles Memory Manage exception.
+     77            * @param  None
+     78            * @retval None
+     79            */
+     80          void MemManage_Handler(void)
+     81          {
+     82            /* Go to infinite loop when Memory Manage exception occurs */
+     83            while (1)
+     84            {}
+     85          }
+     86          
+     87          /**
+     88            * @brief  This function handles Bus Fault exception.
+     89            * @param  None
+     90            * @retval None
+     91            */
+     92          void BusFault_Handler(void)
+     93          {
+     94            /* Go to infinite loop when Bus Fault exception occurs */
+     95            while (1)
+     96            {}
+     97          }
+     98          
+     99          /**
+    100            * @brief  This function handles Usage Fault exception.
+    101            * @param  None
+    102            * @retval None
+    103            */
+    104          void UsageFault_Handler(void)
+    105          {
+    106            /* Go to infinite loop when Usage Fault exception occurs */
+    107            while (1)
+    108            {}
+    109          }
+    110          
+    111          /**
+    112            * @brief  This function handles Debug Monitor exception.
+    113            * @param  None
+    114            * @retval None
+    115            */
+    116          void DebugMon_Handler(void)
+    117          {}
+    118          
+    119          /**
+    120            * @brief  This function handles SVCall exception.
+    121            * @param  None
+    122            * @retval None
+    123            */
+    124          void SVC_Handler(void)
+    125          {}
+    126          
+    127          ///**
+    128          //  * @brief  This function handles PendSV_Handler exception.
+    129          //  * @param  None
+    130          //  * @retval None
+    131          //  */
+    132          //void PendSV_Handler(void)
+    133          //{}
+    134          
+    135          ///**
+    136          //  * @brief  This function handles SysTick Handler.
+    137          //  * @param  None
+    138          //  * @retval None
+    139          //  */
+    140          //void SysTick_Handler(void)
+    141          //{
+    142          //    TimingDelay_Decrement();
+    143          //    TimeStamp_Increment();
+    144          //}
+    145          /******************************************************************************/
+    146          /*                 STM32F4xx Peripherals Interrupt Handlers                   */
+    147          /*  Add here the Interrupt Handler for the used peripheral(s) (PPP), for the  */
+    148          /*  available peripheral interrupt handler's name please refer to the startup */
+    149          /*  file (startup_stm32f4xx.s).                                               */
+    150          /******************************************************************************/
+    151          /**
+    152            * @brief  This function handles TIM4 global interrupt request.
+    153            * @param  None
+    154            * @retval None
+    155            */
+    156          void TIM4_IRQHandler(void)
+    157          {
+    158            RCC_ClocksTypeDef RCC_Clocks;
+    159            RCC_GetClocksFreq(&RCC_Clocks);
+    160          
+    161            /* Clear TIM4 Capture compare interrupt pending bit */
+    162            TIM_ClearITPendingBit(TIM4, TIM_IT_CC2);
+    163          
+    164            /* Get the Input Capture value */
+    165            IC2Value = TIM_GetCapture2(TIM4);
+    166          
+    167            if (IC2Value != 0)
+    168            {
+    169              /* Duty cycle computation */
+    170              DutyCycle = (TIM_GetCapture1(TIM4) * 100) / IC2Value;
+    171          
+    172              /* Frequency computation 
+    173                 TIM4 counter clock = (RCC_Clocks.HCLK_Frequency)/2 */
+    174          
+    175              Frequency = (RCC_Clocks.HCLK_Frequency)/2 / IC2Value;
+    176            }
+    177            else
+    178            {
+    179              DutyCycle = 0;
+    180              Frequency = 0;
+    181            }
+    182          }
+    183          
+    184          /**
+    185            * @brief  This function handles external interrupts generated by MPU.
+    186            * @param  None
+    187            * @retval None
+    188            */
+    189           
+    190          void EXTI1_IRQHandler(void)
+    191          {
+    192            /* Handle new gyro*/
+    193            gyro_data_ready_cb();
+    194            EXTI_ClearITPendingBit(EXTI_Line1);
+    195          }
+    196          
+    197          
+    198          /**
+    199            * @brief  This function handles PPP interrupt request.
+    200            * @param  None
+    201            * @retval None
+    202            */
+    203          /*void PPP_IRQHandler(void)
+    204          {
+    205          }*/
+    206          
+    207          /**
+    208            * @}
+    209            */ 
+    210          
+    211          /**
+    212            * @}
+    213            */ 
+    214          
+    215          /******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+       0   BusFault_Handler
+       0   DebugMon_Handler
+       8   EXTI1_IRQHandler
+         8   -> EXTI_ClearITPendingBit
+         8   -> gyro_data_ready_cb
+       0   MemManage_Handler
+       0   NMI_Handler
+       0   SVC_Handler
+      24   TIM4_IRQHandler
+        24   -> RCC_GetClocksFreq
+        24   -> TIM_ClearITPendingBit
+        24   -> TIM_GetCapture1
+        24   -> TIM_GetCapture2
+       0   UsageFault_Handler
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable0
+       4  ??DataTable0_1
+       4  ??DataTable0_2
+       4  ??DataTable0_3
+       2  BusFault_Handler
+       2  DebugMon_Handler
+       2  DutyCycle
+      14  EXTI1_IRQHandler
+       4  Frequency
+       2  IC2Value
+       2  MemManage_Handler
+       2  NMI_Handler
+       2  SVC_Handler
+      92  TIM4_IRQHandler
+       2  UsageFault_Handler
+
+ 
+   8 bytes in section .bss
+ 134 bytes in section .text
+ 
+ 134 bytes of CODE memory
+   8 bytes of DATA memory
+
+Errors: none
+Warnings: none

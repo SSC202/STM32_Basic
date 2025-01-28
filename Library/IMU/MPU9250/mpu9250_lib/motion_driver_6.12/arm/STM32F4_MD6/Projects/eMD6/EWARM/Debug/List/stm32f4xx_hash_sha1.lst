@@ -1,0 +1,402 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V7.30.1.7746/W32 for ARM        05/May/2015  09:12:34
+# Copyright 1999-2014 IAR Systems AB.
+#
+#    Cpu mode     =  thumb
+#    Endian       =  little
+#    Source file  =  
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_hash_sha1.c
+#    Command line =  
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_hash_sha1.c
+#        -D USE_STDPERIPH_DRIVER -D USE_DMP -D MPL_LOG_NDEBUG=1 -D EMPL -D
+#        MPU9250 -D EMPL_TARGET_STM32F4 -lcN
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\Debug\List\ -o
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\Debug\Obj\ --no_cse
+#        --no_unroll --no_inline --no_code_motion --no_tbaa --no_clustering
+#        --no_scheduling --debug --endian=little --cpu=Cortex-M4F -e
+#        --fpu=VFPv4_sp --dlib_config "C:\Program Files (x86)\IAR
+#        Systems\Embedded Workbench 7.0_2\arm\INC\c\DLib_Config_Normal.h" -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\User\inc\ -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\User\src\ -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\Peripheral\inc\ -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\Peripheral\src\ -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\STM32F4xx_StdPeriph_Driver\inc\
+#        -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\STM32F4xx_StdPeriph_Driver\src\
+#        -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\DeviceSupport\inc\
+#        -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\DeviceSupport\inc\
+#        -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\core\driver\include\
+#        -I C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\core\driver\eMPL\
+#        -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\core\driver\stm32l\
+#        -I C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\core\mllite\ -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\core\mpl\ -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\core\eMPL-hal\ -Ol
+#        -I "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        7.0_2\arm\CMSIS\Include\"
+#    List file    =  
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\Debug\List\stm32f4xx_hash_sha1.lst
+#    Object file  =  
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\Debug\Obj\stm32f4xx_hash_sha1.o
+#
+###############################################################################
+
+C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_hash_sha1.c
+      1          /**
+      2            ******************************************************************************
+      3            * @file    stm32f4xx_hash_sha1.c
+      4            * @author  MCD Application Team
+      5            * @version V1.0.0
+      6            * @date    30-September-2011
+      7            * @brief   This file provides high level functions to compute the HASH SHA1 and
+      8            *          HMAC SHA1 Digest of an input message.
+      9            *          It uses the stm32f4xx_hash.c/.h drivers to access the STM32F4xx HASH
+     10            *          peripheral.
+     11            *
+     12            *  @verbatim
+     13            * 
+     14            *          ===================================================================
+     15            *                                   How to use this driver
+     16            *          ===================================================================
+     17            *          1. Enable The HASH controller clock using 
+     18            *            RCC_AHB2PeriphClockCmd(RCC_AHB2Periph_HASH, ENABLE); function.
+     19            *
+     20            *          2. Calculate the HASH SHA1 Digest using HASH_SHA1() function.
+     21            *
+     22            *          3. Calculate the HMAC SHA1 Digest using HMAC_SHA1() function.
+     23            *
+     24            *  @endverbatim
+     25            *
+     26            ******************************************************************************
+     27            * @attention
+     28            *
+     29            * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
+     30            * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
+     31            * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY
+     32            * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING
+     33            * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
+     34            * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
+     35            *
+     36            * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>
+     37            ******************************************************************************
+     38            */
+     39          
+     40          /* Includes ------------------------------------------------------------------*/
+     41          #include "stm32f4xx_hash.h"
+     42          
+     43          /** @addtogroup STM32F4xx_StdPeriph_Driver
+     44            * @{
+     45            */
+     46          
+     47          /** @defgroup HASH 
+     48            * @brief HASH driver modules
+     49            * @{
+     50            */
+     51          
+     52          /* Private typedef -----------------------------------------------------------*/
+     53          /* Private define ------------------------------------------------------------*/
+     54          #define SHA1BUSY_TIMEOUT    ((uint32_t) 0x00010000)
+     55          
+     56          /* Private macro -------------------------------------------------------------*/
+     57          /* Private variables ---------------------------------------------------------*/
+     58          /* Private function prototypes -----------------------------------------------*/
+     59          /* Private functions ---------------------------------------------------------*/
+     60          
+     61          /** @defgroup HASH_Private_Functions
+     62            * @{
+     63            */ 
+     64          
+     65          /** @defgroup HASH_Group6 High Level SHA1 functions
+     66           *  @brief   High Level SHA1 Hash and HMAC functions 
+     67           *
+     68          @verbatim   
+     69           ===============================================================================
+     70                                    High Level SHA1 Hash and HMAC functions
+     71           ===============================================================================
+     72          
+     73          
+     74          @endverbatim
+     75            * @{
+     76            */
+     77          
+     78          /**
+     79            * @brief  Compute the HASH SHA1 digest.
+     80            * @param  Input: pointer to the Input buffer to be treated.
+     81            * @param  Ilen: length of the Input buffer.
+     82            * @param  Output: the returned digest
+     83            * @retval An ErrorStatus enumeration value:
+     84            *          - SUCCESS: digest computation done
+     85            *          - ERROR: digest computation failed
+     86            */
+     87          ErrorStatus HASH_SHA1(uint8_t *Input, uint32_t Ilen, uint8_t Output[20])
+     88          {
+     89            HASH_InitTypeDef SHA1_HASH_InitStructure;
+     90            HASH_MsgDigest SHA1_MessageDigest;
+     91            __IO uint16_t nbvalidbitsdata = 0;
+     92            uint32_t i = 0;
+     93            __IO uint32_t counter = 0;
+     94            uint32_t busystatus = 0;
+     95            ErrorStatus status = SUCCESS;
+     96            uint32_t inputaddr  = (uint32_t)Input;
+     97            uint32_t outputaddr = (uint32_t)Output;
+     98          
+     99            /* Number of valid bits in last word of the Input data */
+    100            nbvalidbitsdata = 8 * (Ilen % 4);
+    101          
+    102            /* HASH peripheral initialization */
+    103            HASH_DeInit();
+    104          
+    105            /* HASH Configuration */
+    106            SHA1_HASH_InitStructure.HASH_AlgoSelection = HASH_AlgoSelection_SHA1;
+    107            SHA1_HASH_InitStructure.HASH_AlgoMode = HASH_AlgoMode_HASH;
+    108            SHA1_HASH_InitStructure.HASH_DataType = HASH_DataType_8b;
+    109            HASH_Init(&SHA1_HASH_InitStructure);
+    110          
+    111            /* Configure the number of valid bits in last word of the data */
+    112            HASH_SetLastWordValidBitsNbr(nbvalidbitsdata);
+    113          
+    114            /* Write the Input block in the IN FIFO */
+    115            for(i=0; i<Ilen; i+=4)
+    116            {
+    117              HASH_DataIn(*(uint32_t*)inputaddr);
+    118              inputaddr+=4;
+    119            }
+    120          
+    121            /* Start the HASH processor */
+    122            HASH_StartDigest();
+    123          
+    124            /* wait until the Busy flag is RESET */
+    125            do
+    126            {
+    127              busystatus = HASH_GetFlagStatus(HASH_FLAG_BUSY);
+    128              counter++;
+    129            }while ((counter != SHA1BUSY_TIMEOUT) && (busystatus != RESET));
+    130          
+    131            if (busystatus != RESET)
+    132            {
+    133               status = ERROR;
+    134            }
+    135            else
+    136            {
+    137              /* Read the message digest */
+    138              HASH_GetDigest(&SHA1_MessageDigest);
+    139              *(uint32_t*)(outputaddr)  = __REV(SHA1_MessageDigest.Data[0]);
+    140              outputaddr+=4;
+    141              *(uint32_t*)(outputaddr)  = __REV(SHA1_MessageDigest.Data[1]);
+    142              outputaddr+=4;
+    143              *(uint32_t*)(outputaddr)  = __REV(SHA1_MessageDigest.Data[2]);
+    144              outputaddr+=4;
+    145              *(uint32_t*)(outputaddr)  = __REV(SHA1_MessageDigest.Data[3]);
+    146              outputaddr+=4;
+    147              *(uint32_t*)(outputaddr)  = __REV(SHA1_MessageDigest.Data[4]);
+    148            }
+    149            return status;
+    150          }
+    151          
+    152          /**
+    153            * @brief  Compute the HMAC SHA1 digest.
+    154            * @param  Key: pointer to the Key used for HMAC.
+    155            * @param  Keylen: length of the Key used for HMAC.  
+    156            * @param  Input: pointer to the Input buffer to be treated.
+    157            * @param  Ilen: length of the Input buffer.
+    158            * @param  Output: the returned digest
+    159            * @retval An ErrorStatus enumeration value:
+    160            *          - SUCCESS: digest computation done
+    161            *          - ERROR: digest computation failed
+    162            */
+    163          ErrorStatus HMAC_SHA1(uint8_t *Key, uint32_t Keylen, uint8_t *Input,
+    164                                uint32_t Ilen, uint8_t Output[20])
+    165          {
+    166            HASH_InitTypeDef SHA1_HASH_InitStructure;
+    167            HASH_MsgDigest SHA1_MessageDigest;
+    168            __IO uint16_t nbvalidbitsdata = 0;
+    169            __IO uint16_t nbvalidbitskey = 0;
+    170            uint32_t i = 0;
+    171            __IO uint32_t counter = 0;
+    172            uint32_t busystatus = 0;
+    173            ErrorStatus status = SUCCESS;
+    174            uint32_t keyaddr    = (uint32_t)Key;
+    175            uint32_t inputaddr  = (uint32_t)Input;
+    176            uint32_t outputaddr = (uint32_t)Output;
+    177          
+    178            /* Number of valid bits in last word of the Input data */
+    179            nbvalidbitsdata = 8 * (Ilen % 4);
+    180          
+    181            /* Number of valid bits in last word of the Key */
+    182            nbvalidbitskey = 8 * (Keylen % 4);
+    183          
+    184            /* HASH peripheral initialization */
+    185            HASH_DeInit();
+    186          
+    187            /* HASH Configuration */
+    188            SHA1_HASH_InitStructure.HASH_AlgoSelection = HASH_AlgoSelection_SHA1;
+    189            SHA1_HASH_InitStructure.HASH_AlgoMode = HASH_AlgoMode_HMAC;
+    190            SHA1_HASH_InitStructure.HASH_DataType = HASH_DataType_8b;
+    191            if(Keylen > 64)
+    192            {
+    193              /* HMAC long Key */
+    194              SHA1_HASH_InitStructure.HASH_HMACKeyType = HASH_HMACKeyType_LongKey;
+    195            }
+    196            else
+    197            {
+    198              /* HMAC short Key */
+    199              SHA1_HASH_InitStructure.HASH_HMACKeyType = HASH_HMACKeyType_ShortKey;
+    200            }
+    201            HASH_Init(&SHA1_HASH_InitStructure);
+    202          
+    203            /* Configure the number of valid bits in last word of the Key */
+    204            HASH_SetLastWordValidBitsNbr(nbvalidbitskey);
+    205          
+    206            /* Write the Key */
+    207            for(i=0; i<Keylen; i+=4)
+    208            {
+    209              HASH_DataIn(*(uint32_t*)keyaddr);
+    210              keyaddr+=4;
+    211            }
+    212          
+    213            /* Start the HASH processor */
+    214            HASH_StartDigest();
+    215          
+    216            /* wait until the Busy flag is RESET */
+    217            do
+    218            {
+    219              busystatus = HASH_GetFlagStatus(HASH_FLAG_BUSY);
+    220              counter++;
+    221            }while ((counter != SHA1BUSY_TIMEOUT) && (busystatus != RESET));
+    222          
+    223            if (busystatus != RESET)
+    224            {
+    225               status = ERROR;
+    226            }
+    227            else
+    228            {
+    229              /* Configure the number of valid bits in last word of the Input data */
+    230              HASH_SetLastWordValidBitsNbr(nbvalidbitsdata);
+    231          
+    232              /* Write the Input block in the IN FIFO */
+    233              for(i=0; i<Ilen; i+=4)
+    234              {
+    235                HASH_DataIn(*(uint32_t*)inputaddr);
+    236                inputaddr+=4;
+    237              }
+    238          
+    239              /* Start the HASH processor */
+    240              HASH_StartDigest();
+    241          
+    242          
+    243              /* wait until the Busy flag is RESET */
+    244              counter =0;
+    245              do
+    246              {
+    247                busystatus = HASH_GetFlagStatus(HASH_FLAG_BUSY);
+    248                counter++;
+    249              }while ((counter != SHA1BUSY_TIMEOUT) && (busystatus != RESET));
+    250          
+    251              if (busystatus != RESET)
+    252              {
+    253                status = ERROR;
+    254              }
+    255              else
+    256              {  
+    257                /* Configure the number of valid bits in last word of the Key */
+    258                HASH_SetLastWordValidBitsNbr(nbvalidbitskey);
+    259          
+    260                /* Write the Key */
+    261                keyaddr = (uint32_t)Key;
+    262                for(i=0; i<Keylen; i+=4)
+    263                {
+    264                  HASH_DataIn(*(uint32_t*)keyaddr);
+    265                  keyaddr+=4;
+    266                }
+    267          
+    268                /* Start the HASH processor */
+    269                HASH_StartDigest();
+    270          
+    271                /* wait until the Busy flag is RESET */
+    272                counter =0;
+    273                do
+    274                {
+    275                  busystatus = HASH_GetFlagStatus(HASH_FLAG_BUSY);
+    276                  counter++;
+    277                }while ((counter != SHA1BUSY_TIMEOUT) && (busystatus != RESET));
+    278          
+    279                if (busystatus != RESET)
+    280                {
+    281                  status = ERROR;
+    282                }
+    283                else
+    284                {
+    285                  /* Read the message digest */
+    286                  HASH_GetDigest(&SHA1_MessageDigest);
+    287                  *(uint32_t*)(outputaddr)  = __REV(SHA1_MessageDigest.Data[0]);
+    288                  outputaddr+=4;
+    289                  *(uint32_t*)(outputaddr)  = __REV(SHA1_MessageDigest.Data[1]);
+    290                  outputaddr+=4;
+    291                  *(uint32_t*)(outputaddr)  = __REV(SHA1_MessageDigest.Data[2]);
+    292                  outputaddr+=4;
+    293                  *(uint32_t*)(outputaddr)  = __REV(SHA1_MessageDigest.Data[3]);
+    294                  outputaddr+=4;
+    295                  *(uint32_t*)(outputaddr)  = __REV(SHA1_MessageDigest.Data[4]);
+    296                }
+    297              }  
+    298            }
+    299            return status;  
+    300          }
+    301          /**
+    302            * @}
+    303            */ 
+    304          
+    305          /**
+    306            * @}
+    307            */ 
+    308          
+    309          /**
+    310            * @}
+    311            */ 
+    312          
+    313          /**
+    314            * @}
+    315            */ 
+    316          
+    317          /******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+      72   HASH_SHA1
+        72   -> HASH_DataIn
+        72   -> HASH_DeInit
+        72   -> HASH_GetDigest
+        72   -> HASH_GetFlagStatus
+        72   -> HASH_Init
+        72   -> HASH_SetLastWordValidBitsNbr
+        72   -> HASH_StartDigest
+      80   HMAC_SHA1
+        80   -> HASH_DataIn
+        80   -> HASH_DeInit
+        80   -> HASH_GetDigest
+        80   -> HASH_GetFlagStatus
+        80   -> HASH_Init
+        80   -> HASH_SetLastWordValidBitsNbr
+        80   -> HASH_StartDigest
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+     190  HASH_SHA1
+     406  HMAC_SHA1
+
+ 
+ 596 bytes in section .text
+ 
+ 596 bytes of CODE memory
+
+Errors: none
+Warnings: none

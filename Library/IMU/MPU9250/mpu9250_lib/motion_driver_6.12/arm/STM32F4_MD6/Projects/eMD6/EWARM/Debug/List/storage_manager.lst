@@ -1,0 +1,293 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V7.30.1.7746/W32 for ARM        05/May/2015  09:12:39
+# Copyright 1999-2014 IAR Systems AB.
+#
+#    Cpu mode     =  thumb
+#    Endian       =  little
+#    Source file  =  
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\core\mllite\storage_manager.c
+#    Command line =  
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\core\mllite\storage_manager.c
+#        -D USE_STDPERIPH_DRIVER -D USE_DMP -D MPL_LOG_NDEBUG=1 -D EMPL -D
+#        MPU9250 -D EMPL_TARGET_STM32F4 -lcN
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\Debug\List\ -o
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\Debug\Obj\ --no_cse
+#        --no_unroll --no_inline --no_code_motion --no_tbaa --no_clustering
+#        --no_scheduling --debug --endian=little --cpu=Cortex-M4F -e
+#        --fpu=VFPv4_sp --dlib_config "C:\Program Files (x86)\IAR
+#        Systems\Embedded Workbench 7.0_2\arm\INC\c\DLib_Config_Normal.h" -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\User\inc\ -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\User\src\ -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\Peripheral\inc\ -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\Peripheral\src\ -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\STM32F4xx_StdPeriph_Driver\inc\
+#        -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\STM32F4xx_StdPeriph_Driver\src\
+#        -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\DeviceSupport\inc\
+#        -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\DeviceSupport\inc\
+#        -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\core\driver\include\
+#        -I C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\core\driver\eMPL\
+#        -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\core\driver\stm32l\
+#        -I C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\core\mllite\ -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\core\mpl\ -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\core\eMPL-hal\ -Ol
+#        -I "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        7.0_2\arm\CMSIS\Include\"
+#    List file    =  
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\Debug\List\storage_manager.lst
+#    Object file  =  
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\Debug\Obj\storage_manager.o
+#
+###############################################################################
+
+C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\core\mllite\storage_manager.c
+      1          /*
+      2           $License:
+      3              Copyright (C) 2011-2012 InvenSense Corporation, All Rights Reserved.
+      4              See included License.txt for License information.
+      5           $
+      6           */
+      7          
+      8          /**
+      9           *   @defgroup  Storage_Manager storage_manager
+     10           *   @brief     Motion Library - Stores Data for functions.
+     11           *
+     12           *
+     13           *   @{
+     14           *       @file storage_manager.c
+     15           *       @brief Load and Store Manager.
+     16           */
+     17          
+     18          #include <string.h>
+     19          
+     20          #include "storage_manager.h"
+     21          #include "log.h"
+     22          #include "ml_math_func.h"
+     23          #include "mlmath.h"
+     24          
+     25          /* Must be changed if the format of storage changes */
+     26          #define DEFAULT_KEY 29681
+     27          
+     28          typedef inv_error_t (*load_func_t)(const unsigned char *data);
+     29          typedef inv_error_t (*save_func_t)(unsigned char *data);
+     30          /** Max number of entites that can be stored */
+     31          #define NUM_STORAGE_BOXES 20
+     32          
+     33          struct data_header_t {
+     34              long size;
+     35              uint32_t checksum;
+     36              unsigned int key;
+     37          };
+     38          
+     39          struct data_storage_t {
+     40              int num; /**< Number of differnt save entities */
+     41              size_t total_size; /**< Size in bytes to store non volatile data */
+     42              load_func_t load[NUM_STORAGE_BOXES]; /**< Callback to load data */
+     43              save_func_t save[NUM_STORAGE_BOXES]; /**< Callback to save data */
+     44              struct data_header_t hd[NUM_STORAGE_BOXES]; /**< Header info for each entity */
+     45          };
+     46          static struct data_storage_t ds;
+     47          
+     48          /** Should be called once before using any of the storage methods. Typically
+     49          * called first by inv_init_mpl().*/
+     50          void inv_init_storage_manager()
+     51          {
+     52              memset(&ds, 0, sizeof(ds));
+     53              ds.total_size = sizeof(struct data_header_t);
+     54          }
+     55          
+     56          /** Used to register your mechanism to load and store non-volative data. This should typical be
+     57          * called during the enable function for your feature.
+     58          * @param[in] load_func function pointer you will use to receive data that was stored for you.
+     59          * @param[in] save_func function pointer you will use to save any data you want saved to
+     60          *            non-volatile memory between runs.
+     61          * @param[in] size The size in bytes of the amount of data you want loaded and saved.
+     62          * @param[in] key The key associated with your data type should be unique across MPL.
+     63          *                    The key should change when your type of data for storage changes.
+     64          * @return Returns INV_SUCCESS if successful or an error code if not.
+     65          */
+     66          inv_error_t inv_register_load_store(inv_error_t (*load_func)(const unsigned char *data),
+     67                                              inv_error_t (*save_func)(unsigned char *data), size_t size, unsigned int key)
+     68          {
+     69              int kk;
+     70              // Check if this has been registered already
+     71              for (kk=0; kk<ds.num; ++kk) {
+     72                  if (key == ds.hd[kk].key) {
+     73                      return INV_ERROR_INVALID_PARAMETER;
+     74                  }
+     75              }
+     76              // Make sure there is room
+     77              if (ds.num >= NUM_STORAGE_BOXES) {
+     78                  return INV_ERROR_INVALID_PARAMETER;
+     79              }
+     80              // Add to list
+     81              ds.hd[ds.num].key = key;
+     82              ds.hd[ds.num].size = size;
+     83              ds.load[ds.num] = load_func;
+     84              ds.save[ds.num] = save_func;
+     85              ds.total_size += size + sizeof(struct data_header_t);
+     86              ds.num++;
+     87          
+     88              return INV_SUCCESS;
+     89          }
+     90          
+     91          /** Returns the memory size needed to perform a store
+     92          * @param[out] size Size in bytes of memory needed to store.
+     93          * @return Returns INV_SUCCESS if successful or an error code if not.
+     94          */
+     95          inv_error_t inv_get_mpl_state_size(size_t *size)
+     96          {
+     97              *size = ds.total_size;
+     98              return INV_SUCCESS;
+     99          }
+    100          
+    101          /** @internal
+    102           * Finds key in ds.hd[] array and returns location
+    103           * @return location where key exists in array, -1 if not found.
+    104           */
+    105          static int inv_find_entry(unsigned int key)
+    106          {
+    107              int kk;
+    108              for (kk=0; kk<ds.num; ++kk) {
+    109                  if (key == ds.hd[kk].key) {
+    110                      return kk;
+    111                  }
+    112              }
+    113              return -1;
+    114          }
+    115          
+    116          /** This function takes a block of data that has been saved in non-volatile memory and pushes
+    117          * to the proper locations. Multiple error checks are performed on the data.
+    118          * @param[in] data Data that was saved to be loaded up by MPL
+    119          * @param[in] length Length of data vector in bytes
+    120          * @return Returns INV_SUCCESS if successful or an error code if not.
+    121          */
+    122          inv_error_t inv_load_mpl_states(const unsigned char *data, size_t length)
+    123          {
+    124              struct data_header_t *hd;
+    125              int entry;
+    126              uint32_t checksum;
+    127              long len;
+    128          
+    129              len = length; // Important so we get negative numbers
+    130              if (len < sizeof(struct data_header_t))
+    131                  return INV_ERROR_CALIBRATION_LOAD;	// No data
+    132              hd = (struct data_header_t *)data;
+    133              if (hd->key != DEFAULT_KEY)
+    134                  return INV_ERROR_CALIBRATION_LOAD;	// Key changed or data corruption
+    135              len = MIN(hd->size, len);
+    136              len = hd->size;
+    137              len -= sizeof(struct data_header_t);
+    138              data += sizeof(struct data_header_t);
+    139              checksum = inv_checksum(data, len);
+    140              if (checksum != hd->checksum)
+    141                  return INV_ERROR_CALIBRATION_LOAD;	// Data corruption
+    142          
+    143              while (len > (long)sizeof(struct data_header_t)) {
+    144                  hd = (struct data_header_t *)data;
+    145                  entry = inv_find_entry(hd->key);
+    146                  data += sizeof(struct data_header_t);
+    147                  len -= sizeof(struct data_header_t);
+    148                  if (entry >= 0 && len >= hd->size) {
+    149                      if (hd->size == ds.hd[entry].size) {
+    150                          checksum = inv_checksum(data, hd->size);
+    151                          if (checksum == hd->checksum) {
+    152                              ds.load[entry](data);
+    153                          } else {
+    154                              return INV_ERROR_CALIBRATION_LOAD;
+    155                          }
+    156                      }
+    157                  }
+    158                  len -= hd->size;
+    159                  if (len >= 0)
+    160                      data = data + hd->size;
+    161              }
+    162          
+    163              return INV_SUCCESS;
+    164          }
+    165          
+    166          /** This function fills up a block of memory to be stored in non-volatile memory.
+    167          * @param[out] data Place to store data, size of sz, must be at least size
+    168          *                  returned by inv_get_mpl_state_size()
+    169          * @param[in] sz Size of data.
+    170          * @return Returns INV_SUCCESS if successful or an error code if not.
+    171          */
+    172          inv_error_t inv_save_mpl_states(unsigned char *data, size_t sz)
+    173          {
+    174              unsigned char *cur;
+    175              int kk;
+    176              struct data_header_t *hd;
+    177          
+    178              if (sz >= ds.total_size) {
+    179                  cur = data + sizeof(struct data_header_t);
+    180                  for (kk = 0; kk < ds.num; ++kk) {
+    181                      hd = (struct data_header_t *)cur;
+    182                      cur += sizeof(struct data_header_t);
+    183                      ds.save[kk](cur);
+    184                      hd->checksum = inv_checksum(cur, ds.hd[kk].size);
+    185                      hd->size = ds.hd[kk].size;
+    186                      hd->key = ds.hd[kk].key;
+    187                      cur += ds.hd[kk].size;
+    188                  }
+    189              } else {
+    190                  return INV_ERROR_CALIBRATION_LOAD;
+    191              }
+    192          
+    193              hd = (struct data_header_t *)data;
+    194              hd->checksum = inv_checksum(data + sizeof(struct data_header_t),
+    195                                          ds.total_size - sizeof(struct data_header_t));
+    196              hd->key = DEFAULT_KEY;
+    197              hd->size = ds.total_size;
+    198          
+    199              return INV_SUCCESS;
+    200          }
+    201          
+    202          /**
+    203           * @}
+    204           */
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+       0   inv_find_entry
+       0   inv_get_mpl_state_size
+       8   inv_init_storage_manager
+         8   -> __aeabi_memset
+      24   inv_load_mpl_states
+        24   -- Indirect call
+        24   -> inv_checksum
+        24   -> inv_find_entry
+      12   inv_register_load_store
+      24   inv_save_mpl_states
+        24   -- Indirect call
+        24   -> inv_checksum
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable5
+     408  ds
+      40  inv_find_entry
+      10  inv_get_mpl_state_size
+      24  inv_init_storage_manager
+     156  inv_load_mpl_states
+     134  inv_register_load_store
+     148  inv_save_mpl_states
+
+ 
+ 408 bytes in section .bss
+ 516 bytes in section .text
+ 
+ 516 bytes of CODE memory
+ 408 bytes of DATA memory
+
+Errors: none
+Warnings: none

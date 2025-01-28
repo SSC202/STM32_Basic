@@ -1,0 +1,1598 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V7.30.1.7746/W32 for ARM        05/May/2015  09:12:39
+# Copyright 1999-2014 IAR Systems AB.
+#
+#    Cpu mode     =  thumb
+#    Endian       =  little
+#    Source file  =  
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_usart.c
+#    Command line =  
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_usart.c
+#        -D USE_STDPERIPH_DRIVER -D USE_DMP -D MPL_LOG_NDEBUG=1 -D EMPL -D
+#        MPU9250 -D EMPL_TARGET_STM32F4 -lcN
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\Debug\List\ -o
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\Debug\Obj\ --no_cse
+#        --no_unroll --no_inline --no_code_motion --no_tbaa --no_clustering
+#        --no_scheduling --debug --endian=little --cpu=Cortex-M4F -e
+#        --fpu=VFPv4_sp --dlib_config "C:\Program Files (x86)\IAR
+#        Systems\Embedded Workbench 7.0_2\arm\INC\c\DLib_Config_Normal.h" -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\User\inc\ -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\User\src\ -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\Peripheral\inc\ -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\Peripheral\src\ -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\STM32F4xx_StdPeriph_Driver\inc\
+#        -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\STM32F4xx_StdPeriph_Driver\src\
+#        -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\DeviceSupport\inc\
+#        -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\DeviceSupport\inc\
+#        -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\core\driver\include\
+#        -I C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\core\driver\eMPL\
+#        -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\core\driver\stm32l\
+#        -I C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\core\mllite\ -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\core\mpl\ -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\core\eMPL-hal\ -Ol
+#        -I "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        7.0_2\arm\CMSIS\Include\"
+#    List file    =  
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\Debug\List\stm32f4xx_usart.lst
+#    Object file  =  
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\Debug\Obj\stm32f4xx_usart.o
+#
+###############################################################################
+
+C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_usart.c
+      1          /**
+      2            ******************************************************************************
+      3            * @file    stm32f4xx_usart.c
+      4            * @author  MCD Application Team
+      5            * @version V1.0.0
+      6            * @date    30-September-2011
+      7            * @brief   This file provides firmware functions to manage the following 
+      8            *          functionalities of the Universal synchronous asynchronous receiver
+      9            *          transmitter (USART):           
+     10            *           - Initialization and Configuration
+     11            *           - Data transfers
+     12            *           - Multi-Processor Communication
+     13            *           - LIN mode
+     14            *           - Half-duplex mode
+     15            *           - Smartcard mode
+     16            *           - IrDA mode
+     17            *           - DMA transfers management
+     18            *           - Interrupts and flags management 
+     19            *           
+     20            *  @verbatim
+     21            *      
+     22            *          ===================================================================
+     23            *                                 How to use this driver
+     24            *          ===================================================================
+     25            *          1. Enable peripheral clock using the follwoing functions
+     26            *             RCC_APB2PeriphClockCmd(RCC_APB2Periph_USARTx, ENABLE) for USART1 and USART6 
+     27            *             RCC_APB1PeriphClockCmd(RCC_APB1Periph_USARTx, ENABLE) for USART2, USART3, UART4 or UART5.
+     28            *
+     29            *          2.  According to the USART mode, enable the GPIO clocks using 
+     30            *              RCC_AHB1PeriphClockCmd() function. (The I/O can be TX, RX, CTS, 
+     31            *              or/and SCLK). 
+     32            *
+     33            *          3. Peripheral's alternate function: 
+     34            *                 - Connect the pin to the desired peripherals' Alternate 
+     35            *                   Function (AF) using GPIO_PinAFConfig() function
+     36            *                 - Configure the desired pin in alternate function by:
+     37            *                   GPIO_InitStruct->GPIO_Mode = GPIO_Mode_AF
+     38            *                 - Select the type, pull-up/pull-down and output speed via 
+     39            *                   GPIO_PuPd, GPIO_OType and GPIO_Speed members
+     40            *                 - Call GPIO_Init() function
+     41            *        
+     42            *          4. Program the Baud Rate, Word Length , Stop Bit, Parity, Hardware 
+     43            *             flow control and Mode(Receiver/Transmitter) using the USART_Init()
+     44            *             function.
+     45            *
+     46            *          5. For synchronous mode, enable the clock and program the polarity,
+     47            *             phase and last bit using the USART_ClockInit() function.
+     48            *
+     49            *          5. Enable the NVIC and the corresponding interrupt using the function 
+     50            *             USART_ITConfig() if you need to use interrupt mode. 
+     51            *
+     52            *          6. When using the DMA mode 
+     53            *                   - Configure the DMA using DMA_Init() function
+     54            *                   - Active the needed channel Request using USART_DMACmd() function
+     55            * 
+     56            *          7. Enable the USART using the USART_Cmd() function.
+     57            * 
+     58            *          8. Enable the DMA using the DMA_Cmd() function, when using DMA mode. 
+     59            *
+     60            *          Refer to Multi-Processor, LIN, half-duplex, Smartcard, IrDA sub-sections
+     61            *          for more details
+     62            *          
+     63            *          In order to reach higher communication baudrates, it is possible to
+     64            *          enable the oversampling by 8 mode using the function USART_OverSampling8Cmd().
+     65            *          This function should be called after enabling the USART clock (RCC_APBxPeriphClockCmd())
+     66            *          and before calling the function USART_Init().
+     67            *          
+     68            *  @endverbatim
+     69            *        
+     70            ******************************************************************************
+     71            * @attention
+     72            *
+     73            * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
+     74            * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
+     75            * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY
+     76            * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING
+     77            * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
+     78            * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
+     79            *
+     80            * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>
+     81            ******************************************************************************  
+     82            */ 
+     83          
+     84          /* Includes ------------------------------------------------------------------*/
+     85          #include "stm32f4xx_usart.h"
+     86          #include "stm32f4xx_rcc.h"
+     87          
+     88          /** @addtogroup STM32F4xx_StdPeriph_Driver
+     89            * @{
+     90            */
+     91          
+     92          /** @defgroup USART 
+     93            * @brief USART driver modules
+     94            * @{
+     95            */
+     96          
+     97          /* Private typedef -----------------------------------------------------------*/
+     98          /* Private define ------------------------------------------------------------*/
+     99          
+    100          /*!< USART CR1 register clear Mask ((~(uint16_t)0xE9F3)) */
+    101          #define CR1_CLEAR_MASK            ((uint16_t)(USART_CR1_M | USART_CR1_PCE | \
+    102                                                        USART_CR1_PS | USART_CR1_TE | \
+    103                                                        USART_CR1_RE))
+    104          
+    105          /*!< USART CR2 register clock bits clear Mask ((~(uint16_t)0xF0FF)) */
+    106          #define CR2_CLOCK_CLEAR_MASK      ((uint16_t)(USART_CR2_CLKEN | USART_CR2_CPOL | \
+    107                                                        USART_CR2_CPHA | USART_CR2_LBCL))
+    108          
+    109          /*!< USART CR3 register clear Mask ((~(uint16_t)0xFCFF)) */
+    110          #define CR3_CLEAR_MASK            ((uint16_t)(USART_CR3_RTSE | USART_CR3_CTSE))
+    111          
+    112          /*!< USART Interrupts mask */
+    113          #define IT_MASK                   ((uint16_t)0x001F)
+    114          
+    115          /* Private macro -------------------------------------------------------------*/
+    116          /* Private variables ---------------------------------------------------------*/
+    117          /* Private function prototypes -----------------------------------------------*/
+    118          /* Private functions ---------------------------------------------------------*/
+    119          
+    120          /** @defgroup USART_Private_Functions
+    121            * @{
+    122            */
+    123          
+    124          /** @defgroup USART_Group1 Initialization and Configuration functions
+    125           *  @brief   Initialization and Configuration functions 
+    126           *
+    127          @verbatim   
+    128           ===============================================================================
+    129                            Initialization and Configuration functions
+    130           ===============================================================================  
+    131          
+    132            This subsection provides a set of functions allowing to initialize the USART 
+    133            in asynchronous and in synchronous modes.
+    134             - For the asynchronous mode only these parameters can be configured: 
+    135                  - Baud Rate
+    136                  - Word Length 
+    137                  - Stop Bit
+    138                  - Parity: If the parity is enabled, then the MSB bit of the data written
+    139                    in the data register is transmitted but is changed by the parity bit.
+    140                    Depending on the frame length defined by the M bit (8-bits or 9-bits),
+    141                    the possible USART frame formats are as listed in the following table:
+    142             +-------------------------------------------------------------+     
+    143             |   M bit |  PCE bit  |            USART frame                |
+    144             |---------------------|---------------------------------------|             
+    145             |    0    |    0      |    | SB | 8 bit data | STB |          |
+    146             |---------|-----------|---------------------------------------|  
+    147             |    0    |    1      |    | SB | 7 bit data | PB | STB |     |
+    148             |---------|-----------|---------------------------------------|  
+    149             |    1    |    0      |    | SB | 9 bit data | STB |          |
+    150             |---------|-----------|---------------------------------------|  
+    151             |    1    |    1      |    | SB | 8 bit data | PB | STB |     |
+    152             +-------------------------------------------------------------+            
+    153                  - Hardware flow control
+    154                  - Receiver/transmitter modes
+    155          
+    156            The USART_Init() function follows the USART  asynchronous configuration procedure
+    157            (details for the procedure are available in reference manual (RM0090)).
+    158          
+    159            - For the synchronous mode in addition to the asynchronous mode parameters these 
+    160              parameters should be also configured:
+    161                  - USART Clock Enabled
+    162                  - USART polarity
+    163                  - USART phase
+    164                  - USART LastBit
+    165            
+    166            These parameters can be configured using the USART_ClockInit() function.
+    167          
+    168          @endverbatim
+    169            * @{
+    170            */
+    171            
+    172          /**
+    173            * @brief  Deinitializes the USARTx peripheral registers to their default reset values.
+    174            * @param  USARTx: where x can be 1, 2, 3, 4, 5 or 6 to select the USART or 
+    175            *         UART peripheral.
+    176            * @retval None
+    177            */
+    178          void USART_DeInit(USART_TypeDef* USARTx)
+    179          {
+    180            /* Check the parameters */
+    181            assert_param(IS_USART_ALL_PERIPH(USARTx));
+    182          
+    183            if (USARTx == USART1)
+    184            {
+    185              RCC_APB2PeriphResetCmd(RCC_APB2Periph_USART1, ENABLE);
+    186              RCC_APB2PeriphResetCmd(RCC_APB2Periph_USART1, DISABLE);
+    187            }
+    188            else if (USARTx == USART2)
+    189            {
+    190              RCC_APB1PeriphResetCmd(RCC_APB1Periph_USART2, ENABLE);
+    191              RCC_APB1PeriphResetCmd(RCC_APB1Periph_USART2, DISABLE);
+    192            }
+    193            else if (USARTx == USART3)
+    194            {
+    195              RCC_APB1PeriphResetCmd(RCC_APB1Periph_USART3, ENABLE);
+    196              RCC_APB1PeriphResetCmd(RCC_APB1Periph_USART3, DISABLE);
+    197            }    
+    198            else if (USARTx == UART4)
+    199            {
+    200              RCC_APB1PeriphResetCmd(RCC_APB1Periph_UART4, ENABLE);
+    201              RCC_APB1PeriphResetCmd(RCC_APB1Periph_UART4, DISABLE);
+    202            }
+    203            else if (USARTx == UART5)
+    204            {
+    205              RCC_APB1PeriphResetCmd(RCC_APB1Periph_UART5, ENABLE);
+    206              RCC_APB1PeriphResetCmd(RCC_APB1Periph_UART5, DISABLE);
+    207            }     
+    208            else
+    209            {
+    210              if (USARTx == USART6)
+    211              { 
+    212                RCC_APB2PeriphResetCmd(RCC_APB2Periph_USART6, ENABLE);
+    213                RCC_APB2PeriphResetCmd(RCC_APB2Periph_USART6, DISABLE);
+    214              }
+    215            }
+    216          }
+    217          
+    218          /**
+    219            * @brief  Initializes the USARTx peripheral according to the specified
+    220            *         parameters in the USART_InitStruct .
+    221            * @param  USARTx: where x can be 1, 2, 3, 4, 5 or 6 to select the USART or 
+    222            *         UART peripheral.
+    223            * @param  USART_InitStruct: pointer to a USART_InitTypeDef structure that contains
+    224            *         the configuration information for the specified USART peripheral.
+    225            * @retval None
+    226            */
+    227          void USART_Init(USART_TypeDef* USARTx, USART_InitTypeDef* USART_InitStruct)
+    228          {
+    229            uint32_t tmpreg = 0x00, apbclock = 0x00;
+    230            uint32_t integerdivider = 0x00;
+    231            uint32_t fractionaldivider = 0x00;
+    232            RCC_ClocksTypeDef RCC_ClocksStatus;
+    233          
+    234            /* Check the parameters */
+    235            assert_param(IS_USART_ALL_PERIPH(USARTx));
+    236            assert_param(IS_USART_BAUDRATE(USART_InitStruct->USART_BaudRate));  
+    237            assert_param(IS_USART_WORD_LENGTH(USART_InitStruct->USART_WordLength));
+    238            assert_param(IS_USART_STOPBITS(USART_InitStruct->USART_StopBits));
+    239            assert_param(IS_USART_PARITY(USART_InitStruct->USART_Parity));
+    240            assert_param(IS_USART_MODE(USART_InitStruct->USART_Mode));
+    241            assert_param(IS_USART_HARDWARE_FLOW_CONTROL(USART_InitStruct->USART_HardwareFlowControl));
+    242          
+    243            /* The hardware flow control is available only for USART1, USART2, USART3 and USART6 */
+    244            if (USART_InitStruct->USART_HardwareFlowControl != USART_HardwareFlowControl_None)
+    245            {
+    246              assert_param(IS_USART_1236_PERIPH(USARTx));
+    247            }
+    248          
+    249          /*---------------------------- USART CR2 Configuration -----------------------*/
+    250            tmpreg = USARTx->CR2;
+    251          
+    252            /* Clear STOP[13:12] bits */
+    253            tmpreg &= (uint32_t)~((uint32_t)USART_CR2_STOP);
+    254          
+    255            /* Configure the USART Stop Bits, Clock, CPOL, CPHA and LastBit :
+    256                Set STOP[13:12] bits according to USART_StopBits value */
+    257            tmpreg |= (uint32_t)USART_InitStruct->USART_StopBits;
+    258            
+    259            /* Write to USART CR2 */
+    260            USARTx->CR2 = (uint16_t)tmpreg;
+    261          
+    262          /*---------------------------- USART CR1 Configuration -----------------------*/
+    263            tmpreg = USARTx->CR1;
+    264          
+    265            /* Clear M, PCE, PS, TE and RE bits */
+    266            tmpreg &= (uint32_t)~((uint32_t)CR1_CLEAR_MASK);
+    267          
+    268            /* Configure the USART Word Length, Parity and mode: 
+    269               Set the M bits according to USART_WordLength value 
+    270               Set PCE and PS bits according to USART_Parity value
+    271               Set TE and RE bits according to USART_Mode value */
+    272            tmpreg |= (uint32_t)USART_InitStruct->USART_WordLength | USART_InitStruct->USART_Parity |
+    273                      USART_InitStruct->USART_Mode;
+    274          
+    275            /* Write to USART CR1 */
+    276            USARTx->CR1 = (uint16_t)tmpreg;
+    277          
+    278          /*---------------------------- USART CR3 Configuration -----------------------*/  
+    279            tmpreg = USARTx->CR3;
+    280          
+    281            /* Clear CTSE and RTSE bits */
+    282            tmpreg &= (uint32_t)~((uint32_t)CR3_CLEAR_MASK);
+    283          
+    284            /* Configure the USART HFC : 
+    285                Set CTSE and RTSE bits according to USART_HardwareFlowControl value */
+    286            tmpreg |= USART_InitStruct->USART_HardwareFlowControl;
+    287          
+    288            /* Write to USART CR3 */
+    289            USARTx->CR3 = (uint16_t)tmpreg;
+    290          
+    291          /*---------------------------- USART BRR Configuration -----------------------*/
+    292            /* Configure the USART Baud Rate */
+    293            RCC_GetClocksFreq(&RCC_ClocksStatus);
+    294          
+    295            if ((USARTx == USART1) || (USARTx == USART6))
+    296            {
+    297              apbclock = RCC_ClocksStatus.PCLK2_Frequency;
+    298            }
+    299            else
+    300            {
+    301              apbclock = RCC_ClocksStatus.PCLK1_Frequency;
+    302            }
+    303            
+    304            /* Determine the integer part */
+    305            if ((USARTx->CR1 & USART_CR1_OVER8) != 0)
+    306            {
+    307              /* Integer part computing in case Oversampling mode is 8 Samples */
+    308              integerdivider = ((25 * apbclock) / (2 * (USART_InitStruct->USART_BaudRate)));    
+    309            }
+    310            else /* if ((USARTx->CR1 & USART_CR1_OVER8) == 0) */
+    311            {
+    312              /* Integer part computing in case Oversampling mode is 16 Samples */
+    313              integerdivider = ((25 * apbclock) / (4 * (USART_InitStruct->USART_BaudRate)));    
+    314            }
+    315            tmpreg = (integerdivider / 100) << 4;
+    316          
+    317            /* Determine the fractional part */
+    318            fractionaldivider = integerdivider - (100 * (tmpreg >> 4));
+    319          
+    320            /* Implement the fractional part in the register */
+    321            if ((USARTx->CR1 & USART_CR1_OVER8) != 0)
+    322            {
+    323              tmpreg |= ((((fractionaldivider * 8) + 50) / 100)) & ((uint8_t)0x07);
+    324            }
+    325            else /* if ((USARTx->CR1 & USART_CR1_OVER8) == 0) */
+    326            {
+    327              tmpreg |= ((((fractionaldivider * 16) + 50) / 100)) & ((uint8_t)0x0F);
+    328            }
+    329            
+    330            /* Write to USART BRR register */
+    331            USARTx->BRR = (uint16_t)tmpreg;
+    332          }
+    333          
+    334          /**
+    335            * @brief  Fills each USART_InitStruct member with its default value.
+    336            * @param  USART_InitStruct: pointer to a USART_InitTypeDef structure which will
+    337            *         be initialized.
+    338            * @retval None
+    339            */
+    340          void USART_StructInit(USART_InitTypeDef* USART_InitStruct)
+    341          {
+    342            /* USART_InitStruct members default value */
+    343            USART_InitStruct->USART_BaudRate = 9600;
+    344            USART_InitStruct->USART_WordLength = USART_WordLength_8b;
+    345            USART_InitStruct->USART_StopBits = USART_StopBits_1;
+    346            USART_InitStruct->USART_Parity = USART_Parity_No ;
+    347            USART_InitStruct->USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
+    348            USART_InitStruct->USART_HardwareFlowControl = USART_HardwareFlowControl_None;  
+    349          }
+    350          
+    351          /**
+    352            * @brief  Initializes the USARTx peripheral Clock according to the 
+    353            *         specified parameters in the USART_ClockInitStruct .
+    354            * @param  USARTx: where x can be 1, 2, 3 or 6 to select the USART peripheral.
+    355            * @param  USART_ClockInitStruct: pointer to a USART_ClockInitTypeDef structure that
+    356            *         contains the configuration information for the specified  USART peripheral.
+    357            * @note   The Smart Card and Synchronous modes are not available for UART4 and UART5.    
+    358            * @retval None
+    359            */
+    360          void USART_ClockInit(USART_TypeDef* USARTx, USART_ClockInitTypeDef* USART_ClockInitStruct)
+    361          {
+    362            uint32_t tmpreg = 0x00;
+    363            /* Check the parameters */
+    364            assert_param(IS_USART_1236_PERIPH(USARTx));
+    365            assert_param(IS_USART_CLOCK(USART_ClockInitStruct->USART_Clock));
+    366            assert_param(IS_USART_CPOL(USART_ClockInitStruct->USART_CPOL));
+    367            assert_param(IS_USART_CPHA(USART_ClockInitStruct->USART_CPHA));
+    368            assert_param(IS_USART_LASTBIT(USART_ClockInitStruct->USART_LastBit));
+    369            
+    370          /*---------------------------- USART CR2 Configuration -----------------------*/
+    371            tmpreg = USARTx->CR2;
+    372            /* Clear CLKEN, CPOL, CPHA and LBCL bits */
+    373            tmpreg &= (uint32_t)~((uint32_t)CR2_CLOCK_CLEAR_MASK);
+    374            /* Configure the USART Clock, CPOL, CPHA and LastBit ------------*/
+    375            /* Set CLKEN bit according to USART_Clock value */
+    376            /* Set CPOL bit according to USART_CPOL value */
+    377            /* Set CPHA bit according to USART_CPHA value */
+    378            /* Set LBCL bit according to USART_LastBit value */
+    379            tmpreg |= (uint32_t)USART_ClockInitStruct->USART_Clock | USART_ClockInitStruct->USART_CPOL | 
+    380                           USART_ClockInitStruct->USART_CPHA | USART_ClockInitStruct->USART_LastBit;
+    381            /* Write to USART CR2 */
+    382            USARTx->CR2 = (uint16_t)tmpreg;
+    383          }
+    384          
+    385          /**
+    386            * @brief  Fills each USART_ClockInitStruct member with its default value.
+    387            * @param  USART_ClockInitStruct: pointer to a USART_ClockInitTypeDef structure
+    388            *         which will be initialized.
+    389            * @retval None
+    390            */
+    391          void USART_ClockStructInit(USART_ClockInitTypeDef* USART_ClockInitStruct)
+    392          {
+    393            /* USART_ClockInitStruct members default value */
+    394            USART_ClockInitStruct->USART_Clock = USART_Clock_Disable;
+    395            USART_ClockInitStruct->USART_CPOL = USART_CPOL_Low;
+    396            USART_ClockInitStruct->USART_CPHA = USART_CPHA_1Edge;
+    397            USART_ClockInitStruct->USART_LastBit = USART_LastBit_Disable;
+    398          }
+    399          
+    400          /**
+    401            * @brief  Enables or disables the specified USART peripheral.
+    402            * @param  USARTx: where x can be 1, 2, 3, 4, 5 or 6 to select the USART or 
+    403            *         UART peripheral.
+    404            * @param  NewState: new state of the USARTx peripheral.
+    405            *          This parameter can be: ENABLE or DISABLE.
+    406            * @retval None
+    407            */
+    408          void USART_Cmd(USART_TypeDef* USARTx, FunctionalState NewState)
+    409          {
+    410            /* Check the parameters */
+    411            assert_param(IS_USART_ALL_PERIPH(USARTx));
+    412            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    413            
+    414            if (NewState != DISABLE)
+    415            {
+    416              /* Enable the selected USART by setting the UE bit in the CR1 register */
+    417              USARTx->CR1 |= USART_CR1_UE;
+    418            }
+    419            else
+    420            {
+    421              /* Disable the selected USART by clearing the UE bit in the CR1 register */
+    422              USARTx->CR1 &= (uint16_t)~((uint16_t)USART_CR1_UE);
+    423            }
+    424          }
+    425          
+    426          /**
+    427            * @brief  Sets the system clock prescaler.
+    428            * @param  USARTx: where x can be 1, 2, 3, 4, 5 or 6 to select the USART or 
+    429            *         UART peripheral.
+    430            * @param  USART_Prescaler: specifies the prescaler clock. 
+    431            * @note   The function is used for IrDA mode with UART4 and UART5.   
+    432            * @retval None
+    433            */
+    434          void USART_SetPrescaler(USART_TypeDef* USARTx, uint8_t USART_Prescaler)
+    435          { 
+    436            /* Check the parameters */
+    437            assert_param(IS_USART_ALL_PERIPH(USARTx));
+    438            
+    439            /* Clear the USART prescaler */
+    440            USARTx->GTPR &= USART_GTPR_GT;
+    441            /* Set the USART prescaler */
+    442            USARTx->GTPR |= USART_Prescaler;
+    443          }
+    444          
+    445          /**
+    446            * @brief  Enables or disables the USART's 8x oversampling mode.
+    447            * @note   This function has to be called before calling USART_Init() function
+    448            *         in order to have correct baudrate Divider value.
+    449            * @param  USARTx: where x can be 1, 2, 3, 4, 5 or 6 to select the USART or 
+    450            *         UART peripheral.
+    451            * @param  NewState: new state of the USART 8x oversampling mode.
+    452            *          This parameter can be: ENABLE or DISABLE.
+    453            * @retval None
+    454            */
+    455          void USART_OverSampling8Cmd(USART_TypeDef* USARTx, FunctionalState NewState)
+    456          {
+    457            /* Check the parameters */
+    458            assert_param(IS_USART_ALL_PERIPH(USARTx));
+    459            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    460            
+    461            if (NewState != DISABLE)
+    462            {
+    463              /* Enable the 8x Oversampling mode by setting the OVER8 bit in the CR1 register */
+    464              USARTx->CR1 |= USART_CR1_OVER8;
+    465            }
+    466            else
+    467            {
+    468              /* Disable the 8x Oversampling mode by clearing the OVER8 bit in the CR1 register */
+    469              USARTx->CR1 &= (uint16_t)~((uint16_t)USART_CR1_OVER8);
+    470            }
+    471          }  
+    472          
+    473          /**
+    474            * @brief  Enables or disables the USART's one bit sampling method.
+    475            * @param  USARTx: where x can be 1, 2, 3, 4, 5 or 6 to select the USART or 
+    476            *         UART peripheral.
+    477            * @param  NewState: new state of the USART one bit sampling method.
+    478            *          This parameter can be: ENABLE or DISABLE.
+    479            * @retval None
+    480            */
+    481          void USART_OneBitMethodCmd(USART_TypeDef* USARTx, FunctionalState NewState)
+    482          {
+    483            /* Check the parameters */
+    484            assert_param(IS_USART_ALL_PERIPH(USARTx));
+    485            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    486            
+    487            if (NewState != DISABLE)
+    488            {
+    489              /* Enable the one bit method by setting the ONEBITE bit in the CR3 register */
+    490              USARTx->CR3 |= USART_CR3_ONEBIT;
+    491            }
+    492            else
+    493            {
+    494              /* Disable the one bit method by clearing the ONEBITE bit in the CR3 register */
+    495              USARTx->CR3 &= (uint16_t)~((uint16_t)USART_CR3_ONEBIT);
+    496            }
+    497          }
+    498          
+    499          /**
+    500            * @}
+    501            */
+    502          
+    503          /** @defgroup USART_Group2 Data transfers functions
+    504           *  @brief   Data transfers functions 
+    505           *
+    506          @verbatim   
+    507           ===============================================================================
+    508                                      Data transfers functions
+    509           ===============================================================================  
+    510          
+    511            This subsection provides a set of functions allowing to manage the USART data 
+    512            transfers.
+    513            
+    514            During an USART reception, data shifts in least significant bit first through 
+    515            the RX pin. In this mode, the USART_DR register consists of a buffer (RDR) 
+    516            between the internal bus and the received shift register.
+    517          
+    518            When a transmission is taking place, a write instruction to the USART_DR register 
+    519            stores the data in the TDR register and which is copied in the shift register 
+    520            at the end of the current transmission.
+    521          
+    522            The read access of the USART_DR register can be done using the USART_ReceiveData()
+    523            function and returns the RDR buffered value. Whereas a write access to the USART_DR 
+    524            can be done using USART_SendData() function and stores the written data into 
+    525            TDR buffer.
+    526          
+    527          @endverbatim
+    528            * @{
+    529            */
+    530          
+    531          /**
+    532            * @brief  Transmits single data through the USARTx peripheral.
+    533            * @param  USARTx: where x can be 1, 2, 3, 4, 5 or 6 to select the USART or 
+    534            *         UART peripheral.
+    535            * @param  Data: the data to transmit.
+    536            * @retval None
+    537            */
+    538          void USART_SendData(USART_TypeDef* USARTx, uint16_t Data)
+    539          {
+    540            /* Check the parameters */
+    541            assert_param(IS_USART_ALL_PERIPH(USARTx));
+    542            assert_param(IS_USART_DATA(Data)); 
+    543              
+    544            /* Transmit Data */
+    545            USARTx->DR = (Data & (uint16_t)0x01FF);
+    546          }
+    547          
+    548          /**
+    549            * @brief  Returns the most recent received data by the USARTx peripheral.
+    550            * @param  USARTx: where x can be 1, 2, 3, 4, 5 or 6 to select the USART or 
+    551            *         UART peripheral.
+    552            * @retval The received data.
+    553            */
+    554          uint16_t USART_ReceiveData(USART_TypeDef* USARTx)
+    555          {
+    556            /* Check the parameters */
+    557            assert_param(IS_USART_ALL_PERIPH(USARTx));
+    558            
+    559            /* Receive Data */
+    560            return (uint16_t)(USARTx->DR & (uint16_t)0x01FF);
+    561          }
+    562          
+    563          /**
+    564            * @}
+    565            */
+    566          
+    567          /** @defgroup USART_Group3 MultiProcessor Communication functions
+    568           *  @brief   Multi-Processor Communication functions 
+    569           *
+    570          @verbatim   
+    571           ===============================================================================
+    572                              Multi-Processor Communication functions
+    573           ===============================================================================  
+    574          
+    575            This subsection provides a set of functions allowing to manage the USART 
+    576            multiprocessor communication.
+    577            
+    578            For instance one of the USARTs can be the master, its TX output is connected to 
+    579            the RX input of the other USART. The others are slaves, their respective TX outputs 
+    580            are logically ANDed together and connected to the RX input of the master.
+    581          
+    582            USART multiprocessor communication is possible through the following procedure:
+    583               1. Program the Baud rate, Word length = 9 bits, Stop bits, Parity, Mode transmitter 
+    584                  or Mode receiver and hardware flow control values using the USART_Init()
+    585                  function.
+    586               2. Configures the USART address using the USART_SetAddress() function.
+    587               3. Configures the wake up method (USART_WakeUp_IdleLine or USART_WakeUp_AddressMark)
+    588                  using USART_WakeUpConfig() function only for the slaves.
+    589               4. Enable the USART using the USART_Cmd() function.
+    590               5. Enter the USART slaves in mute mode using USART_ReceiverWakeUpCmd() function.
+    591          
+    592            The USART Slave exit from mute mode when receive the wake up condition.
+    593          
+    594          @endverbatim
+    595            * @{
+    596            */
+    597          
+    598          /**
+    599            * @brief  Sets the address of the USART node.
+    600            * @param  USARTx: where x can be 1, 2, 3, 4, 5 or 6 to select the USART or 
+    601            *         UART peripheral.
+    602            * @param  USART_Address: Indicates the address of the USART node.
+    603            * @retval None
+    604            */
+    605          void USART_SetAddress(USART_TypeDef* USARTx, uint8_t USART_Address)
+    606          {
+    607            /* Check the parameters */
+    608            assert_param(IS_USART_ALL_PERIPH(USARTx));
+    609            assert_param(IS_USART_ADDRESS(USART_Address)); 
+    610              
+    611            /* Clear the USART address */
+    612            USARTx->CR2 &= (uint16_t)~((uint16_t)USART_CR2_ADD);
+    613            /* Set the USART address node */
+    614            USARTx->CR2 |= USART_Address;
+    615          }
+    616          
+    617          /**
+    618            * @brief  Determines if the USART is in mute mode or not.
+    619            * @param  USARTx: where x can be 1, 2, 3, 4, 5 or 6 to select the USART or 
+    620            *         UART peripheral.
+    621            * @param  NewState: new state of the USART mute mode.
+    622            *          This parameter can be: ENABLE or DISABLE.
+    623            * @retval None
+    624            */
+    625          void USART_ReceiverWakeUpCmd(USART_TypeDef* USARTx, FunctionalState NewState)
+    626          {
+    627            /* Check the parameters */
+    628            assert_param(IS_USART_ALL_PERIPH(USARTx));
+    629            assert_param(IS_FUNCTIONAL_STATE(NewState)); 
+    630            
+    631            if (NewState != DISABLE)
+    632            {
+    633              /* Enable the USART mute mode  by setting the RWU bit in the CR1 register */
+    634              USARTx->CR1 |= USART_CR1_RWU;
+    635            }
+    636            else
+    637            {
+    638              /* Disable the USART mute mode by clearing the RWU bit in the CR1 register */
+    639              USARTx->CR1 &= (uint16_t)~((uint16_t)USART_CR1_RWU);
+    640            }
+    641          }
+    642          /**
+    643            * @brief  Selects the USART WakeUp method.
+    644            * @param  USARTx: where x can be 1, 2, 3, 4, 5 or 6 to select the USART or 
+    645            *         UART peripheral.
+    646            * @param  USART_WakeUp: specifies the USART wakeup method.
+    647            *          This parameter can be one of the following values:
+    648            *            @arg USART_WakeUp_IdleLine: WakeUp by an idle line detection
+    649            *            @arg USART_WakeUp_AddressMark: WakeUp by an address mark
+    650            * @retval None
+    651            */
+    652          void USART_WakeUpConfig(USART_TypeDef* USARTx, uint16_t USART_WakeUp)
+    653          {
+    654            /* Check the parameters */
+    655            assert_param(IS_USART_ALL_PERIPH(USARTx));
+    656            assert_param(IS_USART_WAKEUP(USART_WakeUp));
+    657            
+    658            USARTx->CR1 &= (uint16_t)~((uint16_t)USART_CR1_WAKE);
+    659            USARTx->CR1 |= USART_WakeUp;
+    660          }
+    661          
+    662          /**
+    663            * @}
+    664            */
+    665          
+    666          /** @defgroup USART_Group4 LIN mode functions
+    667           *  @brief   LIN mode functions 
+    668           *
+    669          @verbatim   
+    670           ===============================================================================
+    671                                          LIN mode functions
+    672           ===============================================================================  
+    673          
+    674            This subsection provides a set of functions allowing to manage the USART LIN 
+    675            Mode communication.
+    676            
+    677            In LIN mode, 8-bit data format with 1 stop bit is required in accordance with 
+    678            the LIN standard.
+    679          
+    680            Only this LIN Feature is supported by the USART IP:
+    681              - LIN Master Synchronous Break send capability and LIN slave break detection
+    682                capability :  13-bit break generation and 10/11 bit break detection
+    683          
+    684          
+    685            USART LIN Master transmitter communication is possible through the following procedure:
+    686               1. Program the Baud rate, Word length = 8bits, Stop bits = 1bit, Parity, 
+    687                  Mode transmitter or Mode receiver and hardware flow control values using 
+    688                  the USART_Init() function.
+    689               2. Enable the USART using the USART_Cmd() function.
+    690               3. Enable the LIN mode using the USART_LINCmd() function.
+    691               4. Send the break character using USART_SendBreak() function.
+    692          
+    693            USART LIN Master receiver communication is possible through the following procedure:
+    694               1. Program the Baud rate, Word length = 8bits, Stop bits = 1bit, Parity, 
+    695                  Mode transmitter or Mode receiver and hardware flow control values using 
+    696                  the USART_Init() function.
+    697               2. Enable the USART using the USART_Cmd() function.
+    698               3. Configures the break detection length using the USART_LINBreakDetectLengthConfig()
+    699                  function.
+    700               4. Enable the LIN mode using the USART_LINCmd() function.
+    701          
+    702          
+    703          @note In LIN mode, the following bits must be kept cleared:
+    704                  - CLKEN in the USART_CR2 register,
+    705                  - STOP[1:0], SCEN, HDSEL and IREN in the USART_CR3 register.
+    706          
+    707          @endverbatim
+    708            * @{
+    709            */
+    710          
+    711          /**
+    712            * @brief  Sets the USART LIN Break detection length.
+    713            * @param  USARTx: where x can be 1, 2, 3, 4, 5 or 6 to select the USART or 
+    714            *         UART peripheral.
+    715            * @param  USART_LINBreakDetectLength: specifies the LIN break detection length.
+    716            *          This parameter can be one of the following values:
+    717            *            @arg USART_LINBreakDetectLength_10b: 10-bit break detection
+    718            *            @arg USART_LINBreakDetectLength_11b: 11-bit break detection
+    719            * @retval None
+    720            */
+    721          void USART_LINBreakDetectLengthConfig(USART_TypeDef* USARTx, uint16_t USART_LINBreakDetectLength)
+    722          {
+    723            /* Check the parameters */
+    724            assert_param(IS_USART_ALL_PERIPH(USARTx));
+    725            assert_param(IS_USART_LIN_BREAK_DETECT_LENGTH(USART_LINBreakDetectLength));
+    726            
+    727            USARTx->CR2 &= (uint16_t)~((uint16_t)USART_CR2_LBDL);
+    728            USARTx->CR2 |= USART_LINBreakDetectLength;  
+    729          }
+    730          
+    731          /**
+    732            * @brief  Enables or disables the USART's LIN mode.
+    733            * @param  USARTx: where x can be 1, 2, 3, 4, 5 or 6 to select the USART or 
+    734            *         UART peripheral.
+    735            * @param  NewState: new state of the USART LIN mode.
+    736            *          This parameter can be: ENABLE or DISABLE.
+    737            * @retval None
+    738            */
+    739          void USART_LINCmd(USART_TypeDef* USARTx, FunctionalState NewState)
+    740          {
+    741            /* Check the parameters */
+    742            assert_param(IS_USART_ALL_PERIPH(USARTx));
+    743            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    744            
+    745            if (NewState != DISABLE)
+    746            {
+    747              /* Enable the LIN mode by setting the LINEN bit in the CR2 register */
+    748              USARTx->CR2 |= USART_CR2_LINEN;
+    749            }
+    750            else
+    751            {
+    752              /* Disable the LIN mode by clearing the LINEN bit in the CR2 register */
+    753              USARTx->CR2 &= (uint16_t)~((uint16_t)USART_CR2_LINEN);
+    754            }
+    755          }
+    756          
+    757          /**
+    758            * @brief  Transmits break characters.
+    759            * @param  USARTx: where x can be 1, 2, 3, 4, 5 or 6 to select the USART or 
+    760            *         UART peripheral.
+    761            * @retval None
+    762            */
+    763          void USART_SendBreak(USART_TypeDef* USARTx)
+    764          {
+    765            /* Check the parameters */
+    766            assert_param(IS_USART_ALL_PERIPH(USARTx));
+    767            
+    768            /* Send break characters */
+    769            USARTx->CR1 |= USART_CR1_SBK;
+    770          }
+    771          
+    772          /**
+    773            * @}
+    774            */
+    775          
+    776          /** @defgroup USART_Group5 Halfduplex mode function
+    777           *  @brief   Half-duplex mode function 
+    778           *
+    779          @verbatim   
+    780           ===============================================================================
+    781                                   Half-duplex mode function
+    782           ===============================================================================  
+    783          
+    784            This subsection provides a set of functions allowing to manage the USART 
+    785            Half-duplex communication.
+    786            
+    787            The USART can be configured to follow a single-wire half-duplex protocol where 
+    788            the TX and RX lines are internally connected.
+    789          
+    790            USART Half duplex communication is possible through the following procedure:
+    791               1. Program the Baud rate, Word length, Stop bits, Parity, Mode transmitter 
+    792                  or Mode receiver and hardware flow control values using the USART_Init()
+    793                  function.
+    794               2. Configures the USART address using the USART_SetAddress() function.
+    795               3. Enable the USART using the USART_Cmd() function.
+    796               4. Enable the half duplex mode using USART_HalfDuplexCmd() function.
+    797          
+    798          
+    799          @note The RX pin is no longer used
+    800          @note In Half-duplex mode the following bits must be kept cleared:
+    801                  - LINEN and CLKEN bits in the USART_CR2 register.
+    802                  - SCEN and IREN bits in the USART_CR3 register.
+    803          
+    804          @endverbatim
+    805            * @{
+    806            */
+    807          
+    808          /**
+    809            * @brief  Enables or disables the USART's Half Duplex communication.
+    810            * @param  USARTx: where x can be 1, 2, 3, 4, 5 or 6 to select the USART or 
+    811            *         UART peripheral.
+    812            * @param  NewState: new state of the USART Communication.
+    813            *          This parameter can be: ENABLE or DISABLE.
+    814            * @retval None
+    815            */
+    816          void USART_HalfDuplexCmd(USART_TypeDef* USARTx, FunctionalState NewState)
+    817          {
+    818            /* Check the parameters */
+    819            assert_param(IS_USART_ALL_PERIPH(USARTx));
+    820            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    821            
+    822            if (NewState != DISABLE)
+    823            {
+    824              /* Enable the Half-Duplex mode by setting the HDSEL bit in the CR3 register */
+    825              USARTx->CR3 |= USART_CR3_HDSEL;
+    826            }
+    827            else
+    828            {
+    829              /* Disable the Half-Duplex mode by clearing the HDSEL bit in the CR3 register */
+    830              USARTx->CR3 &= (uint16_t)~((uint16_t)USART_CR3_HDSEL);
+    831            }
+    832          }
+    833          
+    834          /**
+    835            * @}
+    836            */
+    837          
+    838          
+    839          /** @defgroup USART_Group6 Smartcard mode functions
+    840           *  @brief   Smartcard mode functions 
+    841           *
+    842          @verbatim   
+    843           ===============================================================================
+    844                                         Smartcard mode functions
+    845           ===============================================================================  
+    846          
+    847            This subsection provides a set of functions allowing to manage the USART 
+    848            Smartcard communication.
+    849            
+    850            The Smartcard interface is designed to support asynchronous protocol Smartcards as
+    851            defined in the ISO 7816-3 standard.
+    852          
+    853            The USART can provide a clock to the smartcard through the SCLK output.
+    854            In smartcard mode, SCLK is not associated to the communication but is simply derived 
+    855            from the internal peripheral input clock through a 5-bit prescaler.
+    856          
+    857            Smartcard communication is possible through the following procedure:
+    858               1. Configures the Smartcard Prescaler using the USART_SetPrescaler() function.
+    859               2. Configures the Smartcard Guard Time using the USART_SetGuardTime() function.
+    860               3. Program the USART clock using the USART_ClockInit() function as following:
+    861                  - USART Clock enabled
+    862                  - USART CPOL Low
+    863                  - USART CPHA on first edge
+    864                  - USART Last Bit Clock Enabled
+    865               4. Program the Smartcard interface using the USART_Init() function as following:
+    866                  - Word Length = 9 Bits
+    867                  - 1.5 Stop Bit
+    868                  - Even parity
+    869                  - BaudRate = 12096 baud
+    870                  - Hardware flow control disabled (RTS and CTS signals)
+    871                  - Tx and Rx enabled
+    872               5. Optionally you can enable the parity error interrupt using the USART_ITConfig()
+    873                  function
+    874               6. Enable the USART using the USART_Cmd() function.
+    875               7. Enable the Smartcard NACK using the USART_SmartCardNACKCmd() function.
+    876               8. Enable the Smartcard interface using the USART_SmartCardCmd() function.
+    877          
+    878            Please refer to the ISO 7816-3 specification for more details.
+    879          
+    880          
+    881          @note It is also possible to choose 0.5 stop bit for receiving but it is recommended 
+    882                to use 1.5 stop bits for both transmitting and receiving to avoid switching 
+    883                between the two configurations.
+    884          @note In smartcard mode, the following bits must be kept cleared:
+    885                  - LINEN bit in the USART_CR2 register.
+    886                  - HDSEL and IREN bits in the USART_CR3 register.
+    887          @note Smartcard mode is available on USART peripherals only (not available on UART4 
+    888                and UART5 peripherals).
+    889          
+    890          @endverbatim
+    891            * @{
+    892            */
+    893          
+    894          /**
+    895            * @brief  Sets the specified USART guard time.
+    896            * @param  USARTx: where x can be 1, 2, 3 or 6 to select the USART or 
+    897            *         UART peripheral.
+    898            * @param  USART_GuardTime: specifies the guard time.   
+    899            * @retval None
+    900            */
+    901          void USART_SetGuardTime(USART_TypeDef* USARTx, uint8_t USART_GuardTime)
+    902          {    
+    903            /* Check the parameters */
+    904            assert_param(IS_USART_1236_PERIPH(USARTx));
+    905            
+    906            /* Clear the USART Guard time */
+    907            USARTx->GTPR &= USART_GTPR_PSC;
+    908            /* Set the USART guard time */
+    909            USARTx->GTPR |= (uint16_t)((uint16_t)USART_GuardTime << 0x08);
+    910          }
+    911          
+    912          /**
+    913            * @brief  Enables or disables the USART's Smart Card mode.
+    914            * @param  USARTx: where x can be 1, 2, 3 or 6 to select the USART or 
+    915            *         UART peripheral.
+    916            * @param  NewState: new state of the Smart Card mode.
+    917            *          This parameter can be: ENABLE or DISABLE.      
+    918            * @retval None
+    919            */
+    920          void USART_SmartCardCmd(USART_TypeDef* USARTx, FunctionalState NewState)
+    921          {
+    922            /* Check the parameters */
+    923            assert_param(IS_USART_1236_PERIPH(USARTx));
+    924            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    925            if (NewState != DISABLE)
+    926            {
+    927              /* Enable the SC mode by setting the SCEN bit in the CR3 register */
+    928              USARTx->CR3 |= USART_CR3_SCEN;
+    929            }
+    930            else
+    931            {
+    932              /* Disable the SC mode by clearing the SCEN bit in the CR3 register */
+    933              USARTx->CR3 &= (uint16_t)~((uint16_t)USART_CR3_SCEN);
+    934            }
+    935          }
+    936          
+    937          /**
+    938            * @brief  Enables or disables NACK transmission.
+    939            * @param  USARTx: where x can be 1, 2, 3 or 6 to select the USART or 
+    940            *         UART peripheral.
+    941            * @param  NewState: new state of the NACK transmission.
+    942            *          This parameter can be: ENABLE or DISABLE.  
+    943            * @retval None
+    944            */
+    945          void USART_SmartCardNACKCmd(USART_TypeDef* USARTx, FunctionalState NewState)
+    946          {
+    947            /* Check the parameters */
+    948            assert_param(IS_USART_1236_PERIPH(USARTx)); 
+    949            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    950            if (NewState != DISABLE)
+    951            {
+    952              /* Enable the NACK transmission by setting the NACK bit in the CR3 register */
+    953              USARTx->CR3 |= USART_CR3_NACK;
+    954            }
+    955            else
+    956            {
+    957              /* Disable the NACK transmission by clearing the NACK bit in the CR3 register */
+    958              USARTx->CR3 &= (uint16_t)~((uint16_t)USART_CR3_NACK);
+    959            }
+    960          }
+    961          
+    962          /**
+    963            * @}
+    964            */
+    965          
+    966          /** @defgroup USART_Group7 IrDA mode functions
+    967           *  @brief   IrDA mode functions 
+    968           *
+    969          @verbatim   
+    970           ===============================================================================
+    971                                          IrDA mode functions
+    972           ===============================================================================  
+    973          
+    974            This subsection provides a set of functions allowing to manage the USART 
+    975            IrDA communication.
+    976            
+    977            IrDA is a half duplex communication protocol. If the Transmitter is busy, any data
+    978            on the IrDA receive line will be ignored by the IrDA decoder and if the Receiver 
+    979            is busy, data on the TX from the USART to IrDA will not be encoded by IrDA.
+    980            While receiving data, transmission should be avoided as the data to be transmitted
+    981            could be corrupted.
+    982          
+    983            IrDA communication is possible through the following procedure:
+    984               1. Program the Baud rate, Word length = 8 bits, Stop bits, Parity, Transmitter/Receiver 
+    985                  modes and hardware flow control values using the USART_Init() function.
+    986               2. Enable the USART using the USART_Cmd() function.
+    987               3. Configures the IrDA pulse width by configuring the prescaler using  
+    988                  the USART_SetPrescaler() function.
+    989               4. Configures the IrDA  USART_IrDAMode_LowPower or USART_IrDAMode_Normal mode
+    990                  using the USART_IrDAConfig() function.
+    991               5. Enable the IrDA using the USART_IrDACmd() function.
+    992          
+    993          @note A pulse of width less than two and greater than one PSC period(s) may or may
+    994                not be rejected.
+    995          @note The receiver set up time should be managed by software. The IrDA physical layer
+    996                specification specifies a minimum of 10 ms delay between transmission and 
+    997                reception (IrDA is a half duplex protocol).
+    998          @note In IrDA mode, the following bits must be kept cleared:
+    999                  - LINEN, STOP and CLKEN bits in the USART_CR2 register.
+   1000                  - SCEN and HDSEL bits in the USART_CR3 register.
+   1001          
+   1002          @endverbatim
+   1003            * @{
+   1004            */
+   1005          
+   1006          /**
+   1007            * @brief  Configures the USART's IrDA interface.
+   1008            * @param  USARTx: where x can be 1, 2, 3, 4, 5 or 6 to select the USART or 
+   1009            *         UART peripheral.
+   1010            * @param  USART_IrDAMode: specifies the IrDA mode.
+   1011            *          This parameter can be one of the following values:
+   1012            *            @arg USART_IrDAMode_LowPower
+   1013            *            @arg USART_IrDAMode_Normal
+   1014            * @retval None
+   1015            */
+   1016          void USART_IrDAConfig(USART_TypeDef* USARTx, uint16_t USART_IrDAMode)
+   1017          {
+   1018            /* Check the parameters */
+   1019            assert_param(IS_USART_ALL_PERIPH(USARTx));
+   1020            assert_param(IS_USART_IRDA_MODE(USART_IrDAMode));
+   1021              
+   1022            USARTx->CR3 &= (uint16_t)~((uint16_t)USART_CR3_IRLP);
+   1023            USARTx->CR3 |= USART_IrDAMode;
+   1024          }
+   1025          
+   1026          /**
+   1027            * @brief  Enables or disables the USART's IrDA interface.
+   1028            * @param  USARTx: where x can be 1, 2, 3, 4, 5 or 6 to select the USART or 
+   1029            *         UART peripheral.
+   1030            * @param  NewState: new state of the IrDA mode.
+   1031            *          This parameter can be: ENABLE or DISABLE.
+   1032            * @retval None
+   1033            */
+   1034          void USART_IrDACmd(USART_TypeDef* USARTx, FunctionalState NewState)
+   1035          {
+   1036            /* Check the parameters */
+   1037            assert_param(IS_USART_ALL_PERIPH(USARTx));
+   1038            assert_param(IS_FUNCTIONAL_STATE(NewState));
+   1039              
+   1040            if (NewState != DISABLE)
+   1041            {
+   1042              /* Enable the IrDA mode by setting the IREN bit in the CR3 register */
+   1043              USARTx->CR3 |= USART_CR3_IREN;
+   1044            }
+   1045            else
+   1046            {
+   1047              /* Disable the IrDA mode by clearing the IREN bit in the CR3 register */
+   1048              USARTx->CR3 &= (uint16_t)~((uint16_t)USART_CR3_IREN);
+   1049            }
+   1050          }
+   1051          
+   1052          /**
+   1053            * @}
+   1054            */
+   1055          
+   1056          /** @defgroup USART_Group8 DMA transfers management functions
+   1057           *  @brief   DMA transfers management functions
+   1058           *
+   1059          @verbatim   
+   1060           ===============================================================================
+   1061                                DMA transfers management functions
+   1062           ===============================================================================  
+   1063          
+   1064          @endverbatim
+   1065            * @{
+   1066            */
+   1067            
+   1068          /**
+   1069            * @brief  Enables or disables the USART's DMA interface.
+   1070            * @param  USARTx: where x can be 1, 2, 3, 4, 5 or 6 to select the USART or 
+   1071            *         UART peripheral.
+   1072            * @param  USART_DMAReq: specifies the DMA request.
+   1073            *          This parameter can be any combination of the following values:
+   1074            *            @arg USART_DMAReq_Tx: USART DMA transmit request
+   1075            *            @arg USART_DMAReq_Rx: USART DMA receive request
+   1076            * @param  NewState: new state of the DMA Request sources.
+   1077            *          This parameter can be: ENABLE or DISABLE.   
+   1078            * @retval None
+   1079            */
+   1080          void USART_DMACmd(USART_TypeDef* USARTx, uint16_t USART_DMAReq, FunctionalState NewState)
+   1081          {
+   1082            /* Check the parameters */
+   1083            assert_param(IS_USART_ALL_PERIPH(USARTx));
+   1084            assert_param(IS_USART_DMAREQ(USART_DMAReq));  
+   1085            assert_param(IS_FUNCTIONAL_STATE(NewState)); 
+   1086          
+   1087            if (NewState != DISABLE)
+   1088            {
+   1089              /* Enable the DMA transfer for selected requests by setting the DMAT and/or
+   1090                 DMAR bits in the USART CR3 register */
+   1091              USARTx->CR3 |= USART_DMAReq;
+   1092            }
+   1093            else
+   1094            {
+   1095              /* Disable the DMA transfer for selected requests by clearing the DMAT and/or
+   1096                 DMAR bits in the USART CR3 register */
+   1097              USARTx->CR3 &= (uint16_t)~USART_DMAReq;
+   1098            }
+   1099          }
+   1100          
+   1101          /**
+   1102            * @}
+   1103            */
+   1104            
+   1105          /** @defgroup USART_Group9 Interrupts and flags management functions
+   1106           *  @brief   Interrupts and flags management functions 
+   1107           *
+   1108          @verbatim   
+   1109           ===============================================================================
+   1110                             Interrupts and flags management functions
+   1111           ===============================================================================  
+   1112          
+   1113            This subsection provides a set of functions allowing to configure the USART 
+   1114            Interrupts sources, DMA channels requests and check or clear the flags or 
+   1115            pending bits status.
+   1116            The user should identify which mode will be used in his application to manage 
+   1117            the communication: Polling mode, Interrupt mode or DMA mode. 
+   1118              
+   1119            Polling Mode
+   1120            =============
+   1121            In Polling Mode, the SPI communication can be managed by 10 flags:
+   1122               1. USART_FLAG_TXE : to indicate the status of the transmit buffer register
+   1123               2. USART_FLAG_RXNE : to indicate the status of the receive buffer register
+   1124               3. USART_FLAG_TC : to indicate the status of the transmit operation
+   1125               4. USART_FLAG_IDLE : to indicate the status of the Idle Line             
+   1126               5. USART_FLAG_CTS : to indicate the status of the nCTS input
+   1127               6. USART_FLAG_LBD : to indicate the status of the LIN break detection
+   1128               7. USART_FLAG_NE : to indicate if a noise error occur
+   1129               8. USART_FLAG_FE : to indicate if a frame error occur
+   1130               9. USART_FLAG_PE : to indicate if a parity error occur
+   1131               10. USART_FLAG_ORE : to indicate if an Overrun error occur
+   1132          
+   1133            In this Mode it is advised to use the following functions:
+   1134                - FlagStatus USART_GetFlagStatus(USART_TypeDef* USARTx, uint16_t USART_FLAG);
+   1135                - void USART_ClearFlag(USART_TypeDef* USARTx, uint16_t USART_FLAG);
+   1136          
+   1137            Interrupt Mode
+   1138            ===============
+   1139            In Interrupt Mode, the USART communication can be managed by 8 interrupt sources
+   1140            and 10 pending bits: 
+   1141          
+   1142            Pending Bits:
+   1143            ------------- 
+   1144               1. USART_IT_TXE : to indicate the status of the transmit buffer register
+   1145               2. USART_IT_RXNE : to indicate the status of the receive buffer register
+   1146               3. USART_IT_TC : to indicate the status of the transmit operation
+   1147               4. USART_IT_IDLE : to indicate the status of the Idle Line             
+   1148               5. USART_IT_CTS : to indicate the status of the nCTS input
+   1149               6. USART_IT_LBD : to indicate the status of the LIN break detection
+   1150               7. USART_IT_NE : to indicate if a noise error occur
+   1151               8. USART_IT_FE : to indicate if a frame error occur
+   1152               9. USART_IT_PE : to indicate if a parity error occur
+   1153               10. USART_IT_ORE : to indicate if an Overrun error occur
+   1154          
+   1155            Interrupt Source:
+   1156            -----------------
+   1157               1. USART_IT_TXE : specifies the interrupt source for the Tx buffer empty 
+   1158                                 interrupt. 
+   1159               2. USART_IT_RXNE : specifies the interrupt source for the Rx buffer not 
+   1160                                  empty interrupt.
+   1161               3. USART_IT_TC : specifies the interrupt source for the Transmit complete 
+   1162                                 interrupt. 
+   1163               4. USART_IT_IDLE : specifies the interrupt source for the Idle Line interrupt.             
+   1164               5. USART_IT_CTS : specifies the interrupt source for the CTS interrupt. 
+   1165               6. USART_IT_LBD : specifies the interrupt source for the LIN break detection
+   1166                                 interrupt. 
+   1167               7. USART_IT_PE : specifies the interrupt source for the parity error interrupt. 
+   1168               8. USART_IT_ERR :  specifies the interrupt source for the errors interrupt.
+   1169          
+   1170          @note Some parameters are coded in order to use them as interrupt source or as pending bits.
+   1171          
+   1172            In this Mode it is advised to use the following functions:
+   1173               - void USART_ITConfig(USART_TypeDef* USARTx, uint16_t USART_IT, FunctionalState NewState);
+   1174               - ITStatus USART_GetITStatus(USART_TypeDef* USARTx, uint16_t USART_IT);
+   1175               - void USART_ClearITPendingBit(USART_TypeDef* USARTx, uint16_t USART_IT);
+   1176          
+   1177            DMA Mode
+   1178            ========
+   1179            In DMA Mode, the USART communication can be managed by 2 DMA Channel requests:
+   1180               1. USART_DMAReq_Tx: specifies the Tx buffer DMA transfer request
+   1181               2. USART_DMAReq_Rx: specifies the Rx buffer DMA transfer request
+   1182          
+   1183            In this Mode it is advised to use the following function:
+   1184               - void USART_DMACmd(USART_TypeDef* USARTx, uint16_t USART_DMAReq, FunctionalState NewState);
+   1185          
+   1186          @endverbatim
+   1187            * @{
+   1188            */
+   1189          
+   1190          /**
+   1191            * @brief  Enables or disables the specified USART interrupts.
+   1192            * @param  USARTx: where x can be 1, 2, 3, 4, 5 or 6 to select the USART or 
+   1193            *         UART peripheral.
+   1194            * @param  USART_IT: specifies the USART interrupt sources to be enabled or disabled.
+   1195            *          This parameter can be one of the following values:
+   1196            *            @arg USART_IT_CTS:  CTS change interrupt
+   1197            *            @arg USART_IT_LBD:  LIN Break detection interrupt
+   1198            *            @arg USART_IT_TXE:  Transmit Data Register empty interrupt
+   1199            *            @arg USART_IT_TC:   Transmission complete interrupt
+   1200            *            @arg USART_IT_RXNE: Receive Data register not empty interrupt
+   1201            *            @arg USART_IT_IDLE: Idle line detection interrupt
+   1202            *            @arg USART_IT_PE:   Parity Error interrupt
+   1203            *            @arg USART_IT_ERR:  Error interrupt(Frame error, noise error, overrun error)
+   1204            * @param  NewState: new state of the specified USARTx interrupts.
+   1205            *          This parameter can be: ENABLE or DISABLE.
+   1206            * @retval None
+   1207            */
+   1208          void USART_ITConfig(USART_TypeDef* USARTx, uint16_t USART_IT, FunctionalState NewState)
+   1209          {
+   1210            uint32_t usartreg = 0x00, itpos = 0x00, itmask = 0x00;
+   1211            uint32_t usartxbase = 0x00;
+   1212            /* Check the parameters */
+   1213            assert_param(IS_USART_ALL_PERIPH(USARTx));
+   1214            assert_param(IS_USART_CONFIG_IT(USART_IT));
+   1215            assert_param(IS_FUNCTIONAL_STATE(NewState));
+   1216          
+   1217            /* The CTS interrupt is not available for UART4 and UART5 */
+   1218            if (USART_IT == USART_IT_CTS)
+   1219            {
+   1220              assert_param(IS_USART_1236_PERIPH(USARTx));
+   1221            } 
+   1222              
+   1223            usartxbase = (uint32_t)USARTx;
+   1224          
+   1225            /* Get the USART register index */
+   1226            usartreg = (((uint8_t)USART_IT) >> 0x05);
+   1227          
+   1228            /* Get the interrupt position */
+   1229            itpos = USART_IT & IT_MASK;
+   1230            itmask = (((uint32_t)0x01) << itpos);
+   1231              
+   1232            if (usartreg == 0x01) /* The IT is in CR1 register */
+   1233            {
+   1234              usartxbase += 0x0C;
+   1235            }
+   1236            else if (usartreg == 0x02) /* The IT is in CR2 register */
+   1237            {
+   1238              usartxbase += 0x10;
+   1239            }
+   1240            else /* The IT is in CR3 register */
+   1241            {
+   1242              usartxbase += 0x14; 
+   1243            }
+   1244            if (NewState != DISABLE)
+   1245            {
+   1246              *(__IO uint32_t*)usartxbase  |= itmask;
+   1247            }
+   1248            else
+   1249            {
+   1250              *(__IO uint32_t*)usartxbase &= ~itmask;
+   1251            }
+   1252          }
+   1253          
+   1254          /**
+   1255            * @brief  Checks whether the specified USART flag is set or not.
+   1256            * @param  USARTx: where x can be 1, 2, 3, 4, 5 or 6 to select the USART or 
+   1257            *         UART peripheral.
+   1258            * @param  USART_FLAG: specifies the flag to check.
+   1259            *          This parameter can be one of the following values:
+   1260            *            @arg USART_FLAG_CTS:  CTS Change flag (not available for UART4 and UART5)
+   1261            *            @arg USART_FLAG_LBD:  LIN Break detection flag
+   1262            *            @arg USART_FLAG_TXE:  Transmit data register empty flag
+   1263            *            @arg USART_FLAG_TC:   Transmission Complete flag
+   1264            *            @arg USART_FLAG_RXNE: Receive data register not empty flag
+   1265            *            @arg USART_FLAG_IDLE: Idle Line detection flag
+   1266            *            @arg USART_FLAG_ORE:  OverRun Error flag
+   1267            *            @arg USART_FLAG_NE:   Noise Error flag
+   1268            *            @arg USART_FLAG_FE:   Framing Error flag
+   1269            *            @arg USART_FLAG_PE:   Parity Error flag
+   1270            * @retval The new state of USART_FLAG (SET or RESET).
+   1271            */
+   1272          FlagStatus USART_GetFlagStatus(USART_TypeDef* USARTx, uint16_t USART_FLAG)
+   1273          {
+   1274            FlagStatus bitstatus = RESET;
+   1275            /* Check the parameters */
+   1276            assert_param(IS_USART_ALL_PERIPH(USARTx));
+   1277            assert_param(IS_USART_FLAG(USART_FLAG));
+   1278          
+   1279            /* The CTS flag is not available for UART4 and UART5 */
+   1280            if (USART_FLAG == USART_FLAG_CTS)
+   1281            {
+   1282              assert_param(IS_USART_1236_PERIPH(USARTx));
+   1283            } 
+   1284              
+   1285            if ((USARTx->SR & USART_FLAG) != (uint16_t)RESET)
+   1286            {
+   1287              bitstatus = SET;
+   1288            }
+   1289            else
+   1290            {
+   1291              bitstatus = RESET;
+   1292            }
+   1293            return bitstatus;
+   1294          }
+   1295          
+   1296          /**
+   1297            * @brief  Clears the USARTx's pending flags.
+   1298            * @param  USARTx: where x can be 1, 2, 3, 4, 5 or 6 to select the USART or 
+   1299            *         UART peripheral.
+   1300            * @param  USART_FLAG: specifies the flag to clear.
+   1301            *          This parameter can be any combination of the following values:
+   1302            *            @arg USART_FLAG_CTS:  CTS Change flag (not available for UART4 and UART5).
+   1303            *            @arg USART_FLAG_LBD:  LIN Break detection flag.
+   1304            *            @arg USART_FLAG_TC:   Transmission Complete flag.
+   1305            *            @arg USART_FLAG_RXNE: Receive data register not empty flag.
+   1306            *   
+   1307            * @note   PE (Parity error), FE (Framing error), NE (Noise error), ORE (OverRun 
+   1308            *          error) and IDLE (Idle line detected) flags are cleared by software 
+   1309            *          sequence: a read operation to USART_SR register (USART_GetFlagStatus()) 
+   1310            *          followed by a read operation to USART_DR register (USART_ReceiveData()).
+   1311            * @note   RXNE flag can be also cleared by a read to the USART_DR register 
+   1312            *          (USART_ReceiveData()).
+   1313            * @note   TC flag can be also cleared by software sequence: a read operation to 
+   1314            *          USART_SR register (USART_GetFlagStatus()) followed by a write operation
+   1315            *          to USART_DR register (USART_SendData()).
+   1316            * @note   TXE flag is cleared only by a write to the USART_DR register 
+   1317            *          (USART_SendData()).
+   1318            *   
+   1319            * @retval None
+   1320            */
+   1321          void USART_ClearFlag(USART_TypeDef* USARTx, uint16_t USART_FLAG)
+   1322          {
+   1323            /* Check the parameters */
+   1324            assert_param(IS_USART_ALL_PERIPH(USARTx));
+   1325            assert_param(IS_USART_CLEAR_FLAG(USART_FLAG));
+   1326          
+   1327            /* The CTS flag is not available for UART4 and UART5 */
+   1328            if ((USART_FLAG & USART_FLAG_CTS) == USART_FLAG_CTS)
+   1329            {
+   1330              assert_param(IS_USART_1236_PERIPH(USARTx));
+   1331            } 
+   1332                 
+   1333            USARTx->SR = (uint16_t)~USART_FLAG;
+   1334          }
+   1335          
+   1336          /**
+   1337            * @brief  Checks whether the specified USART interrupt has occurred or not.
+   1338            * @param  USARTx: where x can be 1, 2, 3, 4, 5 or 6 to select the USART or 
+   1339            *         UART peripheral.
+   1340            * @param  USART_IT: specifies the USART interrupt source to check.
+   1341            *          This parameter can be one of the following values:
+   1342            *            @arg USART_IT_CTS:  CTS change interrupt (not available for UART4 and UART5)
+   1343            *            @arg USART_IT_LBD:  LIN Break detection interrupt
+   1344            *            @arg USART_IT_TXE:  Transmit Data Register empty interrupt
+   1345            *            @arg USART_IT_TC:   Transmission complete interrupt
+   1346            *            @arg USART_IT_RXNE: Receive Data register not empty interrupt
+   1347            *            @arg USART_IT_IDLE: Idle line detection interrupt
+   1348            *            @arg USART_IT_ORE_RX : OverRun Error interrupt if the RXNEIE bit is set
+   1349            *            @arg USART_IT_ORE_ER : OverRun Error interrupt if the EIE bit is set  
+   1350            *            @arg USART_IT_NE:   Noise Error interrupt
+   1351            *            @arg USART_IT_FE:   Framing Error interrupt
+   1352            *            @arg USART_IT_PE:   Parity Error interrupt
+   1353            * @retval The new state of USART_IT (SET or RESET).
+   1354            */
+   1355          ITStatus USART_GetITStatus(USART_TypeDef* USARTx, uint16_t USART_IT)
+   1356          {
+   1357            uint32_t bitpos = 0x00, itmask = 0x00, usartreg = 0x00;
+   1358            ITStatus bitstatus = RESET;
+   1359            /* Check the parameters */
+   1360            assert_param(IS_USART_ALL_PERIPH(USARTx));
+   1361            assert_param(IS_USART_GET_IT(USART_IT)); 
+   1362          
+   1363            /* The CTS interrupt is not available for UART4 and UART5 */ 
+   1364            if (USART_IT == USART_IT_CTS)
+   1365            {
+   1366              assert_param(IS_USART_1236_PERIPH(USARTx));
+   1367            } 
+   1368              
+   1369            /* Get the USART register index */
+   1370            usartreg = (((uint8_t)USART_IT) >> 0x05);
+   1371            /* Get the interrupt position */
+   1372            itmask = USART_IT & IT_MASK;
+   1373            itmask = (uint32_t)0x01 << itmask;
+   1374            
+   1375            if (usartreg == 0x01) /* The IT  is in CR1 register */
+   1376            {
+   1377              itmask &= USARTx->CR1;
+   1378            }
+   1379            else if (usartreg == 0x02) /* The IT  is in CR2 register */
+   1380            {
+   1381              itmask &= USARTx->CR2;
+   1382            }
+   1383            else /* The IT  is in CR3 register */
+   1384            {
+   1385              itmask &= USARTx->CR3;
+   1386            }
+   1387            
+   1388            bitpos = USART_IT >> 0x08;
+   1389            bitpos = (uint32_t)0x01 << bitpos;
+   1390            bitpos &= USARTx->SR;
+   1391            if ((itmask != (uint16_t)RESET)&&(bitpos != (uint16_t)RESET))
+   1392            {
+   1393              bitstatus = SET;
+   1394            }
+   1395            else
+   1396            {
+   1397              bitstatus = RESET;
+   1398            }
+   1399            
+   1400            return bitstatus;  
+   1401          }
+   1402          
+   1403          /**
+   1404            * @brief  Clears the USARTx's interrupt pending bits.
+   1405            * @param  USARTx: where x can be 1, 2, 3, 4, 5 or 6 to select the USART or 
+   1406            *         UART peripheral.
+   1407            * @param  USART_IT: specifies the interrupt pending bit to clear.
+   1408            *          This parameter can be one of the following values:
+   1409            *            @arg USART_IT_CTS:  CTS change interrupt (not available for UART4 and UART5)
+   1410            *            @arg USART_IT_LBD:  LIN Break detection interrupt
+   1411            *            @arg USART_IT_TC:   Transmission complete interrupt. 
+   1412            *            @arg USART_IT_RXNE: Receive Data register not empty interrupt.
+   1413            *
+   1414            * @note   PE (Parity error), FE (Framing error), NE (Noise error), ORE (OverRun 
+   1415            *          error) and IDLE (Idle line detected) pending bits are cleared by 
+   1416            *          software sequence: a read operation to USART_SR register 
+   1417            *          (USART_GetITStatus()) followed by a read operation to USART_DR register 
+   1418            *          (USART_ReceiveData()).
+   1419            * @note   RXNE pending bit can be also cleared by a read to the USART_DR register 
+   1420            *          (USART_ReceiveData()).
+   1421            * @note   TC pending bit can be also cleared by software sequence: a read 
+   1422            *          operation to USART_SR register (USART_GetITStatus()) followed by a write 
+   1423            *          operation to USART_DR register (USART_SendData()).
+   1424            * @note   TXE pending bit is cleared only by a write to the USART_DR register 
+   1425            *          (USART_SendData()).
+   1426            *  
+   1427            * @retval None
+   1428            */
+   1429          void USART_ClearITPendingBit(USART_TypeDef* USARTx, uint16_t USART_IT)
+   1430          {
+   1431            uint16_t bitpos = 0x00, itmask = 0x00;
+   1432            /* Check the parameters */
+   1433            assert_param(IS_USART_ALL_PERIPH(USARTx));
+   1434            assert_param(IS_USART_CLEAR_IT(USART_IT)); 
+   1435          
+   1436            /* The CTS interrupt is not available for UART4 and UART5 */
+   1437            if (USART_IT == USART_IT_CTS)
+   1438            {
+   1439              assert_param(IS_USART_1236_PERIPH(USARTx));
+   1440            } 
+   1441              
+   1442            bitpos = USART_IT >> 0x08;
+   1443            itmask = ((uint16_t)0x01 << (uint16_t)bitpos);
+   1444            USARTx->SR = (uint16_t)~itmask;
+   1445          }
+   1446          
+   1447          /**
+   1448            * @}
+   1449            */
+   1450          
+   1451          /**
+   1452            * @}
+   1453            */
+   1454          
+   1455          /**
+   1456            * @}
+   1457            */
+   1458          
+   1459          /**
+   1460            * @}
+   1461            */
+   1462          
+   1463          /******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+       0   USART_ClearFlag
+       0   USART_ClearITPendingBit
+       4   USART_ClockInit
+       0   USART_ClockStructInit
+       0   USART_Cmd
+       0   USART_DMACmd
+       8   USART_DeInit
+         8   -> RCC_APB1PeriphResetCmd
+         8   -> RCC_APB2PeriphResetCmd
+       0   USART_GetFlagStatus
+       4   USART_GetITStatus
+       0   USART_HalfDuplexCmd
+       8   USART_ITConfig
+      32   USART_Init
+        32   -> RCC_GetClocksFreq
+       0   USART_IrDACmd
+       0   USART_IrDAConfig
+       0   USART_LINBreakDetectLengthConfig
+       0   USART_LINCmd
+       0   USART_OneBitMethodCmd
+       0   USART_OverSampling8Cmd
+       0   USART_ReceiveData
+       0   USART_ReceiverWakeUpCmd
+       0   USART_SendBreak
+       0   USART_SendData
+       0   USART_SetAddress
+       0   USART_SetGuardTime
+       0   USART_SetPrescaler
+       0   USART_SmartCardCmd
+       0   USART_SmartCardNACKCmd
+       0   USART_StructInit
+       0   USART_WakeUpConfig
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable1
+       4  ??DataTable1_1
+       4  ??DataTable1_2
+       4  ??DataTable1_3
+       4  ??DataTable1_4
+       4  ??DataTable1_5
+       4  ??DataTable1_6
+      12  USART_ClearFlag
+      30  USART_ClearITPendingBit
+      32  USART_ClockInit
+      18  USART_ClockStructInit
+      28  USART_Cmd
+      24  USART_DMACmd
+     162  USART_DeInit
+      26  USART_GetFlagStatus
+     100  USART_GetITStatus
+      28  USART_HalfDuplexCmd
+      82  USART_ITConfig
+     182  USART_Init
+      28  USART_IrDACmd
+      18  USART_IrDAConfig
+      18  USART_LINBreakDetectLengthConfig
+      28  USART_LINCmd
+      28  USART_OneBitMethodCmd
+      26  USART_OverSampling8Cmd
+       8  USART_ReceiveData
+      28  USART_ReceiverWakeUpCmd
+      10  USART_SendBreak
+       8  USART_SendData
+      20  USART_SetAddress
+      18  USART_SetGuardTime
+      18  USART_SetPrescaler
+      28  USART_SmartCardCmd
+      28  USART_SmartCardNACKCmd
+      28  USART_StructInit
+      18  USART_WakeUpConfig
+
+ 
+ 1 110 bytes in section .text
+ 
+ 1 110 bytes of CODE memory
+
+Errors: none
+Warnings: none

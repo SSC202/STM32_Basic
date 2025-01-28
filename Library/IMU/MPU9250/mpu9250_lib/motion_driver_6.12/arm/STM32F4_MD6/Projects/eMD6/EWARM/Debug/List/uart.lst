@@ -1,0 +1,178 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V7.30.1.7746/W32 for ARM        05/May/2015  09:12:40
+# Copyright 1999-2014 IAR Systems AB.
+#
+#    Cpu mode     =  thumb
+#    Endian       =  little
+#    Source file  =  
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\Peripheral\src\uart.c
+#    Command line =  
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\Peripheral\src\uart.c -D
+#        USE_STDPERIPH_DRIVER -D USE_DMP -D MPL_LOG_NDEBUG=1 -D EMPL -D MPU9250
+#        -D EMPL_TARGET_STM32F4 -lcN
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\Debug\List\ -o
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\Debug\Obj\ --no_cse
+#        --no_unroll --no_inline --no_code_motion --no_tbaa --no_clustering
+#        --no_scheduling --debug --endian=little --cpu=Cortex-M4F -e
+#        --fpu=VFPv4_sp --dlib_config "C:\Program Files (x86)\IAR
+#        Systems\Embedded Workbench 7.0_2\arm\INC\c\DLib_Config_Normal.h" -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\User\inc\ -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\User\src\ -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\Peripheral\inc\ -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\Peripheral\src\ -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\STM32F4xx_StdPeriph_Driver\inc\
+#        -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\STM32F4xx_StdPeriph_Driver\src\
+#        -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\DeviceSupport\inc\
+#        -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\DeviceSupport\inc\
+#        -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\core\driver\include\
+#        -I C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\core\driver\eMPL\
+#        -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\core\driver\stm32l\
+#        -I C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\core\mllite\ -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\core\mpl\ -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\core\eMPL-hal\ -Ol
+#        -I "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        7.0_2\arm\CMSIS\Include\"
+#    List file    =  
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\Debug\List\uart.lst
+#    Object file  =  
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\Debug\Obj\uart.o
+#
+###############################################################################
+
+C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\Peripheral\src\uart.c
+      1          
+      2          #include <stdio.h>
+      3          #include "stm32f4xx.h"
+      4          #include "uart.h"
+      5          #include "stm32f4xx_usart.h"
+      6          #include "stm32f4xx_gpio.h" 
+      7          #include "misc.h" 
+      8          #include "stm32f4xx_exti.h"
+      9          #include "stm32f4xx_rcc.h"
+     10          
+     11          /********************************* Defines ************************************/
+     12          
+     13          
+     14          //////////////////  USART2
+     15          #define USARTx                           USART2
+     16          #define USARTx_CLK                       RCC_APB1Periph_USART2
+     17          #define USARTx_CLK_INIT                  RCC_APB1PeriphClockCmd
+     18          #define USARTx_IRQn                      USART2_IRQn
+     19          #define USARTx_IRQHandler                USART2_IRQHandler
+     20          
+     21          #define USARTx_TX_PIN                    GPIO_Pin_2
+     22          #define USARTx_TX_GPIO_PORT              GPIOA
+     23          #define USARTx_TX_GPIO_CLK               RCC_AHB1Periph_GPIOA
+     24          #define USARTx_TX_SOURCE                 GPIO_PinSource2
+     25          #define USARTx_TX_AF                     GPIO_AF_USART2
+     26          
+     27          #define USARTx_RX_PIN                    GPIO_Pin_3
+     28          #define USARTx_RX_GPIO_PORT              GPIOA
+     29          #define USARTx_RX_GPIO_CLK               RCC_AHB1Periph_GPIOA
+     30          #define USARTx_RX_SOURCE                 GPIO_PinSource3
+     31          #define USARTx_RX_AF                     GPIO_AF_USART2
+     32          
+     33          #define USARTx_DMAx_CLK                  RCC_AHBPeriph_DMA1
+     34          
+     35          /********************************* Globals ************************************/
+     36          /********************************* Prototypes *********************************/
+     37          /*******************************  Function ************************************/
+     38          
+     39          void USART_Config(void)
+     40          {
+     41            USART_InitTypeDef USART_InitStructure;
+     42            GPIO_InitTypeDef GPIO_InitStructure;
+     43          
+     44            /* Peripheral Clock Enable -------------------------------------------------*/
+     45            /* Enable GPIO clock */
+     46            RCC_AHB1PeriphClockCmd(USARTx_TX_GPIO_CLK | USARTx_RX_GPIO_CLK, ENABLE);
+     47            
+     48            /* Enable USART clock */
+     49            USARTx_CLK_INIT(USARTx_CLK, ENABLE);
+     50            
+     51            /* USARTx GPIO configuration -----------------------------------------------*/ 
+     52            /* Connect USART pins to AF7 */
+     53            GPIO_PinAFConfig(USARTx_TX_GPIO_PORT, USARTx_TX_SOURCE, USARTx_TX_AF);
+     54            GPIO_PinAFConfig(USARTx_RX_GPIO_PORT, USARTx_RX_SOURCE, USARTx_RX_AF);
+     55            
+     56            /* Configure USART Tx and Rx as alternate function push-pull */
+     57            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+     58            GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
+     59            GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+     60            GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
+     61            
+     62            GPIO_InitStructure.GPIO_Pin = USARTx_TX_PIN | USARTx_RX_PIN;
+     63            GPIO_Init(GPIOA, &GPIO_InitStructure);
+     64            
+     65            //GPIO_InitStructure.GPIO_Pin = USARTx_TX_PIN;
+     66            //GPIO_Init(USARTx_TX_GPIO_PORT, &GPIO_InitStructure);
+     67            //GPIO_InitStructure.GPIO_Pin = USARTx_RX_PIN;
+     68            //GPIO_Init(USARTx_RX_GPIO_PORT, &GPIO_InitStructure);
+     69           
+     70            USART_InitStructure.USART_BaudRate =  115200;//115200;460800;
+     71            USART_InitStructure.USART_WordLength = USART_WordLength_8b;
+     72            USART_InitStructure.USART_StopBits = USART_StopBits_1;
+     73            /* When using Parity the word length must be configured to 9 bits */
+     74            USART_InitStructure.USART_Parity = USART_Parity_No;
+     75            USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
+     76            USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
+     77            USART_Init(USARTx, &USART_InitStructure);
+     78            USART_ITConfig(USARTx, USART_IT_RXNE, ENABLE);
+     79          
+     80            /* Enable USART */
+     81            USART_Cmd(USARTx, ENABLE);
+     82          }
+     83          
+     84          int fputc(int ch )
+     85          {
+     86            //* Place your implementation of fputc here 
+     87            //* e.g. write a character to the USART 
+     88            USART_SendData(USARTx, (uint8_t) ch);
+     89          
+     90            //* Loop until the end of transmission 
+     91            while (USART_GetFlagStatus(USARTx, USART_FLAG_TC) == RESET)
+     92            {}
+     93          
+     94            return ch;
+     95          }
+     96          
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+      32   USART_Config
+        32   -> GPIO_Init
+        32   -> GPIO_PinAFConfig
+        32   -> RCC_AHB1PeriphClockCmd
+        32   -> RCC_APB1PeriphClockCmd
+        32   -> USART_Cmd
+        32   -> USART_ITConfig
+        32   -> USART_Init
+       8   fputc
+         8   -> USART_GetFlagStatus
+         8   -> USART_SendData
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable1
+       4  ??DataTable1_1
+     146  USART_Config
+      32  fputc
+
+ 
+ 186 bytes in section .text
+ 
+ 186 bytes of CODE memory
+
+Errors: none
+Warnings: none

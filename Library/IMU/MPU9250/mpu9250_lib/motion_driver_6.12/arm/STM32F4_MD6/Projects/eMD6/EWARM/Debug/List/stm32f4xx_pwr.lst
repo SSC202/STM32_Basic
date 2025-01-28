@@ -1,0 +1,756 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V7.30.1.7746/W32 for ARM        05/May/2015  09:12:36
+# Copyright 1999-2014 IAR Systems AB.
+#
+#    Cpu mode     =  thumb
+#    Endian       =  little
+#    Source file  =  
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_pwr.c
+#    Command line =  
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_pwr.c
+#        -D USE_STDPERIPH_DRIVER -D USE_DMP -D MPL_LOG_NDEBUG=1 -D EMPL -D
+#        MPU9250 -D EMPL_TARGET_STM32F4 -lcN
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\Debug\List\ -o
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\Debug\Obj\ --no_cse
+#        --no_unroll --no_inline --no_code_motion --no_tbaa --no_clustering
+#        --no_scheduling --debug --endian=little --cpu=Cortex-M4F -e
+#        --fpu=VFPv4_sp --dlib_config "C:\Program Files (x86)\IAR
+#        Systems\Embedded Workbench 7.0_2\arm\INC\c\DLib_Config_Normal.h" -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\User\inc\ -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\User\src\ -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\Peripheral\inc\ -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\Peripheral\src\ -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\STM32F4xx_StdPeriph_Driver\inc\
+#        -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\STM32F4xx_StdPeriph_Driver\src\
+#        -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\DeviceSupport\inc\
+#        -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\DeviceSupport\inc\
+#        -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\core\driver\include\
+#        -I C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\core\driver\eMPL\
+#        -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\core\driver\stm32l\
+#        -I C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\core\mllite\ -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\core\mpl\ -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\core\eMPL-hal\ -Ol
+#        -I "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        7.0_2\arm\CMSIS\Include\"
+#    List file    =  
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\Debug\List\stm32f4xx_pwr.lst
+#    Object file  =  
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\Debug\Obj\stm32f4xx_pwr.o
+#
+###############################################################################
+
+C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_pwr.c
+      1          /**
+      2            ******************************************************************************
+      3            * @file    stm32f4xx_pwr.c
+      4            * @author  MCD Application Team
+      5            * @version V1.0.0
+      6            * @date    30-September-2011
+      7            * @brief   This file provides firmware functions to manage the following 
+      8            *          functionalities of the Power Controller (PWR) peripheral:           
+      9            *           - Backup Domain Access
+     10            *           - PVD configuration
+     11            *           - WakeUp pin configuration
+     12            *           - Main and Backup Regulators configuration
+     13            *           - FLASH Power Down configuration
+     14            *           - Low Power modes configuration
+     15            *           - Flags management
+     16            *               
+     17            ******************************************************************************
+     18            * @attention
+     19            *
+     20            * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
+     21            * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
+     22            * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY
+     23            * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING
+     24            * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
+     25            * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
+     26            *
+     27            * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>
+     28            ******************************************************************************
+     29            */ 
+     30          
+     31          /* Includes ------------------------------------------------------------------*/
+     32          #include "stm32f4xx_pwr.h"
+     33          #include "stm32f4xx_rcc.h"
+     34          
+     35          /** @addtogroup STM32F4xx_StdPeriph_Driver
+     36            * @{
+     37            */
+     38          
+     39          /** @defgroup PWR 
+     40            * @brief PWR driver modules
+     41            * @{
+     42            */ 
+     43          
+     44          /* Private typedef -----------------------------------------------------------*/
+     45          /* Private define ------------------------------------------------------------*/
+     46          /* --------- PWR registers bit address in the alias region ---------- */
+     47          #define PWR_OFFSET               (PWR_BASE - PERIPH_BASE)
+     48          
+     49          /* --- CR Register ---*/
+     50          
+     51          /* Alias word address of DBP bit */
+     52          #define CR_OFFSET                (PWR_OFFSET + 0x00)
+     53          #define DBP_BitNumber            0x08
+     54          #define CR_DBP_BB                (PERIPH_BB_BASE + (CR_OFFSET * 32) + (DBP_BitNumber * 4))
+     55          
+     56          /* Alias word address of PVDE bit */
+     57          #define PVDE_BitNumber           0x04
+     58          #define CR_PVDE_BB               (PERIPH_BB_BASE + (CR_OFFSET * 32) + (PVDE_BitNumber * 4))
+     59          
+     60          /* Alias word address of FPDS bit */
+     61          #define FPDS_BitNumber           0x09
+     62          #define CR_FPDS_BB               (PERIPH_BB_BASE + (CR_OFFSET * 32) + (FPDS_BitNumber * 4))
+     63          
+     64          /* Alias word address of PMODE bit */
+     65          #define PMODE_BitNumber           0x0E
+     66          #define CR_PMODE_BB               (PERIPH_BB_BASE + (CR_OFFSET * 32) + (PMODE_BitNumber * 4))
+     67          
+     68          
+     69          /* --- CSR Register ---*/
+     70          
+     71          /* Alias word address of EWUP bit */
+     72          #define CSR_OFFSET               (PWR_OFFSET + 0x04)
+     73          #define EWUP_BitNumber           0x08
+     74          #define CSR_EWUP_BB              (PERIPH_BB_BASE + (CSR_OFFSET * 32) + (EWUP_BitNumber * 4))
+     75          
+     76          /* Alias word address of BRE bit */
+     77          #define BRE_BitNumber            0x09
+     78          #define CSR_BRE_BB              (PERIPH_BB_BASE + (CSR_OFFSET * 32) + (BRE_BitNumber * 4))
+     79          
+     80          /* ------------------ PWR registers bit mask ------------------------ */
+     81          
+     82          /* CR register bit mask */
+     83          #define CR_DS_MASK               ((uint32_t)0xFFFFFFFC)
+     84          #define CR_PLS_MASK              ((uint32_t)0xFFFFFF1F)
+     85          
+     86          /* Private macro -------------------------------------------------------------*/
+     87          /* Private variables ---------------------------------------------------------*/
+     88          /* Private function prototypes -----------------------------------------------*/
+     89          /* Private functions ---------------------------------------------------------*/
+     90          
+     91          /** @defgroup PWR_Private_Functions
+     92            * @{
+     93            */
+     94          
+     95          /** @defgroup PWR_Group1 Backup Domain Access function 
+     96           *  @brief   Backup Domain Access function  
+     97           *
+     98          @verbatim   
+     99           ===============================================================================
+    100                                      Backup Domain Access function 
+    101           ===============================================================================  
+    102          
+    103            After reset, the backup domain (RTC registers, RTC backup data 
+    104            registers and backup SRAM) is protected against possible unwanted 
+    105            write accesses. 
+    106            To enable access to the RTC Domain and RTC registers, proceed as follows:
+    107              - Enable the Power Controller (PWR) APB1 interface clock using the
+    108                RCC_APB1PeriphClockCmd() function.
+    109              - Enable access to RTC domain using the PWR_BackupAccessCmd() function.
+    110          
+    111          @endverbatim
+    112            * @{
+    113            */
+    114          
+    115          /**
+    116            * @brief  Deinitializes the PWR peripheral registers to their default reset values.     
+    117            * @param  None
+    118            * @retval None
+    119            */
+    120          void PWR_DeInit(void)
+    121          {
+    122            RCC_APB1PeriphResetCmd(RCC_APB1Periph_PWR, ENABLE);
+    123            RCC_APB1PeriphResetCmd(RCC_APB1Periph_PWR, DISABLE);
+    124          }
+    125          
+    126          /**
+    127            * @brief  Enables or disables access to the backup domain (RTC registers, RTC 
+    128            *         backup data registers and backup SRAM).
+    129            * @note   If the HSE divided by 2, 3, ..31 is used as the RTC clock, the 
+    130            *         Backup Domain Access should be kept enabled.
+    131            * @param  NewState: new state of the access to the backup domain.
+    132            *          This parameter can be: ENABLE or DISABLE.
+    133            * @retval None
+    134            */
+    135          void PWR_BackupAccessCmd(FunctionalState NewState)
+    136          {
+    137            /* Check the parameters */
+    138            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    139            
+    140            *(__IO uint32_t *) CR_DBP_BB = (uint32_t)NewState;
+    141          }
+    142          
+    143          /**
+    144            * @}
+    145            */
+    146          
+    147          /** @defgroup PWR_Group2 PVD configuration functions
+    148           *  @brief   PVD configuration functions 
+    149           *
+    150          @verbatim   
+    151           ===============================================================================
+    152                                     PVD configuration functions
+    153           ===============================================================================  
+    154          
+    155           - The PVD is used to monitor the VDD power supply by comparing it to a threshold
+    156             selected by the PVD Level (PLS[2:0] bits in the PWR_CR).
+    157           - A PVDO flag is available to indicate if VDD/VDDA is higher or lower than the 
+    158             PVD threshold. This event is internally connected to the EXTI line16
+    159             and can generate an interrupt if enabled through the EXTI registers.
+    160           - The PVD is stopped in Standby mode.
+    161          
+    162          @endverbatim
+    163            * @{
+    164            */
+    165          
+    166          /**
+    167            * @brief  Configures the voltage threshold detected by the Power Voltage Detector(PVD).
+    168            * @param  PWR_PVDLevel: specifies the PVD detection level
+    169            *          This parameter can be one of the following values:
+    170            *            @arg PWR_PVDLevel_0: PVD detection level set to 2.0V
+    171            *            @arg PWR_PVDLevel_1: PVD detection level set to 2.2V
+    172            *            @arg PWR_PVDLevel_2: PVD detection level set to 2.3V
+    173            *            @arg PWR_PVDLevel_3: PVD detection level set to 2.5V
+    174            *            @arg PWR_PVDLevel_4: PVD detection level set to 2.7V
+    175            *            @arg PWR_PVDLevel_5: PVD detection level set to 2.8V
+    176            *            @arg PWR_PVDLevel_6: PVD detection level set to 2.9V
+    177            *            @arg PWR_PVDLevel_7: PVD detection level set to 3.0V
+    178            * @note   Refer to the electrical characteristics of you device datasheet for more details. 
+    179            * @retval None
+    180            */
+    181          void PWR_PVDLevelConfig(uint32_t PWR_PVDLevel)
+    182          {
+    183            uint32_t tmpreg = 0;
+    184            
+    185            /* Check the parameters */
+    186            assert_param(IS_PWR_PVD_LEVEL(PWR_PVDLevel));
+    187            
+    188            tmpreg = PWR->CR;
+    189            
+    190            /* Clear PLS[7:5] bits */
+    191            tmpreg &= CR_PLS_MASK;
+    192            
+    193            /* Set PLS[7:5] bits according to PWR_PVDLevel value */
+    194            tmpreg |= PWR_PVDLevel;
+    195            
+    196            /* Store the new value */
+    197            PWR->CR = tmpreg;
+    198          }
+    199          
+    200          /**
+    201            * @brief  Enables or disables the Power Voltage Detector(PVD).
+    202            * @param  NewState: new state of the PVD.
+    203            *         This parameter can be: ENABLE or DISABLE.
+    204            * @retval None
+    205            */
+    206          void PWR_PVDCmd(FunctionalState NewState)
+    207          {
+    208            /* Check the parameters */
+    209            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    210            
+    211            *(__IO uint32_t *) CR_PVDE_BB = (uint32_t)NewState;
+    212          }
+    213          
+    214          /**
+    215            * @}
+    216            */
+    217          
+    218          /** @defgroup PWR_Group3 WakeUp pin configuration functions
+    219           *  @brief   WakeUp pin configuration functions 
+    220           *
+    221          @verbatim   
+    222           ===============================================================================
+    223                              WakeUp pin configuration functions
+    224           ===============================================================================  
+    225          
+    226           - WakeUp pin is used to wakeup the system from Standby mode. This pin is 
+    227             forced in input pull down configuration and is active on rising edges.
+    228           - There is only one WakeUp pin: WakeUp Pin 1 on PA.00.
+    229          
+    230          @endverbatim
+    231            * @{
+    232            */
+    233          
+    234          /**
+    235            * @brief  Enables or disables the WakeUp Pin functionality.
+    236            * @param  NewState: new state of the WakeUp Pin functionality.
+    237            *         This parameter can be: ENABLE or DISABLE.
+    238            * @retval None
+    239            */
+    240          void PWR_WakeUpPinCmd(FunctionalState NewState)
+    241          {
+    242            /* Check the parameters */  
+    243            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    244          
+    245            *(__IO uint32_t *) CSR_EWUP_BB = (uint32_t)NewState;
+    246          }
+    247          
+    248          /**
+    249            * @}
+    250            */
+    251          
+    252          /** @defgroup PWR_Group4 Main and Backup Regulators configuration functions
+    253           *  @brief   Main and Backup Regulators configuration functions 
+    254           *
+    255          @verbatim   
+    256           ===============================================================================
+    257                              Main and Backup Regulators configuration functions
+    258           ===============================================================================  
+    259          
+    260           - The backup domain includes 4 Kbytes of backup SRAM accessible only from the 
+    261             CPU, and address in 32-bit, 16-bit or 8-bit mode. Its content is retained 
+    262             even in Standby or VBAT mode when the low power backup regulator is enabled. 
+    263             It can be considered as an internal EEPROM when VBAT is always present.
+    264             You can use the PWR_BackupRegulatorCmd() function to enable the low power
+    265             backup regulator and use the PWR_GetFlagStatus(PWR_FLAG_BRR) to check if it is
+    266             ready or not. 
+    267          
+    268           - When the backup domain is supplied by VDD (analog switch connected to VDD) 
+    269             the backup SRAM is powered from VDD which replaces the VBAT power supply to 
+    270             save battery life.
+    271          
+    272           - The backup SRAM is not mass erased by an tamper event. It is read protected 
+    273             to prevent confidential data, such as cryptographic private key, from being 
+    274             accessed. The backup SRAM can be erased only through the Flash interface when
+    275             a protection level change from level 1 to level 0 is requested. 
+    276             Refer to the description of Read protection (RDP) in the Flash programming manual.
+    277          
+    278           - The main internal regulator can be configured to have a tradeoff between performance
+    279             and power consumption when the device does not operate at the maximum frequency. 
+    280             This is done through PWR_MainRegulatorModeConfig() function which configure VOS bit
+    281             in PWR_CR register: 
+    282                - When this bit is set (Regulator voltage output Scale 1 mode selected) the System
+    283                  frequency can go up to 168 MHz. 
+    284                - When this bit is reset (Regulator voltage output Scale 2 mode selected) the System
+    285                  frequency can go up to 144 MHz. 
+    286             Refer to the datasheets for more details.
+    287                     
+    288          @endverbatim
+    289            * @{
+    290            */
+    291          
+    292          /**
+    293            * @brief  Enables or disables the Backup Regulator.
+    294            * @param  NewState: new state of the Backup Regulator.
+    295            *          This parameter can be: ENABLE or DISABLE.
+    296            * @retval None
+    297            */
+    298          void PWR_BackupRegulatorCmd(FunctionalState NewState)
+    299          {
+    300            /* Check the parameters */
+    301            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    302          
+    303            *(__IO uint32_t *) CSR_BRE_BB = (uint32_t)NewState;
+    304          }
+    305          
+    306          /**
+    307            * @brief  Configures the main internal regulator output voltage.
+    308            * @param  PWR_Regulator_Voltage: specifies the regulator output voltage to achieve
+    309            *         a tradeoff between performance and power consumption when the device does
+    310            *         not operate at the maximum frequency (refer to the datasheets for more details).
+    311            *          This parameter can be one of the following values:
+    312            *            @arg PWR_Regulator_Voltage_Scale1: Regulator voltage output Scale 1 mode, 
+    313            *                                                System frequency up to 168 MHz. 
+    314            *            @arg PWR_Regulator_Voltage_Scale2: Regulator voltage output Scale 2 mode, 
+    315            *                                                System frequency up to 144 MHz.    
+    316            * @retval None
+    317            */
+    318          void PWR_MainRegulatorModeConfig(uint32_t PWR_Regulator_Voltage)
+    319          {
+    320            /* Check the parameters */
+    321            assert_param(IS_PWR_REGULATOR_VOLTAGE(PWR_Regulator_Voltage));
+    322          
+    323            if (PWR_Regulator_Voltage == PWR_Regulator_Voltage_Scale2)
+    324            {
+    325              PWR->CR &= ~PWR_Regulator_Voltage_Scale1;
+    326            }
+    327            else
+    328            {    
+    329              PWR->CR |= PWR_Regulator_Voltage_Scale1;
+    330            }
+    331          }
+    332          
+    333          /**
+    334            * @}
+    335            */
+    336          
+    337          /** @defgroup PWR_Group5 FLASH Power Down configuration functions
+    338           *  @brief   FLASH Power Down configuration functions 
+    339           *
+    340          @verbatim   
+    341           ===============================================================================
+    342                     FLASH Power Down configuration functions
+    343           ===============================================================================  
+    344          
+    345           - By setting the FPDS bit in the PWR_CR register by using the PWR_FlashPowerDownCmd()
+    346             function, the Flash memory also enters power down mode when the device enters 
+    347             Stop mode. When the Flash memory is in power down mode, an additional startup 
+    348             delay is incurred when waking up from Stop mode.
+    349          
+    350          @endverbatim
+    351            * @{
+    352            */
+    353          
+    354          /**
+    355            * @brief  Enables or disables the Flash Power Down in STOP mode.
+    356            * @param  NewState: new state of the Flash power mode.
+    357            *          This parameter can be: ENABLE or DISABLE.
+    358            * @retval None
+    359            */
+    360          void PWR_FlashPowerDownCmd(FunctionalState NewState)
+    361          {
+    362            /* Check the parameters */
+    363            assert_param(IS_FUNCTIONAL_STATE(NewState));
+    364          
+    365            *(__IO uint32_t *) CR_FPDS_BB = (uint32_t)NewState;
+    366          }
+    367          
+    368          /**
+    369            * @}
+    370            */
+    371          
+    372          /** @defgroup PWR_Group6 Low Power modes configuration functions
+    373           *  @brief   Low Power modes configuration functions 
+    374           *
+    375          @verbatim   
+    376           ===============================================================================
+    377                              Low Power modes configuration functions
+    378           ===============================================================================  
+    379          
+    380            The devices feature 3 low-power modes:
+    381             - Sleep mode: Cortex-M4 core stopped, peripherals kept running.
+    382             - Stop mode: all clocks are stopped, regulator running, regulator in low power mode
+    383             - Standby mode: 1.2V domain powered off.
+    384             
+    385             Sleep mode
+    386             ===========
+    387              - Entry:
+    388                - The Sleep mode is entered by using the __WFI() or __WFE() functions.
+    389              - Exit:
+    390                - Any peripheral interrupt acknowledged by the nested vectored interrupt 
+    391                  controller (NVIC) can wake up the device from Sleep mode.
+    392          
+    393             Stop mode
+    394             ==========
+    395             In Stop mode, all clocks in the 1.2V domain are stopped, the PLL, the HSI,
+    396             and the HSE RC oscillators are disabled. Internal SRAM and register contents 
+    397             are preserved.
+    398             The voltage regulator can be configured either in normal or low-power mode.
+    399             To minimize the consumption In Stop mode, FLASH can be powered off before 
+    400             entering the Stop mode. It can be switched on again by software after exiting 
+    401             the Stop mode using the PWR_FlashPowerDownCmd() function. 
+    402             
+    403              - Entry:
+    404                - The Stop mode is entered using the PWR_EnterSTOPMode(PWR_Regulator_LowPower,) 
+    405                  function with regulator in LowPower or with Regulator ON.
+    406              - Exit:
+    407                - Any EXTI Line (Internal or External) configured in Interrupt/Event mode.
+    408                
+    409             Standby mode
+    410             ============
+    411             The Standby mode allows to achieve the lowest power consumption. It is based 
+    412             on the Cortex-M4 deepsleep mode, with the voltage regulator disabled. 
+    413             The 1.2V domain is consequently powered off. The PLL, the HSI oscillator and 
+    414             the HSE oscillator are also switched off. SRAM and register contents are lost 
+    415             except for the RTC registers, RTC backup registers, backup SRAM and Standby 
+    416             circuitry.
+    417             
+    418             The voltage regulator is OFF.
+    419                
+    420              - Entry:
+    421                - The Standby mode is entered using the PWR_EnterSTANDBYMode() function.
+    422              - Exit:
+    423                - WKUP pin rising edge, RTC alarm (Alarm A and Alarm B), RTC wakeup,
+    424                  tamper event, time-stamp event, external reset in NRST pin, IWDG reset.              
+    425          
+    426             Auto-wakeup (AWU) from low-power mode
+    427             =====================================
+    428             The MCU can be woken up from low-power mode by an RTC Alarm event, an RTC 
+    429             Wakeup event, a tamper event, a time-stamp event, or a comparator event, 
+    430             without depending on an external interrupt (Auto-wakeup mode).
+    431          
+    432             - RTC auto-wakeup (AWU) from the Stop mode
+    433               ----------------------------------------
+    434               
+    435               - To wake up from the Stop mode with an RTC alarm event, it is necessary to:
+    436                 - Configure the EXTI Line 17 to be sensitive to rising edges (Interrupt 
+    437                   or Event modes) using the EXTI_Init() function.
+    438                 - Enable the RTC Alarm Interrupt using the RTC_ITConfig() function
+    439                 - Configure the RTC to generate the RTC alarm using the RTC_SetAlarm() 
+    440                   and RTC_AlarmCmd() functions.
+    441               - To wake up from the Stop mode with an RTC Tamper or time stamp event, it 
+    442                 is necessary to:
+    443                 - Configure the EXTI Line 21 to be sensitive to rising edges (Interrupt 
+    444                   or Event modes) using the EXTI_Init() function.
+    445                 - Enable the RTC Tamper or time stamp Interrupt using the RTC_ITConfig() 
+    446                   function
+    447                 - Configure the RTC to detect the tamper or time stamp event using the
+    448                   RTC_TimeStampConfig(), RTC_TamperTriggerConfig() and RTC_TamperCmd()
+    449                   functions.
+    450               - To wake up from the Stop mode with an RTC WakeUp event, it is necessary to:
+    451                 - Configure the EXTI Line 22 to be sensitive to rising edges (Interrupt 
+    452                   or Event modes) using the EXTI_Init() function.
+    453                 - Enable the RTC WakeUp Interrupt using the RTC_ITConfig() function
+    454                 - Configure the RTC to generate the RTC WakeUp event using the RTC_WakeUpClockConfig(), 
+    455                   RTC_SetWakeUpCounter() and RTC_WakeUpCmd() functions.
+    456          
+    457             - RTC auto-wakeup (AWU) from the Standby mode
+    458               -------------------------------------------
+    459               - To wake up from the Standby mode with an RTC alarm event, it is necessary to:
+    460                 - Enable the RTC Alarm Interrupt using the RTC_ITConfig() function
+    461                 - Configure the RTC to generate the RTC alarm using the RTC_SetAlarm() 
+    462                   and RTC_AlarmCmd() functions.
+    463               - To wake up from the Standby mode with an RTC Tamper or time stamp event, it 
+    464                 is necessary to:
+    465                 - Enable the RTC Tamper or time stamp Interrupt using the RTC_ITConfig() 
+    466                   function
+    467                 - Configure the RTC to detect the tamper or time stamp event using the
+    468                   RTC_TimeStampConfig(), RTC_TamperTriggerConfig() and RTC_TamperCmd()
+    469                   functions.
+    470               - To wake up from the Standby mode with an RTC WakeUp event, it is necessary to:
+    471                 - Enable the RTC WakeUp Interrupt using the RTC_ITConfig() function
+    472                 - Configure the RTC to generate the RTC WakeUp event using the RTC_WakeUpClockConfig(), 
+    473                   RTC_SetWakeUpCounter() and RTC_WakeUpCmd() functions.
+    474          
+    475          @endverbatim
+    476            * @{
+    477            */
+    478          
+    479          /**
+    480            * @brief  Enters STOP mode.
+    481            *   
+    482            * @note   In Stop mode, all I/O pins keep the same state as in Run mode.
+    483            * @note   When exiting Stop mode by issuing an interrupt or a wakeup event, 
+    484            *         the HSI RC oscillator is selected as system clock.
+    485            * @note   When the voltage regulator operates in low power mode, an additional 
+    486            *         startup delay is incurred when waking up from Stop mode. 
+    487            *         By keeping the internal regulator ON during Stop mode, the consumption 
+    488            *         is higher although the startup time is reduced.           
+    489            *     
+    490            * @param  PWR_Regulator: specifies the regulator state in STOP mode.
+    491            *          This parameter can be one of the following values:
+    492            *            @arg PWR_Regulator_ON: STOP mode with regulator ON
+    493            *            @arg PWR_Regulator_LowPower: STOP mode with regulator in low power mode
+    494            * @param  PWR_STOPEntry: specifies if STOP mode in entered with WFI or WFE instruction.
+    495            *          This parameter can be one of the following values:
+    496            *            @arg PWR_STOPEntry_WFI: enter STOP mode with WFI instruction
+    497            *            @arg PWR_STOPEntry_WFE: enter STOP mode with WFE instruction
+    498            * @retval None
+    499            */
+    500          void PWR_EnterSTOPMode(uint32_t PWR_Regulator, uint8_t PWR_STOPEntry)
+    501          {
+    502            uint32_t tmpreg = 0;
+    503            
+    504            /* Check the parameters */
+    505            assert_param(IS_PWR_REGULATOR(PWR_Regulator));
+    506            assert_param(IS_PWR_STOP_ENTRY(PWR_STOPEntry));
+    507            
+    508            /* Select the regulator state in STOP mode ---------------------------------*/
+    509            tmpreg = PWR->CR;
+    510            /* Clear PDDS and LPDSR bits */
+    511            tmpreg &= CR_DS_MASK;
+    512            
+    513            /* Set LPDSR bit according to PWR_Regulator value */
+    514            tmpreg |= PWR_Regulator;
+    515            
+    516            /* Store the new value */
+    517            PWR->CR = tmpreg;
+    518            
+    519            /* Set SLEEPDEEP bit of Cortex System Control Register */
+    520            SCB->SCR |= SCB_SCR_SLEEPDEEP_Msk;
+    521            
+    522            /* Select STOP mode entry --------------------------------------------------*/
+    523            if(PWR_STOPEntry == PWR_STOPEntry_WFI)
+    524            {   
+    525              /* Request Wait For Interrupt */
+    526              __WFI();
+    527            }
+    528            else
+    529            {
+    530              /* Request Wait For Event */
+    531              __WFE();
+    532            }
+    533            /* Reset SLEEPDEEP bit of Cortex System Control Register */
+    534            SCB->SCR &= (uint32_t)~((uint32_t)SCB_SCR_SLEEPDEEP_Msk);  
+    535          }
+    536          
+    537          /**
+    538            * @brief  Enters STANDBY mode.
+    539            * @note   In Standby mode, all I/O pins are high impedance except for:
+    540            *          - Reset pad (still available) 
+    541            *          - RTC_AF1 pin (PC13) if configured for tamper, time-stamp, RTC 
+    542            *            Alarm out, or RTC clock calibration out.
+    543            *          - RTC_AF2 pin (PI8) if configured for tamper or time-stamp.  
+    544            *          - WKUP pin 1 (PA0) if enabled.       
+    545            * @param  None
+    546            * @retval None
+    547            */
+    548          void PWR_EnterSTANDBYMode(void)
+    549          {
+    550            /* Clear Wakeup flag */
+    551            PWR->CR |= PWR_CR_CWUF;
+    552            
+    553            /* Select STANDBY mode */
+    554            PWR->CR |= PWR_CR_PDDS;
+    555            
+    556            /* Set SLEEPDEEP bit of Cortex System Control Register */
+    557            SCB->SCR |= SCB_SCR_SLEEPDEEP_Msk;
+    558            
+    559          /* This option is used to ensure that store operations are completed */
+    560          #if defined ( __CC_ARM   )
+    561            __force_stores();
+    562          #endif
+    563            /* Request Wait For Interrupt */
+    564            __WFI();
+    565          }
+    566          
+    567          /**
+    568            * @}
+    569            */
+    570          
+    571          /** @defgroup PWR_Group7 Flags management functions
+    572           *  @brief   Flags management functions 
+    573           *
+    574          @verbatim   
+    575           ===============================================================================
+    576                                     Flags management functions
+    577           ===============================================================================  
+    578          
+    579          @endverbatim
+    580            * @{
+    581            */
+    582          
+    583          /**
+    584            * @brief  Checks whether the specified PWR flag is set or not.
+    585            * @param  PWR_FLAG: specifies the flag to check.
+    586            *          This parameter can be one of the following values:
+    587            *            @arg PWR_FLAG_WU: Wake Up flag. This flag indicates that a wakeup event 
+    588            *                  was received from the WKUP pin or from the RTC alarm (Alarm A 
+    589            *                  or Alarm B), RTC Tamper event, RTC TimeStamp event or RTC Wakeup.
+    590            *                  An additional wakeup event is detected if the WKUP pin is enabled 
+    591            *                  (by setting the EWUP bit) when the WKUP pin level is already high.  
+    592            *            @arg PWR_FLAG_SB: StandBy flag. This flag indicates that the system was
+    593            *                  resumed from StandBy mode.    
+    594            *            @arg PWR_FLAG_PVDO: PVD Output. This flag is valid only if PVD is enabled 
+    595            *                  by the PWR_PVDCmd() function. The PVD is stopped by Standby mode 
+    596            *                  For this reason, this bit is equal to 0 after Standby or reset
+    597            *                  until the PVDE bit is set.
+    598            *            @arg PWR_FLAG_BRR: Backup regulator ready flag. This bit is not reset 
+    599            *                  when the device wakes up from Standby mode or by a system reset 
+    600            *                  or power reset.  
+    601            *            @arg PWR_FLAG_VOSRDY: This flag indicates that the Regulator voltage 
+    602            *                 scaling output selection is ready. 
+    603            * @retval The new state of PWR_FLAG (SET or RESET).
+    604            */
+    605          FlagStatus PWR_GetFlagStatus(uint32_t PWR_FLAG)
+    606          {
+    607            FlagStatus bitstatus = RESET;
+    608            
+    609            /* Check the parameters */
+    610            assert_param(IS_PWR_GET_FLAG(PWR_FLAG));
+    611            
+    612            if ((PWR->CSR & PWR_FLAG) != (uint32_t)RESET)
+    613            {
+    614              bitstatus = SET;
+    615            }
+    616            else
+    617            {
+    618              bitstatus = RESET;
+    619            }
+    620            /* Return the flag status */
+    621            return bitstatus;
+    622          }
+    623          
+    624          /**
+    625            * @brief  Clears the PWR's pending flags.
+    626            * @param  PWR_FLAG: specifies the flag to clear.
+    627            *          This parameter can be one of the following values:
+    628            *            @arg PWR_FLAG_WU: Wake Up flag
+    629            *            @arg PWR_FLAG_SB: StandBy flag
+    630            * @retval None
+    631            */
+    632          void PWR_ClearFlag(uint32_t PWR_FLAG)
+    633          {
+    634            /* Check the parameters */
+    635            assert_param(IS_PWR_CLEAR_FLAG(PWR_FLAG));
+    636                   
+    637            PWR->CR |=  PWR_FLAG << 2;
+    638          }
+    639          
+    640          /**
+    641            * @}
+    642            */
+    643          
+    644          /**
+    645            * @}
+    646            */
+    647          
+    648          /**
+    649            * @}
+    650            */
+    651          
+    652          /**
+    653            * @}
+    654            */
+    655          
+    656          /******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+       0   PWR_BackupAccessCmd
+       0   PWR_BackupRegulatorCmd
+       0   PWR_ClearFlag
+       8   PWR_DeInit
+         8   -> RCC_APB1PeriphResetCmd
+       0   PWR_EnterSTANDBYMode
+       0   PWR_EnterSTOPMode
+       0   PWR_FlashPowerDownCmd
+       0   PWR_GetFlagStatus
+       0   PWR_MainRegulatorModeConfig
+       0   PWR_PVDCmd
+       0   PWR_PVDLevelConfig
+       0   PWR_WakeUpPinCmd
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable10
+       4  ??DataTable10_1
+       4  ??DataTable10_2
+       4  ??DataTable10_3
+       4  ??DataTable10_4
+       4  ??DataTable10_5
+       4  ??DataTable10_6
+       4  ??DataTable10_7
+       8  PWR_BackupAccessCmd
+       8  PWR_BackupRegulatorCmd
+      14  PWR_ClearFlag
+      24  PWR_DeInit
+      40  PWR_EnterSTANDBYMode
+      54  PWR_EnterSTOPMode
+       8  PWR_FlashPowerDownCmd
+      22  PWR_GetFlagStatus
+      32  PWR_MainRegulatorModeConfig
+       8  PWR_PVDCmd
+      18  PWR_PVDLevelConfig
+       8  PWR_WakeUpPinCmd
+
+ 
+ 276 bytes in section .text
+ 
+ 276 bytes of CODE memory
+
+Errors: none
+Warnings: none

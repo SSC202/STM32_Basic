@@ -1,0 +1,399 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V7.30.1.7746/W32 for ARM        05/May/2015  09:12:34
+# Copyright 1999-2014 IAR Systems AB.
+#
+#    Cpu mode     =  thumb
+#    Endian       =  little
+#    Source file  =  
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_hash_md5.c
+#    Command line =  
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_hash_md5.c
+#        -D USE_STDPERIPH_DRIVER -D USE_DMP -D MPL_LOG_NDEBUG=1 -D EMPL -D
+#        MPU9250 -D EMPL_TARGET_STM32F4 -lcN
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\Debug\List\ -o
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\Debug\Obj\ --no_cse
+#        --no_unroll --no_inline --no_code_motion --no_tbaa --no_clustering
+#        --no_scheduling --debug --endian=little --cpu=Cortex-M4F -e
+#        --fpu=VFPv4_sp --dlib_config "C:\Program Files (x86)\IAR
+#        Systems\Embedded Workbench 7.0_2\arm\INC\c\DLib_Config_Normal.h" -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\User\inc\ -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\User\src\ -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\Peripheral\inc\ -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\Peripheral\src\ -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\STM32F4xx_StdPeriph_Driver\inc\
+#        -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\STM32F4xx_StdPeriph_Driver\src\
+#        -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\DeviceSupport\inc\
+#        -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\DeviceSupport\inc\
+#        -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\core\driver\include\
+#        -I C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\core\driver\eMPL\
+#        -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\core\driver\stm32l\
+#        -I C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\core\mllite\ -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\core\mpl\ -I
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\..\core\eMPL-hal\ -Ol
+#        -I "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        7.0_2\arm\CMSIS\Include\"
+#    List file    =  
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\Debug\List\stm32f4xx_hash_md5.lst
+#    Object file  =  
+#        C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\EWARM\Debug\Obj\stm32f4xx_hash_md5.o
+#
+###############################################################################
+
+C:\STM32_EWARM\STM32F4_MD6\Projects\eMD6\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_hash_md5.c
+      1          /**
+      2            ******************************************************************************
+      3            * @file    stm32f4xx_hash_md5.c
+      4            * @author  MCD Application Team
+      5            * @version V1.0.0
+      6            * @date    30-September-2011
+      7            * @brief   This file provides high level functions to compute the HASH MD5 and
+      8            *          HMAC MD5 Digest of an input message.
+      9            *          It uses the stm32f4xx_hash.c/.h drivers to access the STM32F4xx HASH
+     10            *          peripheral.
+     11            *
+     12            *  @verbatim
+     13            *    
+     14            *          ===================================================================
+     15            *                                   How to use this driver
+     16            *          ===================================================================
+     17            *          1. Enable The HASH controller clock using 
+     18            *            RCC_AHB2PeriphClockCmd(RCC_AHB2Periph_HASH, ENABLE); function.
+     19            *
+     20            *          2. Calculate the HASH MD5 Digest using HASH_MD5() function.
+     21            *
+     22            *          3. Calculate the HMAC MD5 Digest using HMAC_MD5() function.
+     23            *
+     24            *  @endverbatim
+     25            *
+     26            ******************************************************************************
+     27            * @attention
+     28            *
+     29            * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
+     30            * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
+     31            * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY
+     32            * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING
+     33            * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
+     34            * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
+     35            *
+     36            * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>
+     37            ******************************************************************************
+     38            */
+     39          
+     40          /* Includes ------------------------------------------------------------------*/
+     41          #include "stm32f4xx_hash.h"
+     42          
+     43          /** @addtogroup STM32F4xx_StdPeriph_Driver
+     44            * @{
+     45            */
+     46          
+     47          /** @defgroup HASH 
+     48            * @brief HASH driver modules
+     49            * @{
+     50            */
+     51          
+     52          /* Private typedef -----------------------------------------------------------*/
+     53          /* Private define ------------------------------------------------------------*/
+     54          #define MD5BUSY_TIMEOUT    ((uint32_t) 0x00010000)
+     55          
+     56          /* Private macro -------------------------------------------------------------*/
+     57          /* Private variables ---------------------------------------------------------*/
+     58          /* Private function prototypes -----------------------------------------------*/
+     59          /* Private functions ---------------------------------------------------------*/
+     60          
+     61          /** @defgroup HASH_Private_Functions
+     62            * @{
+     63            */ 
+     64          
+     65          /** @defgroup HASH_Group7 High Level MD5 functions
+     66           *  @brief   High Level MD5 Hash and HMAC functions 
+     67           *
+     68          @verbatim   
+     69           ===============================================================================
+     70                                    High Level MD5 Hash and HMAC functions
+     71           ===============================================================================
+     72          
+     73          
+     74          @endverbatim
+     75            * @{
+     76            */
+     77          
+     78          /**
+     79            * @brief  Compute the HASH MD5 digest.
+     80            * @param  Input: pointer to the Input buffer to be treated.
+     81            * @param  Ilen: length of the Input buffer.
+     82            * @param  Output: the returned digest
+     83            * @retval An ErrorStatus enumeration value:
+     84            *          - SUCCESS: digest computation done
+     85            *          - ERROR: digest computation failed
+     86            */
+     87          ErrorStatus HASH_MD5(uint8_t *Input, uint32_t Ilen, uint8_t Output[16])
+     88          {
+     89            HASH_InitTypeDef MD5_HASH_InitStructure;
+     90            HASH_MsgDigest MD5_MessageDigest;
+     91            __IO uint16_t nbvalidbitsdata = 0;
+     92            uint32_t i = 0;
+     93            __IO uint32_t counter = 0;
+     94            uint32_t busystatus = 0;
+     95            ErrorStatus status = SUCCESS;
+     96            uint32_t inputaddr  = (uint32_t)Input;
+     97            uint32_t outputaddr = (uint32_t)Output;
+     98          
+     99          
+    100            /* Number of valid bits in last word of the Input data */
+    101            nbvalidbitsdata = 8 * (Ilen % 4);
+    102          
+    103            /* HASH peripheral initialization */
+    104            HASH_DeInit();
+    105          
+    106            /* HASH Configuration */
+    107            MD5_HASH_InitStructure.HASH_AlgoSelection = HASH_AlgoSelection_MD5;
+    108            MD5_HASH_InitStructure.HASH_AlgoMode = HASH_AlgoMode_HASH;
+    109            MD5_HASH_InitStructure.HASH_DataType = HASH_DataType_8b;
+    110            HASH_Init(&MD5_HASH_InitStructure);
+    111          
+    112            /* Configure the number of valid bits in last word of the data */
+    113            HASH_SetLastWordValidBitsNbr(nbvalidbitsdata);
+    114          
+    115            /* Write the Input block in the IN FIFO */
+    116            for(i=0; i<Ilen; i+=4)
+    117            {
+    118              HASH_DataIn(*(uint32_t*)inputaddr);
+    119              inputaddr+=4;
+    120            }
+    121          
+    122            /* Start the HASH processor */
+    123            HASH_StartDigest();
+    124          
+    125            /* wait until the Busy flag is RESET */
+    126            do
+    127            {
+    128              busystatus = HASH_GetFlagStatus(HASH_FLAG_BUSY);
+    129              counter++;
+    130            }while ((counter != MD5BUSY_TIMEOUT) && (busystatus != RESET));
+    131          
+    132            if (busystatus != RESET)
+    133            {
+    134               status = ERROR;
+    135            }
+    136            else
+    137            {
+    138              /* Read the message digest */
+    139              HASH_GetDigest(&MD5_MessageDigest);
+    140              *(uint32_t*)(outputaddr)  = __REV(MD5_MessageDigest.Data[0]);
+    141              outputaddr+=4;
+    142              *(uint32_t*)(outputaddr)  = __REV(MD5_MessageDigest.Data[1]);
+    143              outputaddr+=4;
+    144              *(uint32_t*)(outputaddr)  = __REV(MD5_MessageDigest.Data[2]);
+    145              outputaddr+=4;
+    146              *(uint32_t*)(outputaddr)  = __REV(MD5_MessageDigest.Data[3]);
+    147            }
+    148            return status; 
+    149          }
+    150          
+    151          /**
+    152            * @brief  Compute the HMAC MD5 digest.
+    153            * @param  Key: pointer to the Key used for HMAC.
+    154            * @param  Keylen: length of the Key used for HMAC.
+    155            * @param  Input: pointer to the Input buffer to be treated.
+    156            * @param  Ilen: length of the Input buffer.
+    157            * @param  Output: the returned digest  
+    158            * @retval An ErrorStatus enumeration value:
+    159            *          - SUCCESS: digest computation done
+    160            *          - ERROR: digest computation failed
+    161            */
+    162          ErrorStatus HMAC_MD5(uint8_t *Key, uint32_t Keylen, uint8_t *Input, 
+    163                               uint32_t Ilen, uint8_t Output[16])
+    164          {
+    165            HASH_InitTypeDef MD5_HASH_InitStructure;
+    166            HASH_MsgDigest MD5_MessageDigest;
+    167            __IO uint16_t nbvalidbitsdata = 0;
+    168            __IO uint16_t nbvalidbitskey = 0;
+    169            uint32_t i = 0;
+    170            __IO uint32_t counter = 0;
+    171            uint32_t busystatus = 0;
+    172            ErrorStatus status = SUCCESS;
+    173            uint32_t keyaddr    = (uint32_t)Key;
+    174            uint32_t inputaddr  = (uint32_t)Input;
+    175            uint32_t outputaddr = (uint32_t)Output;
+    176          
+    177            /* Number of valid bits in last word of the Input data */
+    178            nbvalidbitsdata = 8 * (Ilen % 4);
+    179          
+    180            /* Number of valid bits in last word of the Key */
+    181            nbvalidbitskey = 8 * (Keylen % 4);
+    182             
+    183            /* HASH peripheral initialization */
+    184            HASH_DeInit();
+    185          
+    186            /* HASH Configuration */
+    187            MD5_HASH_InitStructure.HASH_AlgoSelection = HASH_AlgoSelection_MD5;
+    188            MD5_HASH_InitStructure.HASH_AlgoMode = HASH_AlgoMode_HMAC;
+    189            MD5_HASH_InitStructure.HASH_DataType = HASH_DataType_8b;
+    190            if(Keylen > 64)
+    191            {
+    192              /* HMAC long Key */
+    193              MD5_HASH_InitStructure.HASH_HMACKeyType = HASH_HMACKeyType_LongKey;
+    194            }
+    195            else
+    196            {
+    197              /* HMAC short Key */
+    198              MD5_HASH_InitStructure.HASH_HMACKeyType = HASH_HMACKeyType_ShortKey;
+    199            }
+    200            HASH_Init(&MD5_HASH_InitStructure);
+    201          
+    202            /* Configure the number of valid bits in last word of the Key */
+    203            HASH_SetLastWordValidBitsNbr(nbvalidbitskey);
+    204          
+    205            /* Write the Key */
+    206            for(i=0; i<Keylen; i+=4)
+    207            {
+    208              HASH_DataIn(*(uint32_t*)keyaddr);
+    209              keyaddr+=4;
+    210            }
+    211            
+    212            /* Start the HASH processor */
+    213            HASH_StartDigest();
+    214          
+    215            /* wait until the Busy flag is RESET */
+    216            do
+    217            {
+    218              busystatus = HASH_GetFlagStatus(HASH_FLAG_BUSY);
+    219              counter++;
+    220            }while ((counter != MD5BUSY_TIMEOUT) && (busystatus != RESET));
+    221          
+    222            if (busystatus != RESET)
+    223            {
+    224               status = ERROR;
+    225            }
+    226            else
+    227            {
+    228              /* Configure the number of valid bits in last word of the Input data */
+    229              HASH_SetLastWordValidBitsNbr(nbvalidbitsdata);
+    230          
+    231              /* Write the Input block in the IN FIFO */
+    232              for(i=0; i<Ilen; i+=4)
+    233              {
+    234                HASH_DataIn(*(uint32_t*)inputaddr);
+    235                inputaddr+=4;
+    236              }
+    237          
+    238              /* Start the HASH processor */
+    239              HASH_StartDigest();
+    240          
+    241              /* wait until the Busy flag is RESET */
+    242              counter =0;
+    243              do
+    244              {
+    245                 busystatus = HASH_GetFlagStatus(HASH_FLAG_BUSY);
+    246                 counter++;
+    247              }while ((counter != MD5BUSY_TIMEOUT) && (busystatus != RESET));
+    248          
+    249              if (busystatus != RESET)
+    250              {
+    251                status = ERROR;
+    252              }
+    253              else
+    254              {  
+    255                /* Configure the number of valid bits in last word of the Key */
+    256                HASH_SetLastWordValidBitsNbr(nbvalidbitskey);
+    257          
+    258                /* Write the Key */
+    259                keyaddr = (uint32_t)Key;
+    260                for(i=0; i<Keylen; i+=4)
+    261                {
+    262                  HASH_DataIn(*(uint32_t*)keyaddr);
+    263                  keyaddr+=4;
+    264                }
+    265            
+    266                 /* Start the HASH processor */
+    267                 HASH_StartDigest();
+    268          
+    269                 /* wait until the Busy flag is RESET */
+    270                 counter =0;
+    271                 do
+    272                 {
+    273                    busystatus = HASH_GetFlagStatus(HASH_FLAG_BUSY);
+    274                    counter++;
+    275                }while ((counter != MD5BUSY_TIMEOUT) && (busystatus != RESET));
+    276          
+    277                if (busystatus != RESET)
+    278                {
+    279                   status = ERROR;
+    280                }
+    281                else
+    282                {
+    283                   /* Read the message digest */
+    284                   HASH_GetDigest(&MD5_MessageDigest);
+    285                   *(uint32_t*)(outputaddr)  = __REV(MD5_MessageDigest.Data[0]);
+    286                   outputaddr+=4;
+    287                   *(uint32_t*)(outputaddr)  = __REV(MD5_MessageDigest.Data[1]);
+    288                   outputaddr+=4;
+    289                   *(uint32_t*)(outputaddr)  = __REV(MD5_MessageDigest.Data[2]);
+    290                   outputaddr+=4;
+    291                   *(uint32_t*)(outputaddr)  = __REV(MD5_MessageDigest.Data[3]);
+    292                }
+    293              }
+    294            }
+    295            return status;  
+    296          }
+    297          /**
+    298            * @}
+    299            */ 
+    300          
+    301          /**
+    302            * @}
+    303            */ 
+    304          
+    305          /**
+    306            * @}
+    307            */ 
+    308          
+    309          /**
+    310            * @}
+    311            */ 
+    312          
+    313          /******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/
+    314          
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+      72   HASH_MD5
+        72   -> HASH_DataIn
+        72   -> HASH_DeInit
+        72   -> HASH_GetDigest
+        72   -> HASH_GetFlagStatus
+        72   -> HASH_Init
+        72   -> HASH_SetLastWordValidBitsNbr
+        72   -> HASH_StartDigest
+      80   HMAC_MD5
+        80   -> HASH_DataIn
+        80   -> HASH_DeInit
+        80   -> HASH_GetDigest
+        80   -> HASH_GetFlagStatus
+        80   -> HASH_Init
+        80   -> HASH_SetLastWordValidBitsNbr
+        80   -> HASH_StartDigest
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+     182  HASH_MD5
+     394  HMAC_MD5
+
+ 
+ 576 bytes in section .text
+ 
+ 576 bytes of CODE memory
+
+Errors: none
+Warnings: none
