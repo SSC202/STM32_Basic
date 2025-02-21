@@ -267,3 +267,506 @@ Modbus 串行链路上所有设备的传输模式必须相同。**所有设备�
 
     ![NULL](./assets/picture_19.jpg)
 
+## 4. FreeModbus 从机移植
+
+FreeModbus 是一个开源的 Modbus 通信协议栈实现。它允许开发者在各种平台上轻松地实现 Modbus 通信功能，包括串口和以太网。FreeModbus 提供了用于从设备和主站通信的功能，支持 Modbus RTU 和 Modbus TCP 协议。
+
+**FreeModbus 官方只开源了 Modbus 从机源码。**
+
+[FreeMODBUS Downloads - Embedded Experts](https://www.embedded-experts.at/en/freemodbus-downloads/)
+
+FreeModbus 文件夹如下：
+
+![NULL](./assets/picture_34.jpg)
+
+> `demo`: 接口文件的模板和了一些示例代码
+>
+> `doc`: FreeModBus的说明文档
+>
+> `modbus`: ModBus 源码
+>
+> `tools`: 测试 ModBus 工具，一般使用 Modbus Poll 工具调试 ModBus。
+
+modbus 文件夹如下：
+
+![NULL](./assets/picture_35.jpg)
+
+> `ascii`: ModBus ASCII 源文件
+>
+> `functions`: ModBus 源码函数文件
+>
+> `include`: 相关的头文件
+>
+> `rtu`: ModBus RTU 文件
+>
+> `tcp`: ModBus TCP 文件
+
+### FreeModbus 裸机移植
+
+[参考资料](https://blog.csdn.net/qq_40305944/article/details/107447042)
+
+移植 `demo/BARE/port` 和 `modbus` 中的 `functions`，`include` ，`rtu` 和 `mb.c`。
+
+<font color=LightGreen>1. 修改`modbus\include\mbconfig.h`文件</font> 
+
+```c
+/* ----------------------- Defines ------------------------------------------*/
+/*! \defgroup modbus_cfg Modbus Configuration
+ *
+ * Most modules in the protocol stack are completly optional and can be
+ * excluded. This is specially important if target resources are very small
+ * and program memory space should be saved.<br>
+ *
+ * All of these settings are available in the file <code>mbconfig.h</code>
+ */
+/*! \addtogroup modbus_cfg
+ *  @{
+ */
+
+// 选择 ASCII/RTU/TCP 协议
+/*! \brief If Modbus ASCII support is enabled. */
+#define MB_ASCII_ENABLED                        (  0 )
+
+/*! \brief If Modbus RTU support is enabled. */
+#define MB_RTU_ENABLED                          (  1 )
+
+/*! \brief If Modbus TCP support is enabled. */
+#define MB_TCP_ENABLED                          (  0 )
+```
+
+```c
+/*! \brief Number of bytes which should be allocated for the <em>Report Slave ID
+ *    </em>command.
+ *
+ * This number limits the maximum size of the additional segment in the
+ * report slave id function. See eMBSetSlaveID(  ) for more information on
+ * how to set this value. It is only used if MB_FUNC_OTHER_REP_SLAVEID_ENABLED
+ * is set to <code>1</code>.
+ */
+#define MB_FUNC_OTHER_REP_SLAVEID_BUF           ( 32 )
+
+// 选择启用的功能码
+/*! \brief If the <em>Report Slave ID</em> function should be enabled. */
+#define MB_FUNC_OTHER_REP_SLAVEID_ENABLED       (  0 )
+
+/*! \brief If the <em>Read Input Registers</em> function should be enabled. */
+#define MB_FUNC_READ_INPUT_ENABLED              (  0 )
+
+/*! \brief If the <em>Read Holding Registers</em> function should be enabled. */
+#define MB_FUNC_READ_HOLDING_ENABLED            (  1 )
+
+/*! \brief If the <em>Write Single Register</em> function should be enabled. */
+#define MB_FUNC_WRITE_HOLDING_ENABLED           (  1 )
+
+/*! \brief If the <em>Write Multiple registers</em> function should be enabled. */
+#define MB_FUNC_WRITE_MULTIPLE_HOLDING_ENABLED  (  1 )
+
+/*! \brief If the <em>Read Coils</em> function should be enabled. */
+#define MB_FUNC_READ_COILS_ENABLED              (  0 )
+
+/*! \brief If the <em>Write Coils</em> function should be enabled. */
+#define MB_FUNC_WRITE_COIL_ENABLED              (  0 )
+
+/*! \brief If the <em>Write Multiple Coils</em> function should be enabled. */
+#define MB_FUNC_WRITE_MULTIPLE_COILS_ENABLED    (  0 )
+
+/*! \brief If the <em>Read Discrete Inputs</em> function should be enabled. */
+#define MB_FUNC_READ_DISCRETE_INPUTS_ENABLED    (  0 )
+
+/*! \brief If the <em>Read/Write Multiple Registers</em> function should be enabled. */
+#define MB_FUNC_READWRITE_HOLDING_ENABLED       (  0 )
+```
+
+<font color=LightGreen>2. 串口硬件移植`portserial.c`</font>
+
+ ```c
+ void vMBPortSerialEnable(BOOL xRxEnable, BOOL xTxEnable)
+ {
+     /* If xRXEnable enable serial receive interrupts. If xTxENable enable
+      * transmitter empty interrupts.
+      */
+     // 启用接收中断
+     if (xRxEnable) {
+         __HAL_UART_ENABLE_IT(&UART_PORT, UART_IT_RXNE);
+         RS485_Set(0);
+     } else {
+         __HAL_UART_DISABLE_IT(&UART_PORT, UART_IT_RXNE);
+         RS485_Set(1);
+     }
+     // 启用发送完成中断
+     if (xTxEnable) {
+         RS485_Set(1);
+         __HAL_UART_ENABLE_IT(&UART_PORT, UART_IT_TC);
+     } else {
+         RS485_Set(0);
+         __HAL_UART_DISABLE_IT(&UART_PORT, UART_IT_TC);
+     }
+ }
+ ```
+
+> 如果使用 `UART_IT_TXE` 中断，不会出现发送问题。但是使用 `UART_IT_TC` 中断时，由于为发送完成中断，需要修改 `eMBRTUSend()` 函数：
+>
+> ```c
+> eMBErrorCode
+> eMBRTUSend(UCHAR ucSlaveAddress, const UCHAR *pucFrame, USHORT usLength)
+> {
+>     eMBErrorCode eStatus = MB_ENOERR;
+>     USHORT usCRC16;
+> 
+>     ENTER_CRITICAL_SECTION();
+> 
+>     /* Check if the receiver is still in idle state. If not we where to
+>      * slow with processing the received frame and the master sent another
+>      * frame on the network. We have to abort sending the frame.
+>      */
+>     if (eRcvState == STATE_RX_IDLE) {
+>         /* First byte before the Modbus-PDU is the slave address. */
+>         pucSndBufferCur  = (UCHAR *)pucFrame - 1;
+>         usSndBufferCount = 1;
+> 
+>         /* Now copy the Modbus-PDU into the Modbus-Serial-Line-PDU. */
+>         pucSndBufferCur[MB_SER_PDU_ADDR_OFF] = ucSlaveAddress;
+>         usSndBufferCount += usLength;
+> 
+>         /* Calculate CRC16 checksum for Modbus-Serial-Line-PDU. */
+>         usCRC16                      = usMBCRC16((UCHAR *)pucSndBufferCur, usSndBufferCount);
+>         ucRTUBuf[usSndBufferCount++] = (UCHAR)(usCRC16 & 0xFF);
+>         ucRTUBuf[usSndBufferCount++] = (UCHAR)(usCRC16 >> 8);
+> 
+>         /* Activate the transmitter. */
+>         eSndState = STATE_TX_XMIT;
+>         /**** User begin ****/
+>         // 发送一次触发发送完成中断
+>         xMBPortSerialPutByte((CHAR)*pucSndBufferCur);
+>         pucSndBufferCur++; /* next byte in sendbuffer. */
+>         usSndBufferCount--;
+>         /**** User end ****/
+>         vMBPortSerialEnable(FALSE, TRUE);
+>     } else {
+>         eStatus = MB_EIO;
+>     }
+>     EXIT_CRITICAL_SECTION();
+>     return eStatus;
+> }
+> ```
+
+```c
+BOOL xMBPortSerialInit(UCHAR ucPORT, ULONG ulBaudRate, UCHAR ucDataBits, eMBParity eParity)
+{
+    return TRUE;
+}
+
+BOOL xMBPortSerialPutByte(CHAR ucByte)
+{
+    /* Put a byte in the UARTs transmit buffer. This function is called
+     * by the protocol stack if pxMBFrameCBTransmitterEmpty( ) has been
+     * called. */
+    // 发送一个字节
+    RS485_Set(1);
+    UART_PORT.Instance->DR = ucByte;
+    return TRUE;
+}
+
+BOOL xMBPortSerialGetByte(CHAR *pucByte)
+{
+    /* Return the byte in the UARTs receive buffer. This function is called
+     * by the protocol stack after pxMBFrameCBByteReceived( ) has been called.
+     */
+    // 接收一个字节
+    RS485_Set(0);
+    *pucByte = UART_PORT.Instance->DR;
+    return TRUE;
+}
+
+/**
+ * @brief   串口中断服务函数
+ */
+void USART2_IRQHandler(void)
+{
+    // 发送中断
+    if (__HAL_UART_GET_FLAG(&UART_PORT, UART_FLAG_TC) != RESET) {
+        __HAL_UART_CLEAR_FLAG(&UART_PORT, UART_FLAG_TC);
+        prvvUARTTxReadyISR();
+    }
+    // 接收中断
+    if (__HAL_UART_GET_FLAG(&UART_PORT, UART_FLAG_RXNE) != RESET) {
+        __HAL_UART_CLEAR_FLAG(&UART_PORT, UART_FLAG_RXNE);
+        prvvUARTRxISR();
+    }
+}
+```
+
+<font color=LightGreen>3. 定时器硬件移植`porttimer.c`</font>
+
+```c
+BOOL xMBPortTimersInit(USHORT usTim1Timerout50us)
+{
+    // 配置 50us 的定时器
+    TIM_PORT.Instance->ARR = usTim1Timerout50us - 1;
+    return TRUE;
+}
+
+inline void
+vMBPortTimersEnable()
+{
+    /* Enable the timer with the timeout passed to xMBPortTimersInit( ) */
+    __HAL_TIM_SET_COUNTER(&TIM_PORT, 0);
+    HAL_TIM_Base_Start_IT(&TIM_PORT);
+}
+
+inline void
+vMBPortTimersDisable()
+{
+    /* Disable any pending timers. */
+    HAL_TIM_Base_Stop_IT(&TIM_PORT);
+    __HAL_TIM_SET_COUNTER(&TIM_PORT, 0);
+}
+
+void TIM2_IRQHandler(void)
+{
+    if(__HAL_TIM_GET_FLAG(&TIM_PORT,TIM_FLAG_UPDATE) != RESET)
+    {
+        __HAL_UART_CLEAR_FLAG(&TIM_PORT,TIM_FLAG_UPDATE);
+        prvvTIMERExpiredISR();
+    }
+}
+```
+
+> 定时器中断优先级低于串口中断优先级。
+
+<font color=LightGreen>4. 功能码实现</font>
+
+```c
+// 输入寄存器
+eMBErrorCode
+eMBRegInputCB(UCHAR *pucRegBuffer, USHORT usAddress, USHORT usNRegs)
+{
+    eMBErrorCode eStatus = MB_ENOERR;
+    int iRegIndex;
+	
+    usAddress -= 1;
+    
+    if ((usAddress >= REG_INPUT_START) && (usAddress + usNRegs <= REG_INPUT_START + REG_INPUT_NREGS)) {
+        iRegIndex = (int)(usAddress - usRegInputStart);
+        while (usNRegs > 0) {
+            *pucRegBuffer++ =
+                (unsigned char)(usRegInputBuf[iRegIndex] >> 8);
+            *pucRegBuffer++ =
+                (unsigned char)(usRegInputBuf[iRegIndex] & 0xFF);
+            iRegIndex++;
+            usNRegs--;
+        }
+    } else {
+        eStatus = MB_ENOREG;
+    }
+
+    return eStatus;
+}
+
+// 保持寄存器
+eMBErrorCode
+eMBRegHoldingCB(UCHAR *pucRegBuffer, USHORT usAddress, USHORT usNRegs,
+                eMBRegisterMode eMode)
+{
+    eMBErrorCode eStatus = MB_ENOERR;
+    int iRegIndex;
+    usAddress -= 1;
+    if ((usAddress >= REG_HOLDING_START) && (usAddress + usNRegs <= REG_HOLDING_START + REG_HOLDING_NREGS)) {
+        iRegIndex = (int)(usAddress - usRegHoldingStart);
+        if (eMode == MB_REG_READ) {
+            while (usNRegs > 0) {
+                *pucRegBuffer++ =
+                    (unsigned char)(usRegHoldingBuf[iRegIndex] >> 8);
+                *pucRegBuffer++ =
+                    (unsigned char)(usRegHoldingBuf[iRegIndex] & 0xFF);
+                iRegIndex++;
+                usNRegs--;
+            }
+        } else {
+            while (usNRegs > 0) {
+                usRegHoldingBuf[iRegIndex] = *pucRegBuffer++;
+                usRegHoldingBuf[iRegIndex] <<= 8;
+                usRegHoldingBuf[iRegIndex] |= *pucRegBuffer++;
+                iRegIndex++;
+                usNRegs--;
+            }
+        }
+    } else {
+        eStatus = MB_ENOREG;
+    }
+    return eStatus;
+}
+
+// 线圈
+eMBErrorCode
+eMBRegCoilsCB(UCHAR *pucRegBuffer, USHORT usAddress, USHORT usNCoils,
+              eMBRegisterMode eMode)
+{
+    eMBErrorCode eStatus = MB_ENOERR;
+    int iNCoils          = (int)usNCoils;
+    unsigned short usBitOffset;
+
+    usAddress -= 1;
+    if ((usAddress >= REG_COILS_START) && (usAddress + usNCoils <= REG_COILS_START + REG_COILS_SIZE)) {
+        usBitOffset = (unsigned short)(usAddress - REG_COILS_START);
+        switch (eMode) {
+            case MB_REG_READ:
+                while (iNCoils > 0) {
+                    *pucRegBuffer++ = xMBUtilGetBits(ucRegCoilsBuf, usBitOffset, (unsigned char)(iNCoils > 8 ? 8 : iNCoils));
+                    iNCoils -= 8;
+                    usBitOffset += 8;
+                }
+                break;
+            case MB_REG_WRITE:
+                while (iNCoils > 0) {
+                    xMBUtilSetBits(ucRegCoilsBuf, usBitOffset, (unsigned char)(iNCoils > 8 ? 8 : iNCoils), *pucRegBuffer++);
+                    iNCoils -= 8;
+                    usBitOffset += 8;
+                }
+                break;
+        }
+    } else {
+        eStatus = MB_ENOREG;
+    }
+    return eStatus;
+}
+
+// 离散量输入
+eMBErrorCode
+eMBRegDiscreteCB(UCHAR *pucRegBuffer, USHORT usAddress, USHORT usNDiscrete)
+{
+    eMBErrorCode eStatus = MB_ENOERR;
+    short iNDiscrete     = (short)usNDiscrete;
+    USHORT usBitOffset;
+
+    usAddress -= 1;
+    if ((usAddress >= REG_DISCRETE_START) && (usAddress + usNDiscrete <= REG_DISCRETE_START + REG_DISCRETE_SIZE)) {
+        usBitOffset = (USHORT)(usAddress - REG_DISCRETE_START);
+        while (iNDiscrete > 0) {
+            *pucRegBuffer++ =
+                xMBUtilGetBits(usRegDiscreteBuf, usBitOffset, (UCHAR)(iNDiscrete > 8 ? 8 : iNDiscrete));
+            iNDiscrete -= 8;
+            usBitOffset += 8;
+        }
+    } else {
+        eStatus = MB_ENOREG;
+    }
+    return eStatus;
+}
+```
+
+> 输入的地址减一主要是避免 FreeModbus 源码中的地址自增。
+
+<font color=LightGreen>5. 主程序</font>
+
+```c
+// Modbus 初始化：RTU模式，从机地址 0x01，端口0，波特率9600，无校验    
+eMBInit(MB_RTU, 0x01, 0, 9600, MB_PAR_NONE);
+// Modbus 使能
+eMBEnable();
+// Modbus 轮询，此函数更新从机所有寄存器的状态
+eMBPoll();
+```
+
+### FreeModbus FreeRTOS 移植
+
+移植过程和裸机移植相似，不同点如下：
+
+- 临界段代码（`port.h`）
+
+  ```c
+  #define ENTER_CRITICAL_SECTION( )   taskENTER_CRITICAL()
+  #define EXIT_CRITICAL_SECTION( )    taskEXIT_CRITICAL()
+  ```
+
+- (可选)使用队列实现 FreeModbus 内的事件(`portevent.c`)
+
+  ```c
+  /* ----------------------- Variables ----------------------------------------*/
+  static osMessageQId xQueueHdl; // 队列句柄
+  
+  /* ----------------------- Start implementation -----------------------------*/
+  // 判断是否在中断内
+  BOOL bMBPortIsWithinException(void) {
+      return (BOOL)xPortIsInsideInterrupt();
+  }
+  
+  BOOL xMBPortEventInit(void)
+  {
+      BOOL bStatus = FALSE;
+      xQueueHdl    = osMessageQueueNew(1, sizeof(eMBEventType), NULL);
+      if (xQueueHdl != NULL) {
+          bStatus = TRUE;
+      }
+      return bStatus;
+  }
+  
+  void vMBPortEventClose(void)
+  {
+      if (xQueueHdl != NULL) {
+          osMessageQueueDelete(xQueueHdl);
+          xQueueHdl = NULL;
+      }
+  }
+  
+  BOOL xMBPortEventPost(eMBEventType eEvent)
+  {
+      BOOL bStatus = TRUE;
+      if (bMBPortIsWithinException()) {
+          BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+          if (xQueueSendFromISR((QueueHandle_t)xQueueHdl, (const void *)&eEvent, &xHigherPriorityTaskWoken) == pdPASS) {
+              portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+          } else {
+              bStatus = FALSE;
+          }
+      } else {
+          osStatus_t status = osMessageQueuePut(xQueueHdl, &eEvent, 0, 0);
+          if (status != osOK) {
+              bStatus = FALSE;
+          }
+      }
+      return bStatus;
+  }
+  
+  BOOL xMBPortEventGet(eMBEventType *peEvent)
+  {
+      BOOL xEventHappened = FALSE;
+      uint32_t timeout = osKernelGetTickCount() + 50;
+      osStatus_t status   = osMessageQueueGet(xQueueHdl, peEvent, NULL, timeout);
+      if (status == osOK) {
+          xEventHappened = TRUE;
+      }
+  
+      return xEventHappened;
+  }
+  ```
+
+
+## 5. FreeModbus 主机移植
+
+FreeModbus 官方未提供主机源码，主机源码由 armink 后续开发得到。
+
+[FreeModbus 主机仓库](https://github.com/armink/FreeModbus_Slave-Master-RTT-STM32)
+
+该仓库使用 RT-Thread 移植，这里使用 HAL 库进行主机移植。
+
+HAL 库移植参考：[Alidong/HAL_FreeRTOS_Modbus](https://github.com/Alidong/HAL_FreeRTOS_Modbus)
+
+注意事项：
+
+1. CubeMX 生成
+
+   ![NULL](./assets/picture_36.jpg)
+
+   Register Callack 的 UART 和 USART 均勾选 Enable。
+
+2. `IS_IRQ()` 修改为以下代码：
+
+   ```c
+   BOOL IS_IRQ(void)
+   {
+       return (BOOL)xPortIsInsideInterrupt();
+   }
+   ```
+
+剩下部分保留即可，该代码采用 FIFO 发送，效率更高。
