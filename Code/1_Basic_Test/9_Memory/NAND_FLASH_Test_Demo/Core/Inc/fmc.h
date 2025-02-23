@@ -7,7 +7,7 @@
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2024 STMicroelectronics.
+  * Copyright (c) 2025 STMicroelectronics.
   * All rights reserved.
   *
   * This software is licensed under terms that can be found in the LICENSE file
@@ -31,21 +31,15 @@
 
 /* USER CODE END Includes */
 
-extern SRAM_HandleTypeDef hsram1;
 extern NAND_HandleTypeDef hnand1;
-extern SDRAM_HandleTypeDef hsdram1;
 
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
 
 void MX_FMC_Init(void);
-void HAL_SRAM_MspInit(SRAM_HandleTypeDef* hsram);
-void HAL_SRAM_MspDeInit(SRAM_HandleTypeDef* hsram);
 void HAL_NAND_MspInit(NAND_HandleTypeDef* hnand);
 void HAL_NAND_MspDeInit(NAND_HandleTypeDef* hnand);
-void HAL_SDRAM_MspInit(SDRAM_HandleTypeDef* hsdram);
-void HAL_SDRAM_MspDeInit(SDRAM_HandleTypeDef* hsdram);
 
 /* USER CODE BEGIN Prototypes */
 

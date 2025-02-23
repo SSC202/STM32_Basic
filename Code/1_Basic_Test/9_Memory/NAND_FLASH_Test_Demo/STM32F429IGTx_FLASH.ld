@@ -64,9 +64,7 @@ MEMORY
 RAM (xrw)      : ORIGIN = 0x20000000, LENGTH = 192K
 CCMRAM (xrw)      : ORIGIN = 0x10000000, LENGTH = 64K
 FLASH (rx)      : ORIGIN = 0x8000000, LENGTH = 1024K
-CCMRAM_Table_Addr (xrw)    : ORIGIN = 0x1000F000, LENGTH = 3840
-EXSDRAM_Addr (xrw)    : ORIGIN = 0xC01F4000, LENGTH = 28912K
-EXSDRAM_Table_Addr (xrw)    : ORIGIN = 0xC1e30000, LENGTH = 1807K
+RAM_Array_Addr(xrw)    : ORIGIN = 0XC0000000,   LENGTH = 32M
 }
 
 /* Define output sections */
@@ -196,26 +194,12 @@ SECTIONS
     . = ALIGN(8);
   } >RAM
 
-  .CCMRAM_Table :	
+  .RAM_Array (NOLOAD):	
   {
-   . = ALIGN(32);
-   *(.CCMRAM_Table)	
-   . = ALIGN(32);
-  } >CCMRAM_Table_Addr 
-
-  .EXSDRAM (NOLOAD):	
-  {
-   . = ALIGN(32);
-   *(.EXSDRAM)	
-   . = ALIGN(32);
-  } >EXSDRAM_Addr   
-
-  .EXSDRAM_Table (NOLOAD):	
-  {
-   . = ALIGN(32);
-   *(.EXSDRAM_Table)	
-   . = ALIGN(32);
-  } >EXSDRAM_Table_Addr   
+   . = ALIGN(4);
+   *(.RAM_Array)	
+   . = ALIGN(4);
+  } >RAM_Array_Addr
 
   /* Remove information from the standard libraries */
   /DISCARD/ :
