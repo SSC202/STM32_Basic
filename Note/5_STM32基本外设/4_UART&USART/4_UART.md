@@ -36,14 +36,13 @@
   **比特率：** 每秒钟传送的比特数，单位bit/s
 
   **波特率：** 每秒钟传送的码元数，单位Baud
-
   $$
   比特率 = 波特率*log_2M
   $$
   M表示每个码元承载的信息量；
-
+  
   二进制系统中，波特率数值上等于比特率。
-
+  
 - 常用串行通信接口(板级协议)
 
   | 通信接口         | 接口引脚                                                     | 数据同步方式 | 数据传输方向 |
@@ -257,7 +256,7 @@ HAL_StatusTypeDef HAL_UARTEx_ReceiveToIdle_DMA(UART_HandleTypeDef *huart, uint8_
 
 ## 4. UART 的基本应用
 
-### 自定义通讯协议
+### 自定义通讯协议和缓冲区
 
 **发送设备和接收设备应当指定应用层通信协议（和硬件协议不同），便于解析发送设备传来的数据**。
 
@@ -289,6 +288,112 @@ HAL_StatusTypeDef HAL_UARTEx_ReceiveToIdle_DMA(UART_HandleTypeDef *huart, uint8_
 3. 使用DMA解包。
 
    不定长数据包接收，通过空闲中断判断传输结束。
+
+> **缓冲区**：
+>
+> 缓冲区和串口接收数组有一定区别，相比之下，缓冲区对实时性的强调不强。另一方面，串口接收数组一般很短(轮询时减小阻塞，中断时快速中断进行实时处理数据)，串口接收完成后，一般在缓冲区允许的条件下直接将接收到的数据存到一个更大的缓冲区(保证存储空间足够)，实际代码在缓冲区读取数据和指令。这样做的目的在于：当串口很频繁的接收数据而处理数据的代码很慢时，新来的串口接收数据不会进入缓冲区从而覆盖掉缓冲区已有的数据造成数据覆盖。
+>
+> 缓冲区和使用何种方式接收数据包并无关系。
+>
+> 但是使用缓冲区仍然存在数据覆盖的问题：必须使用一个标志位准许串口接收的数据进入缓冲区，如果处理数据代码很慢，标志位一直不允许串口数据进入，将会造成数据丢失。
+>
+> 为了减轻这种情况，可以使用循环缓冲区(Ring Buffer)。
+>
+> 普通的缓冲区就是一个大数组，新的数据总是接在旧的数据之后，如果数据处理速度慢，就会导致缓冲区内数据累积，但是又没有合适的处理手段，此时就会把缓冲区炸掉。
+>
+> 为了减轻这种问题，将缓冲区的末尾连接到起始位置形成一个闭合的环，来实现数据的循环存取。核心思想是：当新的数据到来时，将该数据接在旧数据之后，如果最近一次的数据超过了缓冲区大小，但是缓冲区头部的数据已经处理完毕，可以将数据放在缓冲区尾部，同时将剩余数据覆盖掉缓冲区头部数据，由此实现循环缓冲。
+>
+> [环形缓冲区介绍](https://www.bilibili.com/video/BV1p75yzSEt9?vd_source=2d2507d13250e2545de99f3c552af296&spm_id_from=333.788.videopod.sections)
+>
+> 循环缓冲区通过两个指针或索引来管理数据的读写操作：写指针(write pointer)：指向下一个可写入数据的位置。读指针(read pointer)：指向下一个可以读取数据的位置。当数据被写入缓冲区时，写指针会前移；当数据被读取时，读指针也会前移。如果任一指针到达缓冲区的末尾，它会回绕到缓冲区的开头，从而形成循环。
+>
+> ```c
+> #define BUFFER_SIZE 128			// 循环缓冲区大小
+> uint8_t buffer[BUFFER_SIZE];	// 循环缓冲区
+> uint8_t readIndex = 0;			// 循环缓冲区读索引
+> uint8_t writeIndex = 0;			// 循环缓冲区写索引
+> 
+> /**
+> * @brief 增加读索引
+> * @param length 要增加的长度
+> */
+> void Buffer_AddReadIndex(uint8_t length) {
+>     readIndex += length;
+>     readIndex %= BUFFER_SIZE;			// 使用取余保证溢出后循环
+> }
+> 
+> /**
+> * @brief 读取第i位数据，超过缓存区长度自动循环
+> * @param i 	要读取的数据索引，可以超过BufferSize
+> */
+> uint8_t Buffer_ReadOneBit(uint8_t i) {
+>     uint8_t index = i % BUFFER_SIZE;	// 使用取余保证溢出后循环
+>     return buffer[index];
+> }
+> 
+> /**
+> * @brief 计算未处理的数据长度
+> * @return 未处理的数据长度
+> * @retval 0 缓冲区为空
+> * @retval 1~BUFFER_SIZE-1 未处理的数据长度
+> * @retval BUFFER_SIZE 缓冲区已满
+> */
+> uint8_t Buffer_GetLength() {
+>     return (writeIndex + BUFFER_SIZE - readIndex) % BUFFER_SIZE;
+> }
+> 
+> /**
+> * @brief 计算缓冲区剩余空间
+> * @return 剩余空间
+> * @retval 0 缓冲区已满
+> * @retval 1~BUFFER_SIZE-1 剩余空间
+> * @retval BUFFER_SIZE 缓冲区为空
+> */
+> uint8_t Buffer_GetRemain() {
+>     return BUFFER_SIZE - Command_GetLength();
+> }
+> 
+> /**
+> * @brief 向缓冲区写入数据
+> * @param data 要写入的数据指针
+> * @param length 要写入的数据长度
+> * @return 写入的数据长度
+> */
+> uint8_t Buffer_Write(uint8_t *data, uint8_t length) {
+>     // 如果缓冲区不足 则不写入数据 返回0
+>     if (Buffer_GetRemain() < length) {
+>         return 0;
+>     }
+>     // 使用memcpy函数将数据写入缓冲区
+>     if (writeIndex + length < BUFFER_SIZE) {
+>         memcpy(buffer + writeIndex, data, length);
+>         writeIndex += length;
+>     } else {
+>         uint8_t firstLength = BUFFER_SIZE - writeIndex;
+>         memcpy(buffer + writeIndex, data, firstLength);
+>         memcpy(buffer, data + firstLength, length - firstLength);
+>         writeIndex = length - firstLength;
+>     }
+>     return length;
+> }
+> 
+> /**
+> * @brief 从缓冲区读出数据(轮询)
+> * @param readbuffer 数据存放指针
+> * @return 获取的数据长度
+> * @retval 0 没有获取到数据
+> */
+> uint8_t Command_Read(uint8_t *readbuffer) {
+>     // 寻找完整指令
+>     while (1) {
+> 		// 1. 判断长度
+>         // 2. 校验信息
+>         // 3. 读取数据
+>     }
+> }
+> ```
+>
+> 实际使用中，还是应当保证处理数据的速度大于串口接收速度，因为环形缓冲区满后无法写入数据仍然造成数据丢失。
 
 ### 串口重定向
 
