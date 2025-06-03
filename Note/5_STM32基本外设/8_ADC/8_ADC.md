@@ -28,17 +28,17 @@ ADC全称Analog-to-Digital Converter，指模拟/数字转换器。ADC可以将�
 
 ### 并联比较和逐次逼近电路
 
-输入的模拟信号电压经过采样保持后，得到的是阶梯波。而该阶梯波仍然是一个可以连续取值的模拟量。但n位数字量只能保持 ![2^{n}](https://www.zhihu.com/equation?tex=2%5E%7Bn%7D&consumer=ZHI_MENG) 个数值。因此，用数字量来表示连续变化的模拟量时就有一个类似于四舍五入的近似问题。将采样后的样值脉冲电平归化到与之接近的离散电平之上，这个过程称为量化。指定的离散电平称为量化电平 ![U_{q}](https://www.zhihu.com/equation?tex=U_%7Bq%7D&consumer=ZHI_MENG) ，两个量化电平之间的差值称为量化单位 ![\Delta](https://www.zhihu.com/equation?tex=%5CDelta&consumer=ZHI_MENG) ，即1LSB ，位数越多，量化等级越细，![\Delta](https://www.zhihu.com/equation?tex=%5CDelta&consumer=ZHI_MENG)就越小。
+输入的模拟信号电压经过采样保持后，得到的是阶梯波。而该阶梯波仍然是一个可以连续取值的模拟量。但n位数字量只能保持 $2^n$ 个数值。因此，用数字量来表示连续变化的模拟量时就有一个类似于四舍五入的近似问题。将采样后的样值脉冲电平归化到与之接近的离散电平之上，这个过程称为量化。指定的离散电平称为量化电平 $U_q$，两个量化电平之间的差值称为量化单位 $\Delta$ ，即1LSB ，位数越多，量化等级越细，$\Delta$ 就越小。
 
 ![NULL](./assets/picture_6.jpg)
 
-采样保持后未量化的 ![U_{o}](https://www.zhihu.com/equation?tex=U_%7Bo%7D&consumer=ZHI_MENG) 值与量化电平![U_{q}](https://www.zhihu.com/equation?tex=U_%7Bq%7D&consumer=ZHI_MENG)值通常是不相等的，其差值称为量化误差 ![\varepsilon](https://www.zhihu.com/equation?tex=%5Cvarepsilon&consumer=ZHI_MENG) ，即 ![\varepsilon = U_{o} - U_{q}](https://www.zhihu.com/equation?tex=%5Cvarepsilon+%3D+U_%7Bo%7D+-+U_%7Bq%7D&consumer=ZHI_MENG) 。量化的方法一般有两种：**只舍不入法**和**四舍五入法**。
+采样保持后未量化的 $U_{o}$ 值与量化电平 $U_{q}$ 值通常是不相等的，其差值称为量化误差 $\epsilon$，即$\epsilon = U_o-U_q$。量化的方法一般有两种：**只舍不入法**和**四舍五入法**。
 
-> 1. **只舍不入法：**当 ![U_{o}](https://www.zhihu.com/equation?tex=U_%7Bo%7D&consumer=ZHI_MENG) 的尾数小于 ![\Delta](https://www.zhihu.com/equation?tex=%5CDelta&consumer=ZHI_MENG) 时，舍尾取整。这种方法 ![\varepsilon](https://www.zhihu.com/equation?tex=%5Cvarepsilon&consumer=ZHI_MENG) 总为正值， ![\varepsilon_{max} =\Delta](https://www.zhihu.com/equation?tex=%5Cvarepsilon_%7Bmax%7D+%3D%5CDelta&consumer=ZHI_MENG) 。以ADC为例，设输入信号的变化范围为0～1V，那么 ![\Delta = 1 / 2^{3} = 1/8 V](https://www.zhihu.com/equation?tex=%5CDelta+%3D+1+%2F+2%5E%7B3%7D+%3D+1%2F8+V&consumer=ZHI_MENG) ，量化中不足量化单位部分舍弃，如数值在0～1/8V之间的模拟电压都当作 ![0\Delta](https://www.zhihu.com/equation?tex=0%5CDelta&consumer=ZHI_MENG) ，用二进制数000表示，而数值在1/8～2/8V之间的模拟电压都当作 ![1\Delta](https://www.zhihu.com/equation?tex=1%5CDelta&consumer=ZHI_MENG) ，用二进制数001表示，以此类推，数值在7/8～8/8V之间的模拟电压都当作 ![7\Delta](https://www.zhihu.com/equation?tex=7%5CDelta&consumer=ZHI_MENG) ，用二进制数111表示；
+> 1. **只舍不入法：**当 $U_{o}$ 的尾数小于 $\Delta$ 时，舍尾取整。这种方法 $\epsilon$ 总为正值，$\epsilon_{max} = \Delta$ 。以ADC为例，设输入信号的变化范围为0～1V，那么 $\Delta = \frac{1}{2^3} = \frac{1}{8}V$ ，量化中不足量化单位部分舍弃，如数值在0～1/8V之间的模拟电压都当作 $0\Delta$ ，用二进制数000表示，而数值在1/8～2/8V之间的模拟电压都当作 $1\Delta$ ，用二进制数001表示，以此类推，数值在7/8～8/8V之间的模拟电压都当作 $7\Delta$ ，用二进制数111表示；
 >
 >    ![NULL](./assets/picture_7.jpg)
 >
-> 2. **四舍五入法：**当 ![U_{o}](https://www.zhihu.com/equation?tex=U_%7Bo%7D&consumer=ZHI_MENG) 的尾数小于 ![\Delta / 2](https://www.zhihu.com/equation?tex=%5CDelta+%2F+2&consumer=ZHI_MENG) 时，舍尾取整;当 ![U_{o}](https://www.zhihu.com/equation?tex=U_%7Bo%7D&consumer=ZHI_MENG) 的尾数不小于 ![\Delta / 2](https://www.zhihu.com/equation?tex=%5CDelta+%2F+2&consumer=ZHI_MENG) 时，舍尾入整。这种方法 ![\varepsilon](https://www.zhihu.com/equation?tex=%5Cvarepsilon&consumer=ZHI_MENG) 可正可负，但是 ![|\varepsilon_{max} |=\Delta / 2](https://www.zhihu.com/equation?tex=%7C%5Cvarepsilon_%7Bmax%7D+%7C%3D%5CDelta+%2F+2&consumer=ZHI_MENG) ，可见它的误差要小。仍以3位ADC为例，设输入信号的变化范围为0～1V，那么 ![\Delta / 2= (1 / 2^{3}) /2 = 1/16 V](https://www.zhihu.com/equation?tex=%5CDelta+%2F+2%3D+%281+%2F+2%5E%7B3%7D%29+%2F2+%3D+1%2F16+V&consumer=ZHI_MENG) ，量化中不足量化单位部分舍弃，如数值在0～1/16V之间的模拟电压都当作 ![0\Delta](https://www.zhihu.com/equation?tex=0%5CDelta&consumer=ZHI_MENG) ，用二进制数000表示，而数值在1/16～3/16V之间的模拟电压都当作 ![1\Delta](https://www.zhihu.com/equation?tex=1%5CDelta&consumer=ZHI_MENG) ，用二进制数001表示，以此类推。
+> 2. **四舍五入法：**当 $U_o$ 的尾数小于 $\frac{\Delta}{2}$ 时，舍尾取整;当 $U_o$的尾数不小于  $\frac{\Delta}{2}$ 时，舍尾入整。这种方法 $\epsilon$ 可正可负，但是 $|\epsilon_{max}| = \frac{\Delta}{2}$ ，可见它的误差要小。仍以3位ADC为例，设输入信号的变化范围为0～1V，那么 $\Delta = \frac{1}{2^3 \times 2} = \frac{1}{16}V$ ，量化中不足量化单位部分舍弃，如数值在0～1/16V之间的模拟电压都当作 $0\Delta$ ，用二进制数000表示，而数值在1/16～3/16V之间的模拟电压都当作 $1\Delta$，用二进制数001表示，以此类推。
 >
 >    ![NULL](./assets/picture_8.jpg)
 
