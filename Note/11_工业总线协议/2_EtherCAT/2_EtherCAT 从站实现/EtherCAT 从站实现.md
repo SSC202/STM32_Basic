@@ -1,5 +1,7 @@
 # EtherCAT 从站实现
 
+> 本节介绍基于 SSC 工具，LAN9252 + STM32F407 的 EtherCAT 从站实现。
+
 ## 1. EtherCAT 从站硬件
 
 ### EtherCAT 从站芯片
@@ -57,7 +59,7 @@ ESC 根据倍福公司的 IP core 设计，常见的 ESC 芯片如下：
 > - SSC 支持几乎所有应用层协议栈 (EoE，CoE，FoE) 等，同时还提供了对专有协议 CIA402 等的支持。SSC 还提供了专门的工具来配置协议栈和 PDO。SSC 是针对 BeckHoff 的 PIC 和 ET1100 芯片编写的，如果使用 STM32 或者其他通用处理器，需要手工移植代码。
 > - SOES 支持 EoE 和 CoE 这两种较为常用的应用层协议，同时支持静态和动态的 PDO 映射。 SOES 的代码相较于 SSC 精简很多，代码可移植性较好。
 
-### 基于 SSC 的 EtherCAT 从站配置
+### SSC 配置
 
 1. 安装 SSC_V5.11 工具
 
@@ -239,6 +241,85 @@ ESC 根据倍福公司的 IP core 设计，常见的 ESC 芯片如下：
    ![NULL](./assets/picture_9.jpg)
 
 
+
+### XML 配置文件
+
+> XML 基本语法：[链接](https://www.runoob.com/xml/xml-tutorial.html)
+
+从站设备描述文件 ESI 是 EtherCAT 从站设备的配置文件，文件为 XML 格式。 XML 文件编写好后，通过主站程序或其它烧写工具下载到从站设备的 EEPROM 中。ESC 上电时，通过 IIC 总线读取 EEPROM，配置芯片内部的寄存器。
+
+从站设备描述文件的主要功能是描述 EtherCAT 从站的配置信息，主要包含以下两个部分：EtherCAT 从站制造商信息和 EtherCAT 从站描述信息。
+
+![NULL](./assets/picture_22.jpg)
+
+- 制造商信息：
+
+  ![NULL](./assets/picture_23.jpg)
+
+- 设备信息：
+
+  ![NULL](./assets/picture_24.jpg)
+
+  - 设备名称和接口类型：
+
+    ![NULL](./assets/picture_25.jpg)
+
+    > 当使用 MII 接口 0 和接口 1 时，Physical 定义为 YY；
+
+  - FMMU 通道设置：
+
+    ![NULL](./assets/picture_26.jpg)
+
+    > 定义了 3 个 FMMU 通道：Outputs、Inputs 和 Mailbox，分别用于过程数据输出、过程数据输入和邮箱数据通讯。
+
+  - SM 通道设置：
+
+    ![NULL](./assets/picture_27.jpg)
+
+    > SM 通道一共用到 4 个。
+    >
+    > 通道 1 用于邮箱数据输出，起始地址设为 0x1000，控制位设为 0x26，使能位设为使能；
+    >
+    > 通道 2 用于邮箱数据输入，起始地址设为 0x1080，控制位设为 0x22，使能位设为使能；
+    >
+    > 通道 3 用于过程数据输出，起始地址设为 0x1100，控制位设为 0x24，使能位设为使能；
+    >
+    > 通道 4 用于过程数据输入，起始地址设为 0x1180，控制位设为 0x20，使能位设为使能。
+
+  - 过程数据设置：
+
+    ![NULL](./assets/picture_28.jpg)
+
+    > 配置信息包括对应的 SM 通道、FMMU 单元、索引号、数据类型、数据长度和数据名称。
+
+  - 邮箱设置：
+
+    ![NULL](./assets/picture_29.jpg)
+
+    > 可以配置邮箱协议：CoE，SoE，FoE 和 EoE。
+
+  - 分布式时钟设置：
+
+    ![NULL](./assets/picture_31.jpg)
+
+    > 从站运行有两种模式，一种是自由模式，一种是同步模式。
+    >
+    > 自由模式时，不需要分布时钟单元的同步信号输出；但是在同步模式时，需要 ESC 芯片输出同步脉冲。
+    >
+    > 同步时钟模块有两种状态，一种是同步信号使能模式，一种是同步信号失能模式。
+
+  - EEPROM 设置：
+
+    ![NULL](./assets/picture_30.jpg)
+
+    > 在 EtherCAT 从站中，需要配置 EEPROM 的大小和一些寄存器的初始化数据。
+    >
+    > 这里 EEPROM 的大小为 2KB，相关寄存器的初始化数据为 800E00CC8813f000000000800000，这个数据主要用来配置过程数据接口信息以及使能同步时钟输出信号的相关硬件驱动。
+
+### STM32 配置和 LAN9252 从站搭建
+
+
+
 ### EtherCAT 从站测试
 
 1. TwinCAT 软件下载
@@ -286,4 +367,34 @@ ESC 根据倍福公司的 IP core 设计，常见的 ESC 芯片如下：
    > 3. 双击项目 SYSTEM，选择 Choose Target；
    > 4. 扫描网卡，选择网卡设备。
    
+3. 扫描设备并进行测试
+
+   从机网口和主机网口相互连接，然后按图进行设备扫描。
+
+   ![NULL](./assets/picture_16.jpg)
+
+   此时可以扫描到设备：
+
+   ![NULL](./assets/picture_17.jpg)
+
+   此时可以在 Box 内读写数据。
    
+   > **从站 EEPROM 烧写：**
+   >
+   > 更新 EEPROM 前，需要将新的 XML 文件放到 TwinCAT 的安装路径下：`C:\TwinCAT\3.1\Config\Io\EtherCAT`(C 盘是 TwinCAT 的安装盘)；
+   >
+   > ![NULL](./assets/picture_18.jpg)
+   >
+   > 其余 XML 文件应当删除。
+   >
+   > 加载 XML 文件：
+   >
+   > <img src="./assets/picture_19.jpg" alt="NULL" style="zoom:80%;" />
+   >
+   > 更新 EEPROM：
+   >
+   > ![NULL](./assets/picture_20.jpg)
+   >
+   > ![NULL](./assets/picture_21.jpg)
+   >
+   > 此时删除设备再次 scan 即可。
