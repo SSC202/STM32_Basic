@@ -611,7 +611,7 @@
               </DataType>
               <DataType>
                 <Name>DT6000</Name>
-                <BitSize>24</BitSize>
+                <BitSize>48</BitSize>
                 <SubItem>
                   <SubIdx>0</SubIdx>
                   <Name>SubIndex 000</Name>
@@ -625,9 +625,9 @@
                 </SubItem>
                 <SubItem>
                   <SubIdx>1</SubIdx>
-                  <Name>swtich1</Name>
-                  <Type>BOOL</Type>
-                  <BitSize>1</BitSize>
+                  <Name>s1</Name>
+                  <Type>UINT</Type>
+                  <BitSize>16</BitSize>
                   <BitOffs>16</BitOffs>
                   <Flags>
                     <Access>rw</Access>
@@ -636,10 +636,10 @@
                 </SubItem>
                 <SubItem>
                   <SubIdx>2</SubIdx>
-                  <Name>swtich2</Name>
-                  <Type>BOOL</Type>
-                  <BitSize>1</BitSize>
-                  <BitOffs>17</BitOffs>
+                  <Name>s2</Name>
+                  <Type>UINT</Type>
+                  <BitSize>16</BitSize>
+                  <BitOffs>32</BitOffs>
                   <Flags>
                     <Access>rw</Access>
                     <PdoMapping>t</PdoMapping>
@@ -662,7 +662,7 @@
                 </SubItem>
                 <SubItem>
                   <SubIdx>1</SubIdx>
-                  <Name>led1</Name>
+                  <Name>d1</Name>
                   <Type>UINT</Type>
                   <BitSize>16</BitSize>
                   <BitOffs>16</BitOffs>
@@ -673,7 +673,7 @@
                 </SubItem>
                 <SubItem>
                   <SubIdx>2</SubIdx>
-                  <Name>led2</Name>
+                  <Name>d2</Name>
                   <Type>UINT</Type>
                   <BitSize>16</BitSize>
                   <BitOffs>32</BitOffs>
@@ -816,7 +816,7 @@
               </Object>
               <Object>
                 <Index>#x1600</Index>
-                <Name>Output mapping 0</Name>
+                <Name>Led process data mapping</Name>
                 <Type>DT1600</Type>
                 <BitSize>80</BitSize>
                 <Info>
@@ -844,7 +844,7 @@
               </Object>
               <Object>
                 <Index>#x1A00</Index>
-                <Name>Input mapping 0</Name>
+                <Name>Switch process data mapping</Name>
                 <Type>DT1A00</Type>
                 <BitSize>80</BitSize>
                 <Info>
@@ -857,14 +857,14 @@
                   <SubItem>
                     <Name>SubIndex 001</Name>
                     <Info>
-                      <DefaultData>01010060</DefaultData>
+                      <DefaultData>10010060</DefaultData>
                       <!--Reference to 0x6000.1-->
                     </Info>
                   </SubItem>
                   <SubItem>
                     <Name>SubIndex 002</Name>
                     <Info>
-                      <DefaultData>01020060</DefaultData>
+                      <DefaultData>10020060</DefaultData>
                       <!--Reference to 0x6000.2-->
                     </Info>
                   </SubItem>
@@ -1110,9 +1110,9 @@
               </Object>
               <Object>
                 <Index>#x6000</Index>
-                <Name>Obj0x6000</Name>
+                <Name>Switch</Name>
                 <Type>DT6000</Type>
-                <BitSize>24</BitSize>
+                <BitSize>48</BitSize>
                 <Info>
                   <SubItem>
                     <Name>SubIndex 000</Name>
@@ -1124,7 +1124,7 @@
               </Object>
               <Object>
                 <Index>#x7000</Index>
-                <Name>Obj0x7000</Name>
+                <Name>Led</Name>
                 <Type>DT7000</Type>
                 <BitSize>48</BitSize>
                 <Info>
@@ -1145,41 +1145,41 @@
         <Sm MinSize="34" MaxSize="128" DefaultSize="128" StartAddress="#x1000" ControlByte="#x26" Enable="1">MBoxOut</Sm>
         <Sm MinSize="34" MaxSize="128" DefaultSize="128" StartAddress="#x1080" ControlByte="#x22" Enable="1">MBoxIn</Sm>
         <Sm StartAddress="#x1100" ControlByte="#x64" DefaultSize="4" Enable="1">Outputs</Sm>
-        <Sm StartAddress="#x1400" ControlByte="#x20" DefaultSize="1" Enable="1">Inputs</Sm>
+        <Sm StartAddress="#x1400" ControlByte="#x20" DefaultSize="4" Enable="1">Inputs</Sm>
         <RxPdo Mandatory="true" Fixed="true" Sm="2">
           <Index>#x1600</Index>
-          <Name>Output mapping 0</Name>
+          <Name>Led process data mapping</Name>
           <Entry>
             <Index>#x7000</Index>
             <SubIndex>1</SubIndex>
             <BitLen>16</BitLen>
-            <Name>led1</Name>
+            <Name>d1</Name>
             <DataType>UINT</DataType>
           </Entry>
           <Entry>
             <Index>#x7000</Index>
             <SubIndex>2</SubIndex>
             <BitLen>16</BitLen>
-            <Name>led2</Name>
+            <Name>d2</Name>
             <DataType>UINT</DataType>
           </Entry>
         </RxPdo>
         <TxPdo Mandatory="true" Fixed="true" Sm="3">
           <Index>#x1A00</Index>
-          <Name>Input mapping 0</Name>
+          <Name>Switch process data mapping</Name>
           <Entry>
             <Index>#x6000</Index>
             <SubIndex>1</SubIndex>
-            <BitLen>1</BitLen>
-            <Name>swtich1</Name>
-            <DataType>BOOL</DataType>
+            <BitLen>16</BitLen>
+            <Name>s1</Name>
+            <DataType>UINT</DataType>
           </Entry>
           <Entry>
             <Index>#x6000</Index>
             <SubIndex>2</SubIndex>
-            <BitLen>1</BitLen>
-            <Name>swtich2</Name>
-            <DataType>BOOL</DataType>
+            <BitLen>16</BitLen>
+            <Name>s2</Name>
+            <DataType>UINT</DataType>
           </Entry>
         </TxPdo>
         <Mailbox DataLinkLayer="true">

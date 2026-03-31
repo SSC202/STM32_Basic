@@ -318,7 +318,1063 @@ ESC 根据倍福公司的 IP core 设计，常见的 ESC 芯片如下：
 
 ### STM32 配置和 LAN9252 从站搭建
 
+1. STM32CubeMX 配置
 
+   - 需要一组标准 4 线 SPI；
+   - 一个 1ms 定时中断；
+   - 三个 EXTI 中断：主中断 IRQ，时钟同步中断 SYNC0，SYNC1。
+
+   > IRQ 和 1ms 定时中断抢占优先级为 1； SYNC0 和 SYNC1 中断抢占优先级为 2。
+
+2. 协议栈移植
+
+   先将协议栈源代码完整移植到工程中。
+
+   > 移植 LAN9252 官方 SPI 驱动：在 `LAN9252-PIC32-SDK-1.1\SSC\PIC32-SPI\SPIDriver` 中有 `SPIDriver.c` 和 `SPIDriver.h` ，复制到之前生成的协议栈代码文件中。
+
+   接下来编译会产生报错，根据报错信息进行修改：
+
+   ---
+
+   ```
+   ..\EtherCAT\9252_HW.c(190): warning:  #223-D: function "INTDisableInterrupts" declared implicitly
+           DISABLE_AL_EVENT_INT;
+   ..\EtherCAT\9252_HW.c(192): warning:  #223-D: function "INTEnableInterrupts" declared implicitly
+           ENABLE_AL_EVENT_INT;
+   ```
+
+   将关闭全局变量的函数改为 STM32 的实现，并添加对应头文件。
+
+   ```c
+   // Global Interrupt setting
+   #include "main.h"
+   
+   #define DISABLE_GLOBAL_INT          __disable_irq()
+   #define ENABLE_GLOBAL_INT           __enable_irq()
+   #define DISABLE_AL_EVENT_INT        DISABLE_GLOBAL_INT
+   #define ENABLE_AL_EVENT_INT         ENABLE_GLOBAL_INT
+   ```
+
+   ---
+
+   ```
+   ..\EtherCAT\9252_HW.c(256): warning:  #223-D: function "PMPWriteDWord" declared implicitly
+             PMPWriteDWord (0x54, data);
+   ..\EtherCAT\9252_HW.c(287): warning:  #223-D: function "PMPReadDWord" declared implicitly
+             data = PMPReadDWord(0x58);
+   ```
+
+   由于使用 SPI 通信，将被 `USE_SPI` 宏定义包含的代码范围内保留 `SPIWriteDord()` 函数，并添加 `SPIDriver.h` 头文件。
+
+   ```C
+   #include "SPIDriver.h"
+   	
+   	//部分修改结果,需要根据 Find 工具的结果进行查找
+   	//IRQ enable,IRQ polarity, IRQ buffer type in Interrupt Configuration register.
+       //Wrte 0x54 - 0x00000101
+       data = 0x00000101;
+   
+       SPIWriteDWord (0x54, data);
+   
+       //Write in Interrupt Enable register -->
+       //Write 0x5c - 0x00000001
+       data = 0x00000001;
+   
+       SPIWriteDWord (0x5C, data);
+   
+       //Read Interrupt Status register
+       //Read 0x58.
+   
+       SPIReadDWord(0x58);
+   ```
+
+   ---
+
+   注释掉 `HW_SetLed()` 函数内的代码，并删除这之后的所有函数 (PIC32芯片的中断服务程序)。
+
+   ```c
+   void HW_SetLed(UINT8 RunLed,UINT8 ErrLed)
+   {
+       /* Here RunLed is not used. Because on chip supported RUN Led is available*/    
+       // LED_ECATRED   = ErrLed;
+   }
+   ```
+
+   ---
+
+   ```
+   ..\EtherCAT\9252_HW.c(295): error:  #20: identifier "INTCONbits" is undefined
+         INIT_SYNC0_INT
+   ..\EtherCAT\9252_HW.c(295): error:  #20: identifier "IPC1bits" is undefined
+         INIT_SYNC0_INT
+   ```
+
+   这是 SYNC0 的初始化函数，此时已经由 STM32CubeMX 自动生成，直接删除宏定义内容并改为空宏。
+
+   `9252_HW.c` 文件中的宏基于 PIC32 系列芯片定义，修改为适配 STM32 的宏定义。
+
+   ```C
+   #ifdef PIC32_HW
+   BOOL bEscInterrupt = 0;
+   BOOL bSync0Interrupt = 0;
+   BOOL bSync1Interrupt = 0;
+   BOOL bTimer5Interrupt = 0;
+   ///////////////////////////////////////////////////////////////////////////////
+   // Global Interrupt setting
+   #include "main.h"
+   
+   #define DISABLE_GLOBAL_INT          __disable_irq()
+   #define ENABLE_GLOBAL_INT           __enable_irq()
+   #define DISABLE_AL_EVENT_INT        DISABLE_GLOBAL_INT
+   #define ENABLE_AL_EVENT_INT         ENABLE_GLOBAL_INT
+   
+   
+   ///////////////////////////////////////////////////////////////////////////////
+   // ESC Interrupt
+       //0 - falling edge 1-
+   #define    INIT_ESC_INT           
+   
+   #define    INT_EL                 HAL_GPIO_ReadPin(EtherCAT_IRQ_GPIO_Port,EtherCAT_IRQ_Pin)  //ESC Interrupt input port
+   
+   #define    ACK_ESC_INT            __HAL_GPIO_EXTI_CLEAR_IT(EtherCAT_IRQ_Pin)
+   
+   #define IS_ESC_INT_ACTIVE    ((INT_EL) == 0) //0 - fro active low; 1 for hactive high
+   ///////////////////////////////////////////////////////////////////////////////
+   // SYNC0 Interrupt
+   
+   #ifndef RUN_FROM_SVB_FPGA
+   
+       #define    INIT_SYNC0_INT                    
+       
+       #define    INT_SYNC0                       HAL_GPIO_ReadPin(EtherCAT_SYNC0_GPIO_Port,EtherCAT_SYNC0_Pin) //Sync1 Interrupt input port
+       
+       #define    DISABLE_SYNC0_INT               HAL_NVIC_DisableIRQ(EtherCAT_SYNC0_EXTI_IRQn)//{(_INT1IE)=0;}//disable interrupt source INT1
+       #define    ENABLE_SYNC0_INT                HAL_NVIC_EnableIRQ(EtherCAT_SYNC0_EXTI_IRQn) //enable interrupt source INT1
+       #define    ACK_SYNC0_INT                   __HAL_GPIO_EXTI_CLEAR_IT(EtherCAT_SYNC0_Pin)
+       
+       
+       #define    IS_SYNC0_INT_ACTIVE             ((INT_SYNC0) == 0) //0 - fro active low; 1 for hactive high
+   
+       #define    INIT_SYNC1_INT                   
+       
+       #define    INT_SYNC1                       HAL_GPIO_ReadPin(EtherCAT_SYNC1_GPIO_Port,EtherCAT_SYNC1_Pin) //Sync1 Interrupt input port
+       
+       #define    DISABLE_SYNC1_INT               HAL_NVIC_DisableIRQ(EtherCAT_SYNC1_EXTI_IRQn)//disable interrupt source INT2
+       #define    ENABLE_SYNC1_INT                HAL_NVIC_EnableIRQ(EtherCAT_SYNC1_EXTI_IRQn) //enable interrupt source INT2
+       #define    ACK_SYNC1_INT                   __HAL_GPIO_EXTI_CLEAR_IT(EtherCAT_SYNC1_Pin)
+       
+       
+       #define    IS_SYNC1_INT_ACTIVE              ((INT_SYNC1) == 0) //0 - fro active low; 1 for hactive high
+   #else
+   
+   	// Place-holder
+   
+   #endif
+   
+   ///////////////////////////////////////////////////////////////////////////////
+   // Hardware timer
+   
+   #define STOP_ECAT_TIMER         HAL_TIM_Base_Stop_IT(&htim7)
+   #define INIT_ECAT_TIMER         HAL_TIM_Base_Init(&htim7)
+   
+   #define START_ECAT_TIMER        HAL_TIM_Base_Start_IT(&htim7)
+   
+   #endif // end of PIC32_HW
+   ```
+
+   ---
+
+   ```
+   ..\EtherCAT\ecatappl.c(250): warning:  #223-D: function "HW_GetTimer" declared implicitly
+                 StartTimerCnt = (UINT32) HW_GetTimer();
+   ..\EtherCAT\ecatappl.c(256): warning:  #223-D: function "HW_GetTimer" declared implicitly
+                     UINT32 CurTimerCnt = (UINT32)HW_GetTimer();
+   ..\EtherCAT\ecatappl.c(725): warning:  #223-D: function "DISABLE_ESC_INT" declared implicitly
+                 DISABLE_ESC_INT();
+   ..\EtherCAT\ecatappl.c(733): warning:  #223-D: function "ENABLE_ESC_INT" declared implicitly
+                 ENABLE_ESC_INT();
+   ```
+
+   将 `9252_HW.c` 文件内的代码修改如下：
+
+   ```c
+   ///////////////////////////////////////////////////////////////////////////////
+   // Includes
+   
+   #include  "esc.h"
+   #include  "main.h"
+   #include  "tim.h"
+   #include  "spi.h"
+   #include  "gpio.h"
+   #include  "stm32f4xx_hal.h"
+   
+   #ifdef STM32F4
+   
+   ///////////////////////////////////////////////////////////////////////////////
+   //9252 HW DEFINES
+   #define ECAT_REG_BASE_ADDR              0x0300
+   
+   #define CSR_DATA_REG_OFFSET             0x00
+   #define CSR_CMD_REG_OFFSET              0x04
+   #define PRAM_READ_ADDR_LEN_OFFSET       0x08
+   #define PRAM_READ_CMD_OFFSET            0x0c
+   #define PRAM_WRITE_ADDR_LEN_OFFSET      0x10
+   #define PRAM_WRITE_CMD_OFFSET           0x14
+   
+   #define PRAM_SPACE_AVBL_COUNT_MASK      0x1f
+   #define IS_PRAM_SPACE_AVBL_MASK         0x01
+   
+   
+   #define CSR_DATA_REG                    ECAT_REG_BASE_ADDR+CSR_DATA_REG_OFFSET
+   #define CSR_CMD_REG                     ECAT_REG_BASE_ADDR+CSR_CMD_REG_OFFSET
+   #define PRAM_READ_ADDR_LEN_REG          ECAT_REG_BASE_ADDR+PRAM_READ_ADDR_LEN_OFFSET
+   #define PRAM_READ_CMD_REG               ECAT_REG_BASE_ADDR+PRAM_READ_CMD_OFFSET
+   #define PRAM_WRITE_ADDR_LEN_REG         ECAT_REG_BASE_ADDR+PRAM_WRITE_ADDR_LEN_OFFSET
+   #define PRAM_WRITE_CMD_REG              ECAT_REG_BASE_ADDR+PRAM_WRITE_CMD_OFFSET
+   
+   #define PRAM_READ_FIFO_REG              0x04
+   #define PRAM_WRITE_FIFO_REG             0x20
+   
+   #define HBI_INDEXED_DATA0_REG           0x04
+   #define HBI_INDEXED_DATA1_REG           0x0c
+   #define HBI_INDEXED_DATA2_REG           0x14
+   
+   #define HBI_INDEXED_INDEX0_REG          0x00
+   #define HBI_INDEXED_INDEX1_REG          0x08
+   #define HBI_INDEXED_INDEX2_REG          0x10
+   
+   #define HBI_INDEXED_PRAM_READ_WRITE_FIFO    0x18
+   
+   #define PRAM_RW_ABORT_MASK      (1 << 30)
+   #define PRAM_RW_BUSY_32B        (1 << 31)
+   #define PRAM_RW_BUSY_8B         (1 << 7)
+   #define PRAM_SET_READ           (1 << 6)
+   #define PRAM_SET_WRITE          0
+   
+   
+   //#define 
+   
+   ///////////////////////////////////////////////////////////////////////////////
+   
+   ///////////////////////////////////////////////////////////////////////////////
+   // Hardware timer settings
+   
+   #define ECAT_TIMER_INC_P_MS              2000 /**< \brief 312 ticks per ms*/
+   
+   
+   ///////////////////////////////////////////////////////////////////////////////
+   // Interrupt and Timer Defines
+   
+   #ifndef DISABLE_ESC_INT
+       #define    DISABLE_ESC_INT()          HAL_NVIC_DisableIRQ(EtherCAT_SYNC0_EXTI_IRQn) /**< \brief Disable interrupt source INT1*/
+   #endif
+   #ifndef ENABLE_ESC_INT
+       #define    ENABLE_ESC_INT()           HAL_NVIC_EnableIRQ(EtherCAT_SYNC0_EXTI_IRQn) /**< \brief Enable interrupt source INT1*/
+   #endif
+   
+   //TODO
+   #ifndef HW_GetTimer
+       #define HW_GetTimer()       __HAL_TIM_GET_COUNTER(&htim7) /**< \brief Access to the hardware timer*/
+   #endif
+   
+   #ifndef HW_ClearTimer
+       #define HW_ClearTimer()     __HAL_TIM_SET_COUNTER(&htim7,0) /**< \brief Clear the hardware timer*/
+   #endif
+   
+   #endif // end of #ifdef STM32F4
+   ```
+
+   ---
+
+   修改 SPI 驱动文件 `SPIDriver.h`：
+
+   1. 删掉 `#include "plib.h"`，增添头文件：
+
+      ```c
+      #include "ecat_def.h"
+      #include "gpio.h"
+      #include "spi.h"
+      #include "main.h"
+      ```
+
+   2. 将宏 `CSLOW()` 与 `CSHIGH()` 修改为 SPI 的 CS 控制引脚：
+
+      ```c
+      #define CSLOW()      HAL_GPIO_WritePin(SPI1_CS_GPIO_Port,SPI1_CS_Pin,GPIO_PIN_RESET)
+      #define CSHIGH()     HAL_GPIO_WritePin(SPI1_CS_GPIO_Port,SPI1_CS_Pin,GPIO_PIN_SET)
+      ```
+
+   ---
+
+   修改 SPI 驱动文件 `SPIDriver.c`：
+
+   删除 `Delay()`、`SPIPut()`、`SPIOpen()` 三个函数。修改 `SPIWrite()` 与 `SPIRead()` 函数，用 HAL 库方式实现。
+
+   ```c
+   void SPIWrite(UINT8 data)
+   {
+       HAL_SPI_Transmit(&hspi1,&data,1,2000);
+   }
+   
+   UINT8 SPIRead()
+   {
+       UINT8 data;
+       HAL_SPI_Receive(&hspi1,&data,1,2000);
+       return (data);
+   }
+   ```
+
+   ---
+
+   剩下是 `UINT32_VAL` 与 `UINT16_VAL` 类型未定义引起的问题，这两个变量是 PIC 芯片内的库文件包含的，添加 `GenericTypeDefs.h` 头文件到工程并在 `SPIDrivers.c` 引用即可(删除 `../Common/UserDataTypes.h`)。
+
+   ```c
+   /*******************************************************************
+    
+                     Generic Type Definitions
+    
+   ********************************************************************
+    FileName:        GenericTypeDefs.h
+    Dependencies:    None
+    Processor:       PIC10, PIC12, PIC16, PIC18, PIC24, dsPIC, PIC32
+    Compiler:        MPLAB C Compilers for PIC18, PIC24, dsPIC, & PIC32
+                     Hi-Tech PICC PRO, Hi-Tech PICC18 PRO
+    Company:         Microchip Technology Inc.
+    
+    Software License Agreement
+    
+    The software supplied herewith by Microchip Technology Incorporated
+    (the "Company") is intended and supplied to you, the Company's
+    customer, for use solely and exclusively with products manufactured
+    by the Company.
+    The software is owned by the Company and/or its supplier, and is
+    protected under applicable copyright laws. All rights are reserved.
+    Any use in violation of the foregoing restrictions may subject the
+    user to criminal sanctions under applicable laws, as well as to
+    civil liability for the breach of the terms and conditions of this
+    license.
+    THIS SOFTWARE IS PROVIDED IN AN "AS IS" CONDITION. NO WARRANTIES,
+    WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING, BUT NOT LIMITED
+    TO, IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+    PARTICULAR PURPOSE APPLY TO THIS SOFTWARE. THE COMPANY SHALL NOT,
+    IN ANY CIRCUMSTANCES, BE LIABLE FOR SPECIAL, INCIDENTAL OR
+    CONSEQUENTIAL DAMAGES, FOR ANY REASON WHATSOEVER.
+   ********************************************************************
+    File Description:
+    Change History:
+     Rev   Date         Description
+     1.1   09/11/06     Add base signed types
+     1.2   02/28/07     Add QWORD, LONGLONG, QWORD_VAL
+     1.3   02/06/08     Add def's for PIC32
+     1.4   08/08/08     Remove LSB/MSB Macros, adopted by Peripheral lib
+     1.5   08/14/08     Simplify file header
+     Draft 2.0   07/13/09     Updated for new release of coding standards
+   *******************************************************************/
+    
+   #ifndef __GENERIC_TYPE_DEFS_H_
+   #define __GENERIC_TYPE_DEFS_H_
+    
+   #ifdef __cplusplus
+   extern "C"
+     {
+   #endif
+    
+   /* Specify an extension for GCC based compilers */
+   #if defined(__GNUC__)
+   #define __EXTENSION __extension__
+   #else
+   #define __EXTENSION
+   #endif
+    
+   /* get compiler defined type definitions (NULL, size_t, etc) */
+   #include <stddef.h>
+   #include "ecat_def.h"
+    
+   //typedef enum _BOOL { FALSE = 0, TRUE } BOOL;    /* Undefined size */
+   //typedef enum _BIT { CLEAR = 0, SET } BIT;
+    
+   #define PUBLIC                                  /* Function attributes */
+   #define PROTECTED
+   #define PRIVATE   static
+    
+   /* INT is processor specific in length may vary in size */
+   //typedef signed int          INT;
+   //typedef signed char         INT8;
+   //typedef signed short int    INT16;
+   //typedef signed long int     INT32;
+    
+   /* MPLAB C Compiler for PIC18 does not support 64-bit integers */
+   #if !defined(__18CXX)
+   __EXTENSION typedef signed long long    INT64;
+   #endif
+    
+   /* UINT is processor specific in length may vary in size */
+   //typedef unsigned int        UINT;
+   //typedef unsigned char       UINT8;
+   //typedef unsigned short int  UINT16;
+   /* 24-bit type only available on C18 */
+   #if defined(__18CXX)
+   typedef unsigned short long UINT24;
+   #endif
+   //typedef unsigned long int   UINT32;     /* other name for 32-bit integer */
+   /* MPLAB C Compiler for PIC18 does not support 64-bit integers */
+   #if !defined(__18CXX)
+   __EXTENSION typedef unsigned long long  UINT64;
+   #endif
+    
+   typedef union
+   {
+       UINT8 Val;
+       struct
+       {
+           __EXTENSION UINT8 b0:1;
+           __EXTENSION UINT8 b1:1;
+           __EXTENSION UINT8 b2:1;
+           __EXTENSION UINT8 b3:1;
+           __EXTENSION UINT8 b4:1;
+           __EXTENSION UINT8 b5:1;
+           __EXTENSION UINT8 b6:1;
+           __EXTENSION UINT8 b7:1;
+       } bits;
+   } UINT8_VAL, UINT8_BITS;
+    
+   typedef union
+   {
+       UINT16 Val;
+       UINT8 v[2];
+       struct
+       {
+           UINT8 LB;
+           UINT8 HB;
+       } byte;
+       struct
+       {
+           __EXTENSION UINT8 b0:1;
+           __EXTENSION UINT8 b1:1;
+           __EXTENSION UINT8 b2:1;
+           __EXTENSION UINT8 b3:1;
+           __EXTENSION UINT8 b4:1;
+           __EXTENSION UINT8 b5:1;
+           __EXTENSION UINT8 b6:1;
+           __EXTENSION UINT8 b7:1;
+           __EXTENSION UINT8 b8:1;
+           __EXTENSION UINT8 b9:1;
+           __EXTENSION UINT8 b10:1;
+           __EXTENSION UINT8 b11:1;
+           __EXTENSION UINT8 b12:1;
+           __EXTENSION UINT8 b13:1;
+           __EXTENSION UINT8 b14:1;
+           __EXTENSION UINT8 b15:1;
+       } bits;
+   } UINT16_VAL, UINT16_BITS;
+    
+   /* 24-bit type only available on C18 */
+   #if defined(__18CXX)
+   typedef union
+   {
+       UINT24 Val;
+       UINT8 v[3];
+       struct
+       {
+           UINT8 LB;
+           UINT8 HB;
+           UINT8 UB;
+       } byte;
+       struct
+       {
+           __EXTENSION UINT8 b0:1;
+           __EXTENSION UINT8 b1:1;
+           __EXTENSION UINT8 b2:1;
+           __EXTENSION UINT8 b3:1;
+           __EXTENSION UINT8 b4:1;
+           __EXTENSION UINT8 b5:1;
+           __EXTENSION UINT8 b6:1;
+           __EXTENSION UINT8 b7:1;
+           __EXTENSION UINT8 b8:1;
+           __EXTENSION UINT8 b9:1;
+           __EXTENSION UINT8 b10:1;
+           __EXTENSION UINT8 b11:1;
+           __EXTENSION UINT8 b12:1;
+           __EXTENSION UINT8 b13:1;
+           __EXTENSION UINT8 b14:1;
+           __EXTENSION UINT8 b15:1;
+           __EXTENSION UINT8 b16:1;
+           __EXTENSION UINT8 b17:1;
+           __EXTENSION UINT8 b18:1;
+           __EXTENSION UINT8 b19:1;
+           __EXTENSION UINT8 b20:1;
+           __EXTENSION UINT8 b21:1;
+           __EXTENSION UINT8 b22:1;
+           __EXTENSION UINT8 b23:1;
+       } bits;
+   } UINT24_VAL, UINT24_BITS;
+   #endif
+    
+   typedef union
+   {
+       UINT32 Val;
+       UINT16 w[2];
+       UINT8  v[4];
+       struct
+       {
+           UINT16 LW;
+           UINT16 HW;
+       } word;
+       struct
+       {
+           UINT8 LB;
+           UINT8 HB;
+           UINT8 UB;
+           UINT8 MB;
+       } byte;
+       struct
+       {
+           UINT16_VAL low;
+           UINT16_VAL high;
+       }wordUnion;
+       struct
+       {
+           __EXTENSION UINT8 b0:1;
+           __EXTENSION UINT8 b1:1;
+           __EXTENSION UINT8 b2:1;
+           __EXTENSION UINT8 b3:1;
+           __EXTENSION UINT8 b4:1;
+           __EXTENSION UINT8 b5:1;
+           __EXTENSION UINT8 b6:1;
+           __EXTENSION UINT8 b7:1;
+           __EXTENSION UINT8 b8:1;
+           __EXTENSION UINT8 b9:1;
+           __EXTENSION UINT8 b10:1;
+           __EXTENSION UINT8 b11:1;
+           __EXTENSION UINT8 b12:1;
+           __EXTENSION UINT8 b13:1;
+           __EXTENSION UINT8 b14:1;
+           __EXTENSION UINT8 b15:1;
+           __EXTENSION UINT8 b16:1;
+           __EXTENSION UINT8 b17:1;
+           __EXTENSION UINT8 b18:1;
+           __EXTENSION UINT8 b19:1;
+           __EXTENSION UINT8 b20:1;
+           __EXTENSION UINT8 b21:1;
+           __EXTENSION UINT8 b22:1;
+           __EXTENSION UINT8 b23:1;
+           __EXTENSION UINT8 b24:1;
+           __EXTENSION UINT8 b25:1;
+           __EXTENSION UINT8 b26:1;
+           __EXTENSION UINT8 b27:1;
+           __EXTENSION UINT8 b28:1;
+           __EXTENSION UINT8 b29:1;
+           __EXTENSION UINT8 b30:1;
+           __EXTENSION UINT8 b31:1;
+       } bits;
+   } UINT32_VAL;
+    
+   /* MPLAB C Compiler for PIC18 does not support 64-bit integers */
+   #if !defined(__18CXX)
+   typedef union
+   {
+       UINT64 Val;
+       UINT32 d[2];
+       UINT16 w[4];
+       UINT8 v[8];
+       struct
+       {
+           UINT32 LD;
+           UINT32 HD;
+       } dword;
+       struct
+       {
+           UINT16 LW;
+           UINT16 HW;
+           UINT16 UW;
+           UINT16 MW;
+       } word;
+       struct
+       {
+           __EXTENSION UINT8 b0:1;
+           __EXTENSION UINT8 b1:1;
+           __EXTENSION UINT8 b2:1;
+           __EXTENSION UINT8 b3:1;
+           __EXTENSION UINT8 b4:1;
+           __EXTENSION UINT8 b5:1;
+           __EXTENSION UINT8 b6:1;
+           __EXTENSION UINT8 b7:1;
+           __EXTENSION UINT8 b8:1;
+           __EXTENSION UINT8 b9:1;
+           __EXTENSION UINT8 b10:1;
+           __EXTENSION UINT8 b11:1;
+           __EXTENSION UINT8 b12:1;
+           __EXTENSION UINT8 b13:1;
+           __EXTENSION UINT8 b14:1;
+           __EXTENSION UINT8 b15:1;
+           __EXTENSION UINT8 b16:1;
+           __EXTENSION UINT8 b17:1;
+           __EXTENSION UINT8 b18:1;
+           __EXTENSION UINT8 b19:1;
+           __EXTENSION UINT8 b20:1;
+           __EXTENSION UINT8 b21:1;
+           __EXTENSION UINT8 b22:1;
+           __EXTENSION UINT8 b23:1;
+           __EXTENSION UINT8 b24:1;
+           __EXTENSION UINT8 b25:1;
+           __EXTENSION UINT8 b26:1;
+           __EXTENSION UINT8 b27:1;
+           __EXTENSION UINT8 b28:1;
+           __EXTENSION UINT8 b29:1;
+           __EXTENSION UINT8 b30:1;
+           __EXTENSION UINT8 b31:1;
+           __EXTENSION UINT8 b32:1;
+           __EXTENSION UINT8 b33:1;
+           __EXTENSION UINT8 b34:1;
+           __EXTENSION UINT8 b35:1;
+           __EXTENSION UINT8 b36:1;
+           __EXTENSION UINT8 b37:1;
+           __EXTENSION UINT8 b38:1;
+           __EXTENSION UINT8 b39:1;
+           __EXTENSION UINT8 b40:1;
+           __EXTENSION UINT8 b41:1;
+           __EXTENSION UINT8 b42:1;
+           __EXTENSION UINT8 b43:1;
+           __EXTENSION UINT8 b44:1;
+           __EXTENSION UINT8 b45:1;
+           __EXTENSION UINT8 b46:1;
+           __EXTENSION UINT8 b47:1;
+           __EXTENSION UINT8 b48:1;
+           __EXTENSION UINT8 b49:1;
+           __EXTENSION UINT8 b50:1;
+           __EXTENSION UINT8 b51:1;
+           __EXTENSION UINT8 b52:1;
+           __EXTENSION UINT8 b53:1;
+           __EXTENSION UINT8 b54:1;
+           __EXTENSION UINT8 b55:1;
+           __EXTENSION UINT8 b56:1;
+           __EXTENSION UINT8 b57:1;
+           __EXTENSION UINT8 b58:1;
+           __EXTENSION UINT8 b59:1;
+           __EXTENSION UINT8 b60:1;
+           __EXTENSION UINT8 b61:1;
+           __EXTENSION UINT8 b62:1;
+           __EXTENSION UINT8 b63:1;
+       } bits;
+   } UINT64_VAL;
+   #endif /* __18CXX */
+    
+   /***********************************************************************************/
+    
+   /* Alternate definitions */
+   typedef void                    VOID;
+    
+   typedef char                    CHAR8;
+   typedef unsigned char           UCHAR8;
+    
+   typedef unsigned char           BYTE;                           /* 8-bit unsigned  */
+   typedef unsigned short int      WORD;                           /* 16-bit unsigned */
+   typedef unsigned long           DWORD;                          /* 32-bit unsigned */
+   /* MPLAB C Compiler for PIC18 does not support 64-bit integers */
+   #if !defined(__18CXX)
+   __EXTENSION
+   typedef unsigned long long      QWORD;                          /* 64-bit unsigned */
+   #endif /* __18CXX */
+   //typedef signed char             CHAR;                           /* 8-bit signed    */
+   typedef signed short int        SHORT;                          /* 16-bit signed   */
+   typedef signed long             LONG;                           /* 32-bit signed   */
+   /* MPLAB C Compiler for PIC18 does not support 64-bit integers */
+   #if !defined(__18CXX)
+   __EXTENSION
+   typedef signed long long        LONGLONG;                       /* 64-bit signed   */
+   #endif /* __18CXX */
+   typedef union
+   {
+       BYTE Val;
+       struct
+       {
+           __EXTENSION BYTE b0:1;
+           __EXTENSION BYTE b1:1;
+           __EXTENSION BYTE b2:1;
+           __EXTENSION BYTE b3:1;
+           __EXTENSION BYTE b4:1;
+           __EXTENSION BYTE b5:1;
+           __EXTENSION BYTE b6:1;
+           __EXTENSION BYTE b7:1;
+       } bits;
+   } BYTE_VAL, BYTE_BITS;
+    
+   typedef union
+   {
+       WORD Val;
+       BYTE v[2];
+       struct
+       {
+           BYTE LB;
+           BYTE HB;
+       } byte;
+       struct
+       {
+           __EXTENSION BYTE b0:1;
+           __EXTENSION BYTE b1:1;
+           __EXTENSION BYTE b2:1;
+           __EXTENSION BYTE b3:1;
+           __EXTENSION BYTE b4:1;
+           __EXTENSION BYTE b5:1;
+           __EXTENSION BYTE b6:1;
+           __EXTENSION BYTE b7:1;
+           __EXTENSION BYTE b8:1;
+           __EXTENSION BYTE b9:1;
+           __EXTENSION BYTE b10:1;
+           __EXTENSION BYTE b11:1;
+           __EXTENSION BYTE b12:1;
+           __EXTENSION BYTE b13:1;
+           __EXTENSION BYTE b14:1;
+           __EXTENSION BYTE b15:1;
+       } bits;
+   } WORD_VAL, WORD_BITS;
+    
+   typedef union
+   {
+       DWORD Val;
+       WORD w[2];
+       BYTE v[4];
+       struct
+       {
+           WORD LW;
+           WORD HW;
+       } word;
+       struct
+       {
+           BYTE LB;
+           BYTE HB;
+           BYTE UB;
+           BYTE MB;
+       } byte;
+       struct
+       {
+           WORD_VAL low;
+           WORD_VAL high;
+       }wordUnion;
+       struct
+       {
+           __EXTENSION BYTE b0:1;
+           __EXTENSION BYTE b1:1;
+           __EXTENSION BYTE b2:1;
+           __EXTENSION BYTE b3:1;
+           __EXTENSION BYTE b4:1;
+           __EXTENSION BYTE b5:1;
+           __EXTENSION BYTE b6:1;
+           __EXTENSION BYTE b7:1;
+           __EXTENSION BYTE b8:1;
+           __EXTENSION BYTE b9:1;
+           __EXTENSION BYTE b10:1;
+           __EXTENSION BYTE b11:1;
+           __EXTENSION BYTE b12:1;
+           __EXTENSION BYTE b13:1;
+           __EXTENSION BYTE b14:1;
+           __EXTENSION BYTE b15:1;
+           __EXTENSION BYTE b16:1;
+           __EXTENSION BYTE b17:1;
+           __EXTENSION BYTE b18:1;
+           __EXTENSION BYTE b19:1;
+           __EXTENSION BYTE b20:1;
+           __EXTENSION BYTE b21:1;
+           __EXTENSION BYTE b22:1;
+           __EXTENSION BYTE b23:1;
+           __EXTENSION BYTE b24:1;
+           __EXTENSION BYTE b25:1;
+           __EXTENSION BYTE b26:1;
+           __EXTENSION BYTE b27:1;
+           __EXTENSION BYTE b28:1;
+           __EXTENSION BYTE b29:1;
+           __EXTENSION BYTE b30:1;
+           __EXTENSION BYTE b31:1;
+       } bits;
+   } DWORD_VAL;
+    
+   /* MPLAB C Compiler for PIC18 does not support 64-bit integers */
+   #if !defined(__18CXX)
+   typedef union
+   {
+       QWORD Val;
+       DWORD d[2];
+       WORD w[4];
+       BYTE v[8];
+       struct
+       {
+           DWORD LD;
+           DWORD HD;
+       } dword;
+       struct
+       {
+           WORD LW;
+           WORD HW;
+           WORD UW;
+           WORD MW;
+       } word;
+       struct
+       {
+           __EXTENSION BYTE b0:1;
+           __EXTENSION BYTE b1:1;
+           __EXTENSION BYTE b2:1;
+           __EXTENSION BYTE b3:1;
+           __EXTENSION BYTE b4:1;
+           __EXTENSION BYTE b5:1;
+           __EXTENSION BYTE b6:1;
+           __EXTENSION BYTE b7:1;
+           __EXTENSION BYTE b8:1;
+           __EXTENSION BYTE b9:1;
+           __EXTENSION BYTE b10:1;
+           __EXTENSION BYTE b11:1;
+           __EXTENSION BYTE b12:1;
+           __EXTENSION BYTE b13:1;
+           __EXTENSION BYTE b14:1;
+           __EXTENSION BYTE b15:1;
+           __EXTENSION BYTE b16:1;
+           __EXTENSION BYTE b17:1;
+           __EXTENSION BYTE b18:1;
+           __EXTENSION BYTE b19:1;
+           __EXTENSION BYTE b20:1;
+           __EXTENSION BYTE b21:1;
+           __EXTENSION BYTE b22:1;
+           __EXTENSION BYTE b23:1;
+           __EXTENSION BYTE b24:1;
+           __EXTENSION BYTE b25:1;
+           __EXTENSION BYTE b26:1;
+           __EXTENSION BYTE b27:1;
+           __EXTENSION BYTE b28:1;
+           __EXTENSION BYTE b29:1;
+           __EXTENSION BYTE b30:1;
+           __EXTENSION BYTE b31:1;
+           __EXTENSION BYTE b32:1;
+           __EXTENSION BYTE b33:1;
+           __EXTENSION BYTE b34:1;
+           __EXTENSION BYTE b35:1;
+           __EXTENSION BYTE b36:1;
+           __EXTENSION BYTE b37:1;
+           __EXTENSION BYTE b38:1;
+           __EXTENSION BYTE b39:1;
+           __EXTENSION BYTE b40:1;
+           __EXTENSION BYTE b41:1;
+           __EXTENSION BYTE b42:1;
+           __EXTENSION BYTE b43:1;
+           __EXTENSION BYTE b44:1;
+           __EXTENSION BYTE b45:1;
+           __EXTENSION BYTE b46:1;
+           __EXTENSION BYTE b47:1;
+           __EXTENSION BYTE b48:1;
+           __EXTENSION BYTE b49:1;
+           __EXTENSION BYTE b50:1;
+           __EXTENSION BYTE b51:1;
+           __EXTENSION BYTE b52:1;
+           __EXTENSION BYTE b53:1;
+           __EXTENSION BYTE b54:1;
+           __EXTENSION BYTE b55:1;
+           __EXTENSION BYTE b56:1;
+           __EXTENSION BYTE b57:1;
+           __EXTENSION BYTE b58:1;
+           __EXTENSION BYTE b59:1;
+           __EXTENSION BYTE b60:1;
+           __EXTENSION BYTE b61:1;
+           __EXTENSION BYTE b62:1;
+           __EXTENSION BYTE b63:1;
+       } bits;
+   } QWORD_VAL;
+   #endif /* __18CXX */
+    
+   #undef __EXTENSION
+    
+   #ifdef __cplusplus
+     }
+   #endif
+   #endif /* __GENERIC_TYPE_DEFS_H_ */
+   ```
+
+   ---
+
+   ```
+   ..\EtherCAT\9252_HW.c(311): warning:  #223-D: function "ConfigIntTimer5" declared implicitly
+         ConfigIntTimer5(T5_INT_ON | T5_INT_PRIOR_3 );
+   ..\EtherCAT\9252_HW.c(311): error:  #20: identifier "T5_INT_ON" is undefined
+         ConfigIntTimer5(T5_INT_ON | T5_INT_PRIOR_3 );
+   ..\EtherCAT\9252_HW.c(311): error:  #20: identifier "T5_INT_PRIOR_3" is undefined
+         ConfigIntTimer5(T5_INT_ON | T5_INT_PRIOR_3 );
+   ```
+
+   没有定义的函数，直接删除。
+
+   ---
+
+   ```
+   ..\EtherCAT\ecatfoe.c(110): error:  #167: argument of type "__packed unsigned short *" is incompatible with parameter of type "unsigned short *"
+                 nextState = FOE_Read(pFoeInd->Data, dataSize, pFoeInd->Data, SWAPDWORD(u32Password));
+   ```
+
+   由 `__packed` 关键字引发，将 `ecat_def.h` 的 `MBX_STRUCT_PACKED_END` 和 `STRUCT_PACKED_END` 改为空的宏定义。
+
+   ---
+
+   接下来将协议栈保留的接口函数在代码调用，并编写业务逻辑。
+
+   1. `stm32f4xx_it.c` 引用 `applInterface.h` 头文件
+
+   2. 在 IRQ 引脚对应的中断服务程序中调用 `PDI_Isr()`：
+
+      ```c
+      /**
+        * @brief This function handles EXTI line0 interrupt.
+        */
+      void EXTI0_IRQHandler(void)
+      {
+        /* USER CODE BEGIN EXTI0_IRQn 0 */
+      	PDI_Isr();
+        /* USER CODE END EXTI0_IRQn 0 */
+        HAL_GPIO_EXTI_IRQHandler(EtherCAT_IRQ_Pin);
+        /* USER CODE BEGIN EXTI0_IRQn 1 */
+      
+        /* USER CODE END EXTI0_IRQn 1 */
+      }
+      ```
+
+   3. 在 SYNC0 和 SYNC1 引脚对应的中断服务程序中调用 `Sync0_Isr()` 和 `Sync1_Isr()`：
+
+      ```c
+      /**
+        * @brief This function handles EXTI line1 interrupt.
+        */
+      void EXTI1_IRQHandler(void)
+      {
+        /* USER CODE BEGIN EXTI1_IRQn 0 */
+      	DISABLE_ESC_INT();
+      	Sync1_Isr();
+      	ENABLE_ESC_INT();
+        /* USER CODE END EXTI1_IRQn 0 */
+        HAL_GPIO_EXTI_IRQHandler(EtherCAT_SYNC1_Pin);
+        /* USER CODE BEGIN EXTI1_IRQn 1 */
+      
+        /* USER CODE END EXTI1_IRQn 1 */
+      }
+      
+      /**
+        * @brief This function handles EXTI line3 interrupt.
+        */
+      void EXTI3_IRQHandler(void)
+      {
+        /* USER CODE BEGIN EXTI3_IRQn 0 */
+      	DISABLE_ESC_INT();
+      	Sync0_Isr();
+      	ENABLE_ESC_INT();
+        /* USER CODE END EXTI3_IRQn 0 */
+        HAL_GPIO_EXTI_IRQHandler(EtherCAT_SYNC0_Pin);
+        /* USER CODE BEGIN EXTI3_IRQn 1 */
+      
+        /* USER CODE END EXTI3_IRQn 1 */
+      }
+      ```
+
+      > 设备上电后不可以直接调用 `HAL_NVIC_EnableIRQ` 函数将各种中断使能，此时协议栈相关数据都没初始化完成，直接使能这些中断将导致严重的逻辑问题。
+      >
+      > 将 `MX_GPIO_Init()` 结尾的使能中断进行注释：
+      >
+      > ```c
+      >   /* EXTI interrupt init*/
+      >   HAL_NVIC_SetPriority(EXTI0_IRQn, 1, 0);
+      >   // HAL_NVIC_EnableIRQ(EXTI0_IRQn);
+      > 
+      >   HAL_NVIC_SetPriority(EXTI1_IRQn, 2, 0);
+      >   // HAL_NVIC_EnableIRQ(EXTI1_IRQn);
+      > 
+      >   HAL_NVIC_SetPriority(EXTI3_IRQn, 2, 0);
+      >   // HAL_NVIC_EnableIRQ(EXTI3_IRQn);
+      > ```
+
+   4. 1ms 定时器的中断服务函数调用 `ECAT_CheckTimer()`：
+   
+      ```c
+      /**
+        * @brief This function handles TIM7 global interrupt.
+        */
+      void TIM7_IRQHandler(void)
+      {
+        /* USER CODE BEGIN TIM7_IRQn 0 */
+      	ECAT_CheckTimer();
+        /* USER CODE END TIM7_IRQn 0 */
+        HAL_TIM_IRQHandler(&htim7);
+        /* USER CODE BEGIN TIM7_IRQn 1 */
+      
+        /* USER CODE END TIM7_IRQn 1 */
+      }
+      ```
+   
+   5. 在主函数中添加头文件 `applInterface.h`，调用协议栈的初始化函数 `HW_Init()` 和 `MainInit()`，并在 `while` 循环中调用 `MainLoop()`。
+   
+      > 应用逻辑写在 `APPL_Application()` 函数中，需要注意不要在 `APPL_Application()` 函数中进行耗时操作，如果耗时操作无法避免，可以另加操作系统，在其他线程中处理，否则会导致通信异常。
+   
+      ```c
+      /**
+        * @brief  The application entry point.
+        * @retval int
+        */
+      int main(void)
+      {
+      
+        /* USER CODE BEGIN 1 */
+      
+        /* USER CODE END 1 */
+      
+        /* MCU Configuration--------------------------------------------------------*/
+      
+        /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+        HAL_Init();
+      
+        /* USER CODE BEGIN Init */
+      
+        /* USER CODE END Init */
+      
+        /* Configure the system clock */
+        SystemClock_Config();
+      
+        /* USER CODE BEGIN SysInit */
+      
+        /* USER CODE END SysInit */
+      
+        /* Initialize all configured peripherals */
+        MX_GPIO_Init();
+        MX_SPI1_Init();
+        MX_TIM7_Init();
+        /* USER CODE BEGIN 2 */
+      	HW_Init();
+      	MainInit();
+        /* USER CODE END 2 */
+      
+        /* Infinite loop */
+        /* USER CODE BEGIN WHILE */
+        while (1)
+        {
+          /* USER CODE END WHILE */
+      
+          /* USER CODE BEGIN 3 */
+      		MainLoop();
+        }
+        /* USER CODE END 3 */
+      }
+      
+      ```
+   
+   ---
+   
+   接下来可以在设备文件中编写业务逻辑，设备文件名取决于 SSC 工具生成时取的名字。
+   
+   需要实现的函数：
+   
+   ```c
+   // 输入数据映射,将需要发送的数据映射到pData指向的空间
+   void APPL_InputMapping(UINT16* pData) 
+    
+   // 输出数据映射,将想要接收的数据从pData指向的空间取出
+   void APPL_OutputMapping(UINT16* pData) 
+    
+   // 应用逻辑
+   void APPL_Application(void)              
+   ```
+
+   变量名在 `xxxQbjects.h` 中可以找到。
 
 ### EtherCAT 从站测试
 
