@@ -1809,3 +1809,73 @@ struct Printer<T *>
 
 编译器会在所有可匹配的版本中选择最特殊的那一个。
 
+## 9. 异常
+
+在 C 中，处理错误通常用 `assert` 或者错误返回值。C++ 提供了异常机制来处理错误。
+
+异常机制关键字包括 `throw`，`try` 或者 `catch`。`throw` 用于抛出异常（可以是任何可拷贝的类型，通常使用使用标准异常类或自定义异常类）；`try` 标记一段可能会出现异常的代码区域；`catch` 捕获并处理 `try` 区域抛出的异常。
+
+```c++
+#include <iostream>
+#include <stdexcept>
+
+int main()
+{
+    try 
+    {
+        throw std::runtime_error("Something went wrong");
+    }
+    catch (const std::runtime_error& e) 
+    {
+        std::cout << "Caught: " << e.what() << "\n";
+    }
+    return 0;
+}
+```
+
+当异常被抛出后，程序不会直接从 `throw` 跳转到 `catch`，从 `throw` 点到最近的匹配 `catch` 之间，所有已经构造的局部对象都会被按构造的逆序析构。
+
+`std::exception` 是所有标准异常的基类，定义了虚函数 `what()` 返回 `const char*` 描述信息。
+
+- `std::logic_error` 表示程序逻辑错误，在程序运行之前就能被检测出来，比如传了无效的参数；它的子类包括 `std::invalid_argument`（非法参数）、`std::out_of_range`（下标越界）、`std::domain_error`（定义域错误，实践中几乎没人用）。
+- `std::runtime_error` 表示运行错误，程序跑起来之后才会出现，比如文件不存在、网络超时；它的子类包括 `std::overflow_error` 和 `std::underflow_error`（算术溢出）。
+- `std::bad_alloc` 直接继承自 `std::exception`，在 `new` 无法分配内存时被抛出。
+
+因此可以进行层次化捕获：
+
+```c++
+#include <iostream>
+#include <stdexcept>
+#include <vector>
+
+int main()
+{
+    try {
+        std::vector<int> v = {1, 2, 3};
+        std::cout << v.at(10) << "\n";  // 越界抛出 out_of_range
+    }
+    catch (const std::out_of_range& e) 
+    {
+        std::cout << "Out of range: " << e.what() << "\n";
+    }
+    catch (const std::logic_error& e) 
+    {
+        std::cout << "Logic error: " << e.what() << "\n";
+    }
+    catch (const std::exception& e) 
+    {
+        std::cout << "Exception: " << e.what() << "\n";
+    }
+    return 0;
+}
+```
+
+> `catch` 块的匹配规则是从上到下的：第一个类型匹配的 `catch` 会被执行，后面的就跳过了。通常把最具体的异常类型放在前面，最通用的放在后面。
+
+抛出异常是，通常用按值抛出，按 `const` 引用捕获的方法。按值抛出是因为 `throw` 表达式的值会被拷贝到一个由编译器管理的特殊存储区域中，即使原来的对象在栈展开时被析构了，异常对象本身仍然有效。按 `const` 引用捕获则避免了对象切片（此时 `what()` 调用的是基类版本而非派生类版本）。
+
+> `what()` 返回的 `const char*` 指针指向异常对象内部存储的字符串，一旦异常对象被销毁，这个指针就悬空了。
+
+如果 `catch` 块捕获了异常之后发现自己处理不了，或者需要做些善后工作然后继续往外抛，需要进行重新抛出：`throw;`。
+
+`noexcept` 关键字用于声明一个函数不会抛出异常。
