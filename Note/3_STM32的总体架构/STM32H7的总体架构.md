@@ -1,4 +1,4 @@
-# STM32H7 1_总体架构
+# STM32H7总体架构
 
 **注意：本系列笔记以STM32H743VIT6为核心板，其余STM32H7系列MCU在配置上会略有区别，具体使用请配合数据手册。**
 
@@ -10,7 +10,7 @@
 
 ## 1. STM32H7 总体架构
 
-![NULL](./assets/picture_1.jpg)
+![NULL](./assets/picture_11.jpg)
 
 总线所外挂的外设，共分为三个域：`D1 Domain`，`D2 Domain` 和 `D3 Domain`。
 
@@ -37,19 +37,19 @@ D3 域的各个外设是挂在 32 位 AHB 总线组成 3*2 的矩阵上。
 
 ## 2. STM32H7 AXI总线（D1）
 
-![NULL](./assets/picture_2.jpg)
+![NULL](./assets/picture_12.jpg)
 
 AXI 总线有 6 个从接口 ASIBs（AMBA slave interface blocks）和 7 个主控接口 AMIBs（AMBA master interface blocks）。
 
-![NULL](./assets/picture_4.jpg)
+![NULL](./assets/picture_14.jpg)
 
 > 读写发起能力说明可以同时存在多路读写信号。
 
-![NULL](./assets/picture_5.jpg)
+![NULL](./assets/picture_15.jpg)
 
 ## 3. STM32H7 总线桥
 
-![NULL](./assets/picture_3.jpg)
+![NULL](./assets/picture_13.jpg)
 
 ## 4. STM32H7 RAM 
 

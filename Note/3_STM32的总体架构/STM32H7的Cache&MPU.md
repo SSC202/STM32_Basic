@@ -1,4 +1,4 @@
-# STM32H7 2_Cache MPU
+# STM32H7 Cache MPU
 
 ## 1. MPU 简介
 
@@ -14,7 +14,7 @@ MPU 可以配置保护 16 个内存区域（这 16 个内存域是独立配置�
 
 MPU 可以配置的 16 个内存区的序号范围是 0 到 15，还有**默认区 default region，也叫作背景区，序号-1**。由于这些内存区可以嵌套和重叠，所以这些区域在嵌套或者重叠的时候有个优先级的问题。序号 15 的优先级最高，以此递减，序号-1，即背景区的优先级最低。这些优先级是固定的。**重叠或嵌套下，重叠部分按着优先级高的内存区配置规则执行**。
 
-![NULL](./assets/picture_1.jpg)
+![NULL](./assets/picture_16.jpg)
 
 - 内存区域访问权限
 
@@ -36,13 +36,13 @@ MPU 可以配置的 16 个内存区的序号范围是 0 到 15，还有**默认�
 2. `Device memory`(外设)：加载和存储要严格按照次序进行，确保寄存器按照正确顺序设置。
 3. `Strongly ordered memory`：程序完全按照代码顺序执行，CPU会等待当前加载存储执行完毕后才执行下一条指令，导致性能下降。
 
-![NULL](./assets/picture_2.jpg)
+![NULL](./assets/picture_17.jpg)
 
 > - 可缓存：是否启用 Cache；
 > - 可缓冲：是否启用 Buffer；
 > - 可共享：每条总线上都有多个Master和Slave，且同一个Slave可以多个Master进行访问，**共享用于 Master 间数据同步**。**开启共享相当于关闭 Cache，读操作速度影响大，写操作基本没有影响。**
 
-![NULL](./assets/picture_3.jpg)
+![NULL](./assets/picture_18.jpg)
 
 ## 2. Cache 简介
 
@@ -50,13 +50,13 @@ Cache(高级缓存)是提升STM32性能的关键一步。M7内核芯片做了一
 
 Cache支持4种基本操作：**使能，禁止，清空，无效化。**
 
-![NULL](./assets/picture_4.jpg)
+![NULL](./assets/picture_19.jpg)
 
 > 数据缓存 D-Cache 是解决 CPU 加速访问 SRAM。
 
 - **Cache 操作**
 
-![NULL](./assets/picture_5.jpg)
+![NULL](./assets/picture_20.jpg)
 
 > 图中显示了对SRAM内的数据的操作方式：
 >
@@ -70,14 +70,14 @@ Cache支持4种基本操作：**使能，禁止，清空，无效化。**
 
 保证Cache有足够高的命中率，尽量少的Cache miss，读/写速度会有比较大的提高。
 
-![NULL](./assets/picture_6.jpg)
+![NULL](./assets/picture_21.jpg)
 
 > 当 CPU 读取 Cache 时：
 >
 > - 如果 Cache hit，则直接从Cache中读出数据即可；
 > - 如果 Cache miss，如果配置为 read through 策略，则直接从 SRAM 中读取数据；如果配置为 read allocate 策略，则先加载在 Cache 中，再读取 Cache。
 
-![NULL](./assets/picture_7.jpg)
+![NULL](./assets/picture_22.jpg)
 
 > 当 CPU 读取 Cache 时：
 >
@@ -115,16 +115,16 @@ Cache支持4种基本操作：**使能，禁止，清空，无效化。**
 >     } >RAM_D1 
 >   ```
 >
-> - 数据存储的区域应做以下MPU配置：
+> -  数据存储的区域应做以下MPU配置：
 >
-> ![NULL](./assets/picture_8.jpg)
+> 	![NULL](./assets/picture_23.jpg)
 >
-> **一定要禁止缓冲buffer！**
+> 	**一定要禁止缓冲buffer！**
 >
 > - DMA空闲接收前，进行Cache维护：
 >
-> ```c
-> SCB_InvalidateDCache();
-> //__HAL_UNLOCK(huart);
-> HAL_UARTEx_ReceiveToIdle_DMA(&huart1, (uint8_t *)buffer, 512);
-> ```
+> 	```c
+> 	SCB_InvalidateDCache();
+> 	//__HAL_UNLOCK(huart);
+> 	HAL_UARTEx_ReceiveToIdle_DMA(&huart1, (uint8_t *)buffer, 512);
+> 	```
