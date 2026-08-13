@@ -1038,3 +1038,326 @@ void demo_invoke() {
 
 ## 4. `auto` 和 `decltype`
 
+### `auto` 类型推导
+
+`auto` 的推导规则和模板参数推导规则一致。在 `auto x = expr` 中，编译器把 `auto` 作为模板参数 `T`，用 `expr` 的类型推导 `T`。
+
+```c++
+auto x = 42;		// int
+auto y = 3.14;		// double
+auto z = "hello";	// const char*
+auto flag = true;	// bool
+```
+
+`auto` 会丢弃引用和顶层 `const`。
+
+```c++
+const int ci = 42;
+auto a = ci;		// int(无 const)
+
+int val = 10;
+int& ref = val;
+auto b = ref;		// int(丢弃引用, 拷贝)
+```
+
+顶层 `const` 指变量本身为 `const`，底层 `const` 指所指向的对象是 `const`。
+
+```c++
+const int* p = nullptr;   // 底层 const(指针指向的内容是 const)
+auto q = p;               // const int*(保留底层 const)
+
+int* const p2 = nullptr;  // 顶层 const(指针本身是 const)
+auto q2 = p2;             // int*(丢弃顶层 const)
+```
+
+---
+
+**`auto` 的写法：**
+
+`auto` —— 按值拷贝，产生一个拷贝。
+
+```c++
+auto x = func();		// 拷贝返回值
+```
+
+`auto&` —— 左值引用，绑定到左值，并且可以修改源对象。不可绑定到右值（临时对象）：
+
+```c++
+std::vector<int> v = {1, 2, 3};
+auto& first = v[0];		// int& 可以修改 v[0];
+first = 100;
+```
+
+`const auto&` —— `const` 左值引用，只读访问，不拷贝。`const` 引用可以绑定右值以延长生命周期。
+
+```c++
+const auto& name = get_string();
+```
+
+`auto&&` —— 转发引用
+
+使用右值初始化时，是右值引用；使用左值初始化时，是左值引用。
+
+```c++
+int x = 42;
+auto&& r1 = x;          	// int&（左值初始化，推导为 int&）
+auto&& r2 = 42;         	// int&&（右值初始化，推导为 int&&）
+auto&& r3 = get_value(); 	// 取决于返回值类型
+```
+
+---
+
+C++ 17 前，`auto x = {1, 2, 3};` 会被推导为 `std::initializer_list<int>`。
+
+```c++
+auto x1 = {1, 2, 3};      // std::initializer_list<int>
+auto x2 = {1, 2.0};       // 编译错误：元素类型不一致
+```
+
+C++ 17 后，单个元素直接推导为元素的类型，多个元素直接编译错误。
+
+---
+
+`std::vector<bool>` 为了节省空间将 bool 打包为位，因此其 `operator[]` 不返回 `bool&` 而是返回代理类型 `std::vector<bool>::reference`，此时 `auto&` 返回的是代理类型的引用。为解决此问题，可以用 `auto` 进行按值拷贝。
+
+Eigen 等数学库的表达式模板、某些 range adapter 的迭代器也返回代理类型。
+
+---
+
+**`auto` 作为返回类型：**
+
+C++ 14 允许返回类型用 `auto` 声明，编译器根据 `return` 语句推导返回类型，此时所有 `return` 语句必须推导出相同的类型。
+
+```c++
+auto add(int a, int b) {
+    return a + b;  
+}
+```
+
+C++ 11 中，如果返回类型依赖参数类型，需要用尾置返回类型：
+
+```c++
+template<typename T, typename U>
+auto add(T t, U u) -> decltype(t + u) {
+    return t + u;
+}
+```
+
+---
+
+**和 `using` 类型别名配合：**
+
+`using` 通常用于给复杂类型起一个可读名称，`auto` 用于在局部简化代码。
+
+`using` 是 `typedef` 的替代，语法更加直观且支持模板别名：
+
+```c++
+using handler_t = void(*)(int, void*);
+using map_iter_t = std::map<int, std::string>::iterator;
+
+template<typename T>
+using Vec = std::vector<T>;
+
+Vec<int> v1 = {1, 2, 3};   
+```
+
+### `decltype` 和返回类型
+
+`auto` 根据初始化表达式推导新变量的类型；而 `decltype` 查询一个已有表达式的类型（保留引用和 `const`）。
+
+---
+
+**`decltype` 推导规则：**
+
+1. `decltype(variable)` 和 `decltype((variable))`：
+
+   对于不加括号的变量名，`decltype` 返回该变量声明时的类型：
+
+    ```c++
+    int x = 42;
+    decltype(x) a = 100;      // int
+    
+    const int& cr = x;
+    decltype(cr) b = x;        // const int&
+    ```
+
+   对于加括号的变量名，返回的是变量作为一个表达式的类型，结果是左值引用：
+
+   ```c++
+   int x = 42;
+   decltype((x)) c = x;       // int&
+   ```
+
+2. `decltype` 推导函数调用表达式
+
+   `decltype` 的操作数是函数调用表达式时，返回函数返回值的精确类型。
+
+   ```c++
+   int& get_ref() {
+       static int x = 42;
+       return x;
+   }
+   
+   int get_val() {
+       return 42;
+   }
+   
+   decltype(get_ref()) a = get_ref();  // int&
+   decltype(get_val()) b = get_val();  // int
+   ```
+
+3. `decltype` 推导表达式
+
+   `decltype` 根据表达式的值类别决定类型。如果表达式是左值，结果是引用；如果表达式是右值，结果是非引用。
+
+   ```c++
+   int x = 42;
+   
+   decltype(x + 1) a = 0;    // int（x + 1 是右值）
+   decltype(x = 10) b = x;   // int&（赋值表达式返回左值引用）
+   decltype(++x) c = x;      // int&（前置 ++ 返回左值引用）
+   decltype(x++) d = 0;      // int（后置 ++ 返回右值）
+   ```
+
+---
+
+**`decltype(auto)`：**
+
+编译器使用 `decltype` 的规则推导 `auto` 部分。
+
+```c++
+int x = 42;
+
+auto a = (x);            // int  (auto 丢弃引用)
+decltype(auto) b = (x);  // int& (decltype 保留引用)
+decltype(auto) c = x;    // int
+```
+
+如果需要完美转发返回值的引用语义时，可以使用 `decltype(auto)`：
+
+```c++
+class Container {
+public:
+    decltype(auto) operator[](std::size_t index) {
+        return data_[index];  // data_[int] 返回 int&，decltype(auto) 保留
+    }
+
+    decltype(auto) operator[](std::size_t index) const {
+        return data_[index];  // const 版本返回 const int&
+    }
+
+private:
+    std::vector<int> data_;
+};
+```
+
+注意，如果返回局部变量的引用并且使用 `decltype(auto)` 时，会导致未定义行为。
+
+```c++
+decltype(auto) get_value() {
+    int x = 42;
+    return (x);   // 返回 int&, 但 x 在函数结束后销毁 -> 悬空引用
+}
+```
+
+---
+
+**尾置返回类型：**
+
+在 C++ 11 中，函数的返回类型如果依赖参数类型，就必须用尾置返回类型；C++14 允许直接用 `auto` 做返回类型，编译器从 `return` 语句推导。如果需要精确保留引用语义，仍然需要使用 `decltype` 或 `decltype(auto)`。
+
+C++ 11 的 Lambda 如果返回类型不能自动推导，需要显式指定尾置返回类型；C++ 14 之后，Lambda 的返回类型几乎总能自动推导，不再需要显式指定。
+
+---
+
+**`decltype` 和模板：**
+
+`decltype` 在模板中最常见的用途是实现完美转发返回值——让包装函数返回和被包装函数完全相同的类型。
+
+```c++
+template<typename Callable, typename... Args>
+decltype(auto) perfect_forward(Callable&& f, Args&&... args) {
+    return std::forward<Callable>(f)(std::forward<Args>(args)...);
+}
+```
+
+### 类模板参数推导
+
+在 C++ 17 之前，每次实例化**类模板**都需要写全模板参数。
+
+```c++
+std::pair<int, double> p(1, 2.0);   
+```
+
+C++ 17 引入了类模板参数推导：CTAD，编译器从构造函数的参数自动推导模板参数，不需要手动指定。
+
+```c++
+std::pair p(1, 2.0);  	// 推导为 std::pair<int, double>
+```
+
+`std::vector` 有一个特殊的推导指引，从迭代器对推导元素类型：
+
+```c++
+std::vector v1 = {1, 2, 3};                    // std::vector<int>
+std::vector v2(v1.begin(), v1.begin() + 2);    // std::vector<int>
+```
+
+`std::unique_ptr` 和 `std::shared_ptr` 不支持从裸指针的 CTAD，因为智能指针的构造函数模板参数推导规则与普通类模板不同 —— 构造函数接受指针类型，但无法从裸指针推导出模板参数。
+
+---
+
+**隐式推导指引：**
+
+CTAD 中，编译器通过推导指引推导模板参数，如果类模板的构造函数使用了所有模板参数，编译器会自动生成隐式推导指引。
+
+```c++
+template<typename T, typename U>
+struct MyPair {
+    T first;
+    U second;
+    
+    MyPair(T f, U s) : first(f), second(s) 
+    {
+        
+    }
+};
+
+MyPair p(1, 2.0);  // 隐式推导为 MyPair<int, double>
+```
+
+如果一个类模板有多个构造函数，编译器会为每个构造函数生成一个隐式推导指引，当创建对象时，编译器会尝试所有的推导指引，选择最匹配的那个。
+
+> - 隐式推导指引不能推导嵌套的模板参数。
+> - 如果构造函数有默认参数，隐式推导指引只考虑没有默认值的参数。带默认值的模板参数不会被自动推导。
+
+---
+
+**自定义推导指引：**
+
+```c++
+template<typename ...>
+ClassName(params) -> ClassName<deduced types>;
+```
+
+一个自定义推导指引的例子：
+
+```c++
+template<typename T, std::size_t N>
+class FixedBuffer {
+public:
+    FixedBuffer(std::initializer_list<T> init) {
+        std::copy(init.begin(), init.begin() + N, data_.begin());
+    }
+
+private:
+    std::array<T, N> data_;
+};
+
+// 自定义推导指引：从花括号列表推导 T 和 N
+template<typename T, typename... Args>
+FixedBuffer(T, Args...) -> FixedBuffer<T, 1 + sizeof...(Args)>;
+
+FixedBuffer buf = {1, 2, 3, 4, 5}; 	// 从 1 推导为 int, 其余参数 + 1 为总参数个数
+									// FixedBuffer<int, 5>
+```
+
