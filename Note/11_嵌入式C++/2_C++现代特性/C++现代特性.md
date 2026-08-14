@@ -1036,7 +1036,426 @@ void demo_invoke() {
 }
 ```
 
-## 4. `auto` 和 `decltype`
+## 4. 类型安全
+
+### `enum class`
+
+C 语言的 `enum` 存在以下问题：
+
+- 可以隐式转换为整型；
+- 所有枚举值暴露在外部作用域中，重名时会产生冲突；
+- 无法前向声明；
+
+C++ 11 的 `enum class` 针对上述问题给出解决方案：
+
+1. 作用域隔离
+
+   `enum class` 的枚举值不会泄露到外接作用域，必须通过 `EnumName::Value` 的方式访问：
+
+   ```c++
+   enum class Color { Red, Green, Blue };
+   
+   Color c = Color::Red;
+   ```
+
+2. 禁止隐式转换
+
+   `enum class` 不会隐式转换为任何整数类型。必须用 `static_cast` 显式转换：
+
+   ```c++
+   enum class Color : uint8_t { Red, Green, Blue };
+   
+   int x = static_cast<int>(Color::Red);
+   ```
+
+3. 指定底层类型和前向声明
+
+   `enum class` 可以指定底层类型，并且默认为 `int`。指定底层类型后，编译器在声明时就知道枚举的大小。
+
+   ```c++
+   // status.h —— 前向声明
+   enum class Status : uint8_t;
+   
+   // device.h —— 只需要前向声明
+   class Device {
+   public:
+       Status get_status() const;
+       void set_status(Status s);
+   };
+   
+   // status.cpp —— 完整定义
+   enum class Status : uint8_t { kOk = 0, kError = 1, kBusy = 2 };
+   ```
+
+   在头文件中只需要前向声明，完整定义放在 `.cpp` 文件中，这就打破了头文件之间的循环依赖。
+
+C++ 中，由于禁止隐式转换，使用枚举类型进行位运算需要重载运算符：
+
+```c++
+#include <type_traits>
+
+enum class Permission : uint32_t {
+    kNone    = 0,
+    kRead    = 1 << 0,
+    kWrite   = 1 << 1,
+    kExecute = 1 << 2
+};
+
+// 辅助函数：枚举值到底层类型的转换
+template <typename E>
+constexpr auto to_underlying(E e) noexcept
+{
+    return static_cast<std::underlying_type_t<E>>(e);
+}
+
+constexpr Permission operator|(Permission a, Permission b) noexcept
+{
+    return static_cast<Permission>(to_underlying(a) | to_underlying(b));
+}
+
+constexpr Permission operator&(Permission a, Permission b) noexcept
+{
+    return static_cast<Permission>(to_underlying(a) & to_underlying(b));
+}
+
+constexpr Permission operator^(Permission a, Permission b) noexcept
+{
+    return static_cast<Permission>(to_underlying(a) ^ to_underlying(b));
+}
+
+constexpr Permission operator~(Permission a) noexcept
+{
+    return static_cast<Permission>(~to_underlying(a));
+}
+
+constexpr Permission& operator|=(Permission& a, Permission b) noexcept
+{
+    a = a | b;
+    return a;
+}
+
+constexpr Permission& operator&=(Permission& a, Permission b) noexcept
+{
+    a = a & b;
+    return a;
+}
+
+// 辅助判断：是否有任何标志位被设置
+constexpr bool has_any_flag(Permission flags) noexcept
+{
+    return to_underlying(flags) != 0;
+}
+
+// 辅助判断：是否包含特定标志位
+constexpr bool has_flag(Permission flags, Permission flag) noexcept
+{
+    return to_underlying(flags & flag) != 0;
+}
+```
+
+由于 `enum class` 的值必须通过限定名访问，编译器知道所有可能的取值，可以在遗漏分支时发出警告。在使用 `enum class` 做 `switch` 时，不要写 `default` 分支。
+
+C++ 20 引入了 `using enum` 声明，可以一次性把某个枚举的所有值引入当前作用域。
+
+```c++
+enum class TokenType {
+    kNumber, kString, kIdentifier,
+    kPlus, kMinus, kStar, kSlash,
+    kLeftParen, kRightParen, kEof
+};
+
+std::string_view token_to_string(TokenType type)
+{
+    // 把所有枚举值引入函数作用域
+    using enum TokenType;
+
+    switch (type) {
+    case kNumber:     return "number";
+    case kString:     return "string";
+    case kIdentifier: return "identifier";
+    case kPlus:       return "+";
+    case kMinus:      return "-";
+    case kStar:       return "*";
+    case kSlash:      return "/";
+    case kLeftParen:  return "(";
+    case kRightParen: return ")";
+    case kEof:        return "eof";
+    }
+    return "unknown";
+}
+```
+
+`using enum` 的作用域仅限于当前块（花括号内），所以不会污染外部作用域。需要注意，如果两个枚举有同名的值，同时 `using enum` 会产生冲突。
+
+### `typedef`
+
+普通的 `typedef` 和 `using` 只是给类型起一个别名，并不会区分使用同一类型的不同变量。
+
+解决方法是使用 phantom type 模式：用一个只有标记作用、不占实际空间的模板参数来区分不同的类型。
+
+```c++
+// 标签结构体, 用于区分类型, 不提供实现
+struct WidthTag {};
+struct HeightTag {};
+
+// 类型包装器
+template <typename Tag, typename Rep = int>
+class StrongInt {
+public:
+    
+    // 构造函数
+    constexpr explicit StrongInt(Rep value) : value_(value) 
+    {
+        
+    }
+    
+    // 读取值
+    constexpr Rep get() const noexcept 
+    { 
+        return value_; 
+    }
+
+private:
+    Rep value_;
+};
+
+using Width  = StrongInt<WidthTag>;
+using Height = StrongInt<HeightTag>;
+
+Width w(100);
+Height h(200);
+```
+
+此时 `Width` 和 `Height` 是两种不同类型，编译器阻止把一个值赋给另一个值。
+
+`WidthTag` 和 `HeightTag` 是空的类，不占用任何存储空间，编译器在生成代码时，`StrongInt<WidthTag>` 和 `StrongInt<HeightTag>` 的运行时表现和裸 `int` 完全一样。
+
+强类型包装器可以使用函数重载实现各类运算操作。
+
+可以使用推导指引简化构造：
+
+```c++
+// 对于 Rep 类型的推导指引
+template <typename Tag>
+StrongInt(Tag*) -> StrongInt<Tag, int>;
+
+// 使用时只需要指定 Tag
+struct ScoreTag {};
+using Score = StrongInt<ScoreTag>;
+```
+
+实际应用中，可以用 `constexpr` 和 `auto` 推导让模板代码更加自然：
+
+```c++
+template <typename Tag, typename Rep>
+constexpr auto make_strong(Rep value)
+{
+    return StrongInt<Tag, Rep>(value);
+}
+
+auto width = make_strong<WidthTag>(100);
+```
+
+### `std::variant`
+
+C 语言的 `union` 存在以下问题：
+
+- `union` 不记录当前持有的是哪个成员；
+- `union` 不支持带有非平凡构造/析构函数的类型，比如 `std::string`。
+
+`std::variant` 解决了以上问题。
+
+---
+
+**构造和赋值：**
+
+`std::variant<Types...>` 可以在同一时刻持有 `Types...` 中恰好一种类型的值。默认构造时，它会构造第一个备选类型。
+
+```c++
+#include <variant>
+#include <string>
+#include <iostream>
+
+int main()
+{
+    // 默认构造：持有 int（第一个备选），值为 0
+    std::variant<int, double, std::string> v;
+
+    // 赋值：自动切换到对应类型
+    v = 42;                        // 持有 int
+    v = 3.14;                      // 持有 double
+    v = std::string("hello");      // 持有 std::string
+
+    // 构造时直接指定
+    std::variant<int, std::string> v2 = std::string("world");
+}
+```
+
+每次赋值时，`variant` 会自动销毁旧值、构造新值。
+
+---
+
+**访问值：**
+
+访问 `variant` 的值有三种方式：
+
+```c++
+std::variant<int, double, std::string> v = 3.14;
+
+// std::get<T> —— 类型不匹配时抛出 std::bad_variant_access
+double d = std::get<double>(v);   // OK
+// int bad = std::get<int>(v);    // 抛出异常！
+
+// std::get_if<T> —— 不抛异常，返回指针
+if (auto* ptr = std::get_if<double>(&v)) {
+    std::cout << "double: " << *ptr << "\n";
+}
+
+// std::holds_alternative<T> —— 只检查类型
+if (std::holds_alternative<double>(v)) {
+    std::cout << "it's a double\n";
+}
+```
+
+如果只需要检查类型，用 `std::holds_alternative`；如果需要获取值的指针（且不想处理异常），用 `std::get_if`；如果确定类型是对的并且希望不匹配时立刻报错，用 `std::get`。
+
+---
+
+**`std::visit` 和访问者模式：**
+
+`std::visit` 接受一个可调用对象 `visitor` 和若干个 `variant` 对象，根据根据 `variant` 当前持有的类型来分派调用。
+
+```c++
+std::variant<int, double, std::string> v = std::string("hello");
+
+// auto&& 是万能引用, visit 根据 v 持有的类型实例化 Lambda
+std::visit([](auto&& arg) {
+    std::cout << arg << "\n";
+}, v);
+```
+
+如果不同类型需要用不同的逻辑进行处理，需要构建一个重载集合：一个对每种备选类型都有对应重载的可调用对象。
+
+```c++
+template <class... Ts>				// 定义模板类型集合
+struct Overloaded : Ts... {			// 从所有类型参数公开继承
+    using Ts::operator()...;  		// 折叠表达式, 将每个基类的 operator() 引入当前作用域
+};
+
+template <class... Ts>
+Overloaded(Ts...) -> Overloaded<Ts...>;	// 调用时进行推导指引
+
+std::variant<int, double, std::string> v = 3.14;
+
+std::visit(Overloaded{
+    [](int i)         { std::cout << "int: " << i << "\n"; },
+    [](double d)      { std::cout << "double: " << d << "\n"; },
+    [](const std::string& s) { std::cout << "string: " << s << "\n"; }
+}, v);
+```
+
+编译器会检查 `Overloaded` 是否覆盖了 `variant` 的所有备选类型。如果漏掉了某个类型的处理，编译器会直接报错。
+
+`visitor` 可以返回值，所有 Lambda 的返回类型必须兼容：
+
+```c++
+std::variant<int, double, std::string> v = 42;
+
+auto type_name = std::visit(Overloaded{
+    [](int)    -> std::string { return "int"; },
+    [](double) -> std::string { return "double"; },
+    [](const std::string&) -> std::string { return "string"; }
+}, v);
+```
+
+---
+
+**`std::variant` 和运行时多态：**
+
+`std::variant` 可以替代虚函数实现多态。传统的虚函数多态需要堆分配、虚函数表指针、引用语义——而 `variant` 可以直接在栈上存储值，没有虚函数调用开销。
+
+```c++
+struct Circle {
+    double radius;
+    explicit Circle(double r) : radius(r) {}
+};
+
+struct Rectangle {
+    double width, height;
+    Rectangle(double w, double h) : width(w), height(h) {}
+};
+
+using Shape = std::variant<Circle, Rectangle>;
+
+double area(const Shape& s)
+{
+    return std::visit(Overloaded{
+        [](const Circle& c)    { return 3.14159 * c.radius * c.radius; },
+        [](const Rectangle& r) { return r.width * r.height; }
+    }, s);
+}
+
+// variant 是值语义, 直接在栈上存储
+std::vector<Shape> shapes;
+shapes.push_back(Circle(5.0));
+shapes.push_back(Rectangle(3.0, 4.0));
+
+for (const auto& s : shapes) {
+    std::cout << area(s) << "\n";
+}
+```
+
+`variant` 方式的优势在于：值语义（不需要 `new`/`delete`）、连续内存（`vector` 中直接存储，缓存友好）、编译期类型检查（所有 `visit` 的分支都在编译期确定）。
+
+但是如果新增派生类，必须修改 `variant` 定义，这是不灵活的。如果第三方可以扩展新类型，虚函数仍然是更好的选择。
+
+### `std::optional`
+
+`optional` 用于表示可能没有值。`std::optional<T>` 表示要么持有一个 `T` 类型的值，要么什么都没有。它是一个值类型（不是指针），持有的对象直接嵌套在 `optional` 内部的存储中——没有动态内存分配。
+
+```c++
+#include <optional>
+#include <string>
+#include <iostream>
+
+std::optional<int> a;                      // 空（不持有值）
+std::optional<int> b = 42;                 // 持有 42
+std::optional<int> c = std::nullopt;       // 显式空
+std::optional<std::string> d = "hello";    // 持有 "hello"
+```
+
+检查和访问如下：
+
+```c++
+std::optional<int> opt = 42;
+
+// 检查是否有值
+if (opt.has_value()) { /* ... */ }
+if (opt) { /* ... */ }             			// 等价的隐式 bool 转换
+
+// 访问值
+int x = *opt;                       		// 解引用(未检查——空时是 UB)
+int y = opt.value();                		// 空时抛 std::bad_optional_access
+int z = opt.value_or(0);            		// 空时返回默认值 0
+
+// 访问成员(对于类)
+std::optional<std::string> name = "Alice";
+if (name) {
+    std::cout << "length: " << name->size() << "\n";  // operator->
+}
+```
+
+已经检查过 `has_value()` 的代码路径中，使用 `*opt` ，性能更好而且语义清晰。在没有检查的情况下，`value()` 更安全 —— 抛异常而不是 UB。实际应用中更推荐使用 `value_or()`。
+
+`optional<T>` 和 `T*` 都能表达可能没有值，`optional<T>` 是值语义，持有（或打算持有）一个完整的 `T` 对象，拷贝 `optional` 会拷贝 `T` 的值（如果有值的话），析构 `optional` 会析构 `T`。`T*` 是引用语义，指向某个外部的 `T` 对象（或者为空）。拷贝指针只是拷贝地址，不会拷贝对象本身。
+
+如果需要表达值可能存在也可能不存在，用 `optional`；如果需要表达指向某个外部对象的可空引用，用指针。
+
+`optional` 最常见的用途是作为函数返回值 —— 函数可能返回一个有效值，也可能返回无值。调用方必须在类型系统层面处理无值的情况。
+
+`optional` 也可以用作函数参数，表示参数是可选的。
+
+## 5. `auto` 和 `decltype`
 
 ### `auto` 类型推导
 
