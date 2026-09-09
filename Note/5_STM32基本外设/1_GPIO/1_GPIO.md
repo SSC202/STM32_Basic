@@ -164,3 +164,24 @@ GPIO_PinState HAL_GPIO_ReadPin(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin);
 __weak void HAL_Delay(uint32_t Delay);
 ```
 
+---
+
+**`HAL_Delay()`** 的实现基于系统的 `Systick` 定时器：
+
+```c
+__weak void HAL_Delay(uint32_t Delay)
+{
+  uint32_t tickstart = HAL_GetTick();
+  uint32_t wait = Delay;
+  /* Add a freq to guarantee minimum wait */
+  if (wait < HAL_MAX_DELAY)
+  {
+    wait += (uint32_t)(uwTickFreq);
+  }
+  while ((HAL_GetTick() - tickstart) < wait)
+  {
+  }
+}
+```
+
+因此实际延迟时间是 `Delay + 1` ms，这一点需要注意。
