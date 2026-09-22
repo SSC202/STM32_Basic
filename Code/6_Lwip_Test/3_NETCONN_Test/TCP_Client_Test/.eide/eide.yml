@@ -1,0 +1,107 @@
+name: TCP_Client_Test
+type: ARM
+dependenceList: []
+srcDirs:
+  - Core
+  - Drivers
+  - LWIP
+  - Middlewares
+  - Library
+virtualFolder:
+  name: <virtual_root>
+  files:
+    - path: startup_stm32f429xx.s
+  folders: []
+outDir: build
+deviceName: null
+packDir: null
+miscInfo:
+  uid: a713c32d843811a285ed56be497246f5
+targets:
+  Debug:
+    excludeList: []
+    toolchain: GCC
+    uploader: STLink
+    uploadConfigMap:
+      JLink:
+        bin: ""
+        baseAddr: ""
+        cpuInfo:
+          vendor: "null"
+          cpuName: "null"
+        proType: 1
+        speed: 8000
+        otherCmds: ""
+      STLink:
+        bin: ""
+        proType: SWD
+        resetMode: default
+        runAfterProgram: true
+        speed: 4000
+        address: "0x08000000"
+        elFile: None
+        optionBytes: .eide/debug.st.option.bytes.ini
+        otherCmds: ""
+    toolchainConfigMap:
+      GCC:
+        cpuType: Cortex-M4
+        floatingPointHardware: single
+        scatterFilePath: stm32f429igtx_flash.ld
+        useCustomScatterFile: true
+        storageLayout:
+          RAM: []
+          ROM: []
+        options:
+          version: 5
+          beforeBuildTasks: []
+          afterBuildTasks: []
+          global:
+            $float-abi-type: softfp
+            output-debug-info: enable
+            misc-control: --specs=nosys.specs --specs=nano.specs
+          c/cpp-compiler:
+            language-c: c11
+            language-cpp: c++11
+            optimization: level-3
+            warnings: all-warnings
+            one-elf-section-per-function: true
+            one-elf-section-per-data: true
+          asm-compiler: {}
+          linker:
+            output-format: elf
+            remove-unused-input-sections: true
+            LIB_FLAGS: -lm
+            $toolName: auto
+    cppPreprocessAttrs:
+      name: default
+      incList:
+        - Core/Inc
+        - LWIP/App
+        - LWIP/Target
+        - Middlewares/Third_Party/LwIP/src/include
+        - Middlewares/Third_Party/LwIP/system
+        - Drivers/STM32F4xx_HAL_Driver/Inc
+        - Drivers/STM32F4xx_HAL_Driver/Inc/Legacy
+        - Middlewares/Third_Party/FreeRTOS/Source/include
+        - Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2
+        - Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F
+        - Drivers/BSP/Components/lan8742
+        - Middlewares/Third_Party/LwIP/src/include/netif/ppp
+        - Drivers/CMSIS/Device/ST/STM32F4xx/Include
+        - Middlewares/Third_Party/LwIP/src/include/lwip
+        - Middlewares/Third_Party/LwIP/src/include/lwip/apps
+        - Middlewares/Third_Party/LwIP/src/include/lwip/priv
+        - Middlewares/Third_Party/LwIP/src/include/lwip/prot
+        - Middlewares/Third_Party/LwIP/src/include/netif
+        - Middlewares/Third_Party/LwIP/src/include/compat/posix
+        - Middlewares/Third_Party/LwIP/src/include/compat/posix/arpa
+        - Middlewares/Third_Party/LwIP/src/include/compat/posix/net
+        - Middlewares/Third_Party/LwIP/src/include/compat/posix/sys
+        - Middlewares/Third_Party/LwIP/src/include/compat/stdc
+        - Middlewares/Third_Party/LwIP/system/arch
+        - Drivers/CMSIS/Include
+      libList: []
+      defineList:
+        - USE_HAL_DRIVER
+        - STM32F429xx
+version: "4.1"
