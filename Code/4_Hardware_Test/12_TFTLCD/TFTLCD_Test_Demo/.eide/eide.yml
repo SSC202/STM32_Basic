@@ -1,6 +1,8 @@
+version: "4.1"
 name: TFTLCD_Test_Demo
 type: ARM
-dependenceList: []
+deviceName: null
+packDir: null
 srcDirs:
   - .eide/deps
   - BSP
@@ -11,66 +13,16 @@ virtualFolder:
   files:
     - path: startup_stm32f429xx.s
   folders: []
+dependenceList: []
 outDir: build
-deviceName: null
-packDir: null
 miscInfo:
   uid: 3e9d3f7a40e27669abbd85999e7f987e
 targets:
   Debug:
-    excludeList: []
-    toolchain: GCC
-    uploader: OpenOCD
-    uploadConfigMap:
-      JLink:
-        bin: ""
-        baseAddr: ""
-        cpuInfo:
-          vendor: "null"
-          cpuName: "null"
-        proType: 1
-        speed: 8000
-        otherCmds: ""
-      OpenOCD:
-        bin: ""
-        target: stm32f4x
-        interface: stlink
-        baseAddr: "0x08000000"
-    toolchainConfigMap:
-      GCC:
-        cpuType: Cortex-M4
-        floatingPointHardware: single
-        scatterFilePath: STM32F429IGTx_FLASH.ld
-        useCustomScatterFile: true
-        storageLayout:
-          RAM: []
-          ROM: []
-        options:
-          version: 5
-          beforeBuildTasks: []
-          afterBuildTasks: []
-          global:
-            $float-abi-type: softfp
-            output-debug-info: enable
-            misc-control: --specs=nosys.specs --specs=nano.specs
-          c/cpp-compiler:
-            language-c: c11
-            language-cpp: c++11
-            optimization: level-debug
-            warnings: all-warnings
-            one-elf-section-per-function: true
-            one-elf-section-per-data: true
-            C_FLAGS: ""
-            CXX_FLAGS: ""
-          asm-compiler:
-            ASM_FLAGS: ""
-          linker:
-            output-format: elf
-            remove-unused-input-sections: true
-            LD_FLAGS: ""
-            LIB_FLAGS: -lm
     cppPreprocessAttrs:
-      name: default
+      defineList:
+        - USE_HAL_DRIVER
+        - STM32F429xx
       incList:
         - .eide/deps
         - Core/Inc
@@ -79,8 +31,57 @@ targets:
         - Drivers/CMSIS/Device/ST/STM32F4xx/Include
         - Drivers/CMSIS/Include
       libList: []
-      sourceDirList: []
-      defineList:
-        - USE_HAL_DRIVER
-        - STM32F429xx
-version: "4.1"
+    excludeList: []
+    settings:
+      debugger: cortex-debug
+    toolchain: GCC
+    toolchainConfigMap:
+      GCC:
+        archExtensions: ""
+        cpuType: Cortex-M4
+        floatingPointHardware: single
+        options:
+          version: 5
+          afterBuildTasks: []
+          asm-compiler:
+            ASM_FLAGS: ""
+          beforeBuildTasks: []
+          c/cpp-compiler:
+            CXX_FLAGS: ""
+            C_FLAGS: ""
+            language-c: c11
+            language-cpp: c++11
+            one-elf-section-per-data: true
+            one-elf-section-per-function: true
+            optimization: level-debug
+            warnings: all-warnings
+          global:
+            $float-abi-type: softfp
+            misc-control: --specs=nosys.specs --specs=nano.specs
+            output-debug-info: enable
+          linker:
+            LD_FLAGS: ""
+            LIB_FLAGS: -lm
+            output-format: elf
+            remove-unused-input-sections: true
+        scatterFilePath: STM32F429IGTx_FLASH.ld
+        storageLayout:
+          RAM: []
+          ROM: []
+        useCustomScatterFile: true
+    uploadConfigMap:
+      JLink:
+        baseAddr: ""
+        bin: ""
+        cpuInfo:
+          cpuName: "null"
+          vendor: "null"
+        otherCmds: ""
+        proType: 1
+        speed: 8000
+      OpenOCD:
+        baseAddr: "0x08000000"
+        bin: ""
+        interface: stlink
+        target: stm32f4x
+    uploader: OpenOCD
