@@ -1,1 +1,66 @@
-.eide/
+# EIDE user state and logs
+**/.eide/log/
+.eide.usr.ctx.json
+*.ept
+*.eide-template
+
+# IDE user state
+**/.vscode/launch.json
+**/.vscode/*.log*
+**/.vscode/*.cortex-debug.registers.state.json
+**/.vs/
+**/.settings/
+**/.metadata/
+**/.tracecompass/
+**/lv_dev_tools/
+
+# CMake and Ninja generated files
+Code/**/cmake-build-*/
+Code/**/CMakeFiles/
+Code/**/CMakeCache.txt
+Code/**/cmake_install.cmake
+Code/**/compile_commands.json
+Code/**/*.cbp
+Code/**/.ninja_*
+
+# Embedded project build directories
+Code/**/build/
+Code/**/bin/
+Code/**/obj/
+Code/**/out/
+Code/**/Debug/
+Library/**/Debug/
+
+# GCC, ARMCC and Keil generated files under Code
+Code/**/*.o
+Code/**/*.d
+Code/**/*.o.cmd
+Code/**/*.crf
+Code/**/*.dep
+Code/**/*.lnp
+Code/**/*.pbi
+Code/**/*.axf
+Code/**/*.elf
+Code/**/*.hex
+Code/**/*.bin
+Code/**/*.map
+Code/**/*.lst
+Code/**/*.out
+Code/**/*.pre
+Code/**/*.uvoptx
+Code/**/*.uvguix
+Code/**/*.objlist
+Code/**/*.view
+Code/**/*.params
+Code/**/*.log
+Code/**/*.bak
+Code/**/*.Bak
+Code/**/*.old
+Code/**/*.build_log.htm
+
+# Temporary files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
