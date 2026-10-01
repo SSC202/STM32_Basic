@@ -1,5 +1,7 @@
 # STM32
 
+网址链接：[STM32 Notes · 嵌入式开发笔记](https://ssc202.github.io/STM32_Basic/#paths)
+
 本仓库用于记录 STM32 的学习过程，仓库内容如下：
 
 >- `Note`：STM32 的学习笔记 (markdown 文件)；
