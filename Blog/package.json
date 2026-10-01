@@ -1,0 +1,17 @@
+{
+  "name": "stm32-notes-blog",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "check": "node scripts/check.mjs",
+    "dev": "node scripts/server.mjs",
+    "preview": "node scripts/server.mjs --no-build"
+  },
+  "dependencies": {
+    "highlight.js": "^11.11.1",
+    "katex": "^0.18.9",
+    "marked": "^16.3.0",
+    "marked-katex-extension": "^5.1.13"
+  }
+}
