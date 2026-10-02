@@ -174,7 +174,7 @@ function siteHeader(root = '.') {
 
 function homePage(articles, categories) {
   const starter = articles.find(article => article.category.includes('基本概念')) || articles.at(-1);
-  const pathIcons = ['book', 'terminal', 'cpu', 'layers', 'cpu', 'tool', 'layers', 'monitor', 'network', 'network', 'code', 'tool'];
+  const pathIcons = ['book', 'terminal', 'cpu', 'layers', 'cpu', 'tool', 'layers', 'monitor', 'network', 'network', 'code', 'tool', 'cpu'];
   const pathCards = categories.map(({ name, count, slug }, index) => `<a class="path-card tone-${index % 4}" href="topics/${slug}.html">
     <span class="path-icon">${icon(pathIcons[index] || 'book')}</span>
     <span class="path-order">${String(index + 1).padStart(2, '0')}</span>
@@ -244,14 +244,15 @@ function categoryDescription(name) {
     ['LwIP', '从网络基础进入 TCP/IP 协议栈实践。'],
     ['工业总线', '梳理 CANopen、EtherCAT 与编码器协议。'],
     ['C++', '将现代 C++ 特性应用到嵌入式开发。'],
-    ['工程经验', '沉淀工程框架、启动流程与调试方法。']
+    ['工程经验', '沉淀工程框架、启动流程与调试方法。'],
+    ['硬件设计', '整理原理图设计、EMC 与硬件可靠性经验。']
   ];
   return descriptions.find(([keyword]) => name.includes(keyword))?.[1] || 'STM32 学习笔记与工程实践记录。';
 }
 
 function topicPage(category, categories) {
   const index = categories.findIndex(item => item.slug === category.slug);
-  const pathIcons = ['book', 'terminal', 'cpu', 'layers', 'cpu', 'tool', 'layers', 'monitor', 'network', 'network', 'code', 'tool'];
+  const pathIcons = ['book', 'terminal', 'cpu', 'layers', 'cpu', 'tool', 'layers', 'monitor', 'network', 'network', 'code', 'tool', 'cpu'];
   const articleRows = category.articles.map((article, articleIndex) => `<a class="topic-article-row" href="../articles/${article.slug}.html">
     <span class="topic-article-index">${String(articleIndex + 1).padStart(2, '0')}</span>
     <span class="topic-article-copy"><b>${htmlEscape(article.title)}</b><small>${htmlEscape(article.excerpt)}</small></span>
@@ -387,11 +388,16 @@ async function build() {
   const categoryOrder = [
     '嵌入式系统的基本概念', 'STM32的开发环境配置', 'STM32的总体架构', 'HAL库简介',
     'STM32基本外设', 'STM32进阶使用', 'FreeRTOS', 'LVGL图形库',
-    'LwIP网络编程', '工业总线协议', '嵌入式C++', '工程经验'
+    'LwIP网络编程', '工业总线协议', '嵌入式C++', '工程经验', '硬件设计相关'
   ];
+  const categoryRank = (name) => {
+    if (name === '硬件设计相关') return Number.MAX_SAFE_INTEGER;
+    const index = categoryOrder.indexOf(name);
+    return index === -1 ? categoryOrder.length : index;
+  };
   const categories = [...counts]
     .map(([name, count]) => ({ name, count, slug: slugFor(`topic:${name}`) }))
-    .sort((a, b) => categoryOrder.indexOf(a.name) - categoryOrder.indexOf(b.name));
+    .sort((a, b) => categoryRank(a.name) - categoryRank(b.name));
   for (const category of categories) {
     category.articles = articles
       .filter(article => article.category === category.name)
