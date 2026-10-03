@@ -4,6 +4,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { marked } from 'marked';
 import hljs from 'highlight.js';
+import katex from 'katex';
 import markedKatex from 'marked-katex-extension';
 
 const scriptDir = path.dirname(fileURLToPath(import.meta.url));
@@ -102,6 +103,50 @@ function makeRenderer(article, imageJobs) {
   return renderer;
 }
 
+function extractDisplayMath(markdown) {
+  const lines = markdown.split(/\r?\n/);
+  const blocks = [];
+  const output = [];
+  const delimiter = /^(?:\s*>\s*)*\s*\$\$\s*$/;
+  const stripContainerPrefix = (line) => line.replace(/^\s*(?:>\s*)*/, '');
+
+  for (let index = 0; index < lines.length; index += 1) {
+    const line = lines[index];
+    if (!delimiter.test(line)) {
+      output.push(line);
+      continue;
+    }
+
+    const content = [];
+    let closingIndex = index + 1;
+    while (closingIndex < lines.length && !delimiter.test(lines[closingIndex])) {
+      content.push(stripContainerPrefix(lines[closingIndex]));
+      closingIndex += 1;
+    }
+
+    if (closingIndex >= lines.length) {
+      output.push(line);
+      continue;
+    }
+
+    const quotePrefix = line.match(/^\s*((?:>\s*)+)/)?.[1] || '';
+    const indentPrefix = quotePrefix ? '' : line.match(/^\s*/)?.[0] || '';
+    const placeholder = `STM32BLOGMATHBLOCK${blocks.length}PLACEHOLDER`;
+    blocks.push({
+      placeholder,
+      html: katex.renderToString(content.join('\n').trim(), {
+        displayMode: true,
+        throwOnError: false,
+        strict: false
+      })
+    });
+    output.push(`${indentPrefix}${quotePrefix}${placeholder}`);
+    index = closingIndex;
+  }
+
+  return { markdown: output.join('\n'), blocks };
+}
+
 function renderMarkdown(article, imageJobs) {
   const renderer = makeRenderer(article, imageJobs);
   renderer.code = ({ text, lang }) => {
@@ -109,15 +154,20 @@ function renderMarkdown(article, imageJobs) {
     const highlighted = hljs.highlight(text, { language }).value;
     return `<pre><div class="code-head"><span>${htmlEscape(lang || 'text')}</span><button class="copy-code" type="button" aria-label="复制代码">复制</button></div><code class="hljs language-${htmlEscape(language)}">${highlighted}</code></pre>`;
   };
-  const markdown = article.markdown.replace(
+  const markdownWithImages = article.markdown.replace(
     /(<img\b[^>]*\bsrc\s*=\s*)(["'])([^"']+)\2/gi,
     (match, prefix, quote, href) => `${prefix}${quote}${queueLocalImage(article, imageJobs, href)}${quote}`
   );
-  return marked.parse(markdown, {
+  const displayMath = extractDisplayMath(markdownWithImages);
+  let html = marked.parse(displayMath.markdown, {
     renderer,
     gfm: true,
     breaks: false
   });
+  for (const block of displayMath.blocks) {
+    html = html.replaceAll(block.placeholder, block.html);
+  }
+  return html;
 }
 
 function icon(name) {

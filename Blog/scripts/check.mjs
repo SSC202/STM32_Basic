@@ -20,10 +20,14 @@ const files = await walk(distDir);
 const htmlFiles = files.filter(file => file.endsWith('.html'));
 const failures = [];
 const sequenceFailures = [];
+const rawMathFailures = [];
 let references = 0;
 
 for (const htmlFile of htmlFiles) {
   const html = await readFile(htmlFile, 'utf8');
+  if (html.includes('$$')) {
+    rawMathFailures.push(path.relative(distDir, htmlFile));
+  }
   const attributes = html.matchAll(/\b(?:href|src)\s*=\s*["']([^"']+)["']/gi);
   for (const [, reference] of attributes) {
     if (/^(?:https?:|data:|mailto:|#)/i.test(reference)) continue;
@@ -60,12 +64,16 @@ for (const topicFile of topicFiles) {
   }
 }
 
-if (failures.length || sequenceFailures.length) {
+if (failures.length || sequenceFailures.length || rawMathFailures.length) {
   console.error(`发现 ${failures.length} 个失效的本地引用：`);
   failures.slice(0, 30).forEach(failure => console.error(`- ${failure}`));
   if (sequenceFailures.length) {
     console.error(`发现 ${sequenceFailures.length} 个文章顺序错误：`);
     sequenceFailures.slice(0, 30).forEach(failure => console.error(`- ${failure}`));
+  }
+  if (rawMathFailures.length) {
+    console.error(`发现 ${rawMathFailures.length} 个仍含原始 $$ 的页面：`);
+    rawMathFailures.slice(0, 30).forEach(failure => console.error(`- ${failure}`));
   }
   process.exitCode = 1;
 } else {
