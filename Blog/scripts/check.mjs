@@ -21,12 +21,16 @@ const htmlFiles = files.filter(file => file.endsWith('.html'));
 const failures = [];
 const sequenceFailures = [];
 const rawMathFailures = [];
+const mathRenderFailures = [];
 let references = 0;
 
 for (const htmlFile of htmlFiles) {
   const html = await readFile(htmlFile, 'utf8');
   if (html.includes('$$')) {
     rawMathFailures.push(path.relative(distDir, htmlFile));
+  }
+  if (html.includes('class="katex-error"')) {
+    mathRenderFailures.push(path.relative(distDir, htmlFile));
   }
   const attributes = html.matchAll(/\b(?:href|src)\s*=\s*["']([^"']+)["']/gi);
   for (const [, reference] of attributes) {
@@ -64,7 +68,7 @@ for (const topicFile of topicFiles) {
   }
 }
 
-if (failures.length || sequenceFailures.length || rawMathFailures.length) {
+if (failures.length || sequenceFailures.length || rawMathFailures.length || mathRenderFailures.length) {
   console.error(`发现 ${failures.length} 个失效的本地引用：`);
   failures.slice(0, 30).forEach(failure => console.error(`- ${failure}`));
   if (sequenceFailures.length) {
@@ -74,6 +78,10 @@ if (failures.length || sequenceFailures.length || rawMathFailures.length) {
   if (rawMathFailures.length) {
     console.error(`发现 ${rawMathFailures.length} 个仍含原始 $$ 的页面：`);
     rawMathFailures.slice(0, 30).forEach(failure => console.error(`- ${failure}`));
+  }
+  if (mathRenderFailures.length) {
+    console.error(`发现 ${mathRenderFailures.length} 个包含 KaTeX 渲染错误的页面：`);
+    mathRenderFailures.slice(0, 30).forEach(failure => console.error(`- ${failure}`));
   }
   process.exitCode = 1;
 } else {
