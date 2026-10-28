@@ -26,7 +26,10 @@ let references = 0;
 
 for (const htmlFile of htmlFiles) {
   const html = await readFile(htmlFile, 'utf8');
-  if (html.includes('$$')) {
+  const proseHtml = html
+    .replace(/<pre\b[\s\S]*?<\/pre>/gi, '')
+    .replace(/<code\b[\s\S]*?<\/code>/gi, '');
+  if (proseHtml.includes('$$')) {
     rawMathFailures.push(path.relative(distDir, htmlFile));
   }
   if (html.includes('class="katex-error"')) {
