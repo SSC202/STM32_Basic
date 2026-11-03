@@ -1,32 +1,32 @@
-# STM32 LVGL 1_LVGL的移植
+# STM32 LVGL 1_LVGL 的移植
 
-## 1. 裸机移植LVGL
+## 1. 裸机移植 LVGL
 
 ### 源码下载
 
 https://github.com/lvgl/lvgl
 
-### 新建工程文件夹`GUI`和`GUI_APP`并移植文件
+### 新建工程文件夹 `GUI` 和 `GUI_APP` 并移植文件
 
-- 在`GUI`下新建`lvgl`和`lvgl_port`文件夹。
+- 在 `GUI` 下新建 `lvgl` 和 `lvgl_port` 文件夹。
 
-> - `lvgl`存放官方各类控件的源程序。
-> - `lvgl_port`存放LVGL显示屏驱动、输入设备驱动及文件系统驱动。
+> - `lvgl` 存放官方各类控件的源程序。
+> - `lvgl_port` 存放 LVGL 显示屏驱动、输入设备驱动及文件系统驱动。
 
-- 将源码中的`src`文件夹和`lvgl.h`文件拷贝到`lvgl`文件夹中。
-- 将源码中的`examples/porting`路径下的文件拷贝到`lvgl_port`文件夹中，并删除`_template`字段。
+- 将源码中的 `src` 文件夹和 `lvgl.h` 文件拷贝到 `lvgl` 文件夹中。
+- 将源码中的 `examples/porting` 路径下的文件拷贝到 `lvgl_port` 文件夹中，并删除 `_template` 字段。
 
-> - `lv_port_disp`为LVGL显示驱动。
-> - `lv_port_fs`为LVGL文件系统驱动。
-> -  `lv_port_indev`为LVGL输入设备驱动。
+> - `lv_port_disp` 为 LVGL 显示驱动。
+> - `lv_port_fs` 为 LVGL 文件系统驱动。
+> -  `lv_port_indev` 为 LVGL 输入设备驱动。
 
-- 将源码中的`lv_conf_template.h`拷贝到`GUI`文件夹中，并删除`_template`字段。
+- 将源码中的 `lv_conf_template.h` 拷贝到 `GUI` 文件夹中，并删除 `_template` 字段。
 
-> - `lv_conf.h`是LVGL库的配置文件，里面有各种宏。
+> - `lv_conf.h` 是 LVGL 库的配置文件，里面有各种宏。
 
-- 添加工程代码和编译路径，增加全局宏定义`STM32F4`。
+- 添加工程代码和编译路径，增加全局宏定义 `STM32F4`。
 
-### 修改`lv_conf.h`
+### 修改 `lv_conf.h`
 
 - 使能文件
 
@@ -48,7 +48,7 @@ https://github.com/lvgl/lvgl
 #if 1 /*Set it to "1" to enable content*/ 
 ```
 
-- 定义颜色深度，如果为单色屏，改为1.
+- 定义颜色深度，如果为单色屏，改为 1.
 
 ```c
 /*====================
@@ -92,7 +92,7 @@ https://github.com/lvgl/lvgl
 //用来调节界面缩放比例的，此值越大，控件分布的就越散，控件自身的间隔也会变大。可根据实际情况进行更改，例如128x128分辨率1.44英寸的屏幕，那么 DPI = ((√128*128) / 1.44) ≈ 89
 ```
 
-- 使能DMA2D
+- 使能 DMA2D
 
 ```c
 /*Use STM32's DMA2D (aka Chrom Art) GPU*/
@@ -257,7 +257,7 @@ static void disp_flush(lv_disp_drv_t * disp_drv, const lv_area_t * area, lv_colo
 }
 ```
 
-- 头文件中使能并声明`lv_port_disp_init`函数。
+- 头文件中使能并声明 `lv_port_disp_init` 函数。
 
 ### 修改输入设备驱动接口
 
@@ -314,7 +314,7 @@ void lv_port_indev_init(void)
 }
 ```
 
-- 修改`touchpad_is_pressed()`函数
+- 修改 `touchpad_is_pressed()` 函数
 
 ```c
 static bool touchpad_is_pressed(void)
@@ -328,7 +328,7 @@ static bool touchpad_is_pressed(void)
 }
 ```
 
-- 修改`touchpad_get_xy()`函数
+- 修改 `touchpad_get_xy()` 函数
 
 ```c
 static void touchpad_get_xy(lv_coord_t *x, lv_coord_t *y)
@@ -342,7 +342,7 @@ static void touchpad_get_xy(lv_coord_t *x, lv_coord_t *y)
 }
 ```
 
-- 头文件中使能并声明`lv_port_indev_init`函数。
+- 头文件中使能并声明 `lv_port_indev_init` 函数。
 
 ### 主程序修改
 
@@ -362,5 +362,5 @@ lv_port_disp_init();  // lvgl 显示接口初始化,放在 lv_init()的后面
 lv_port_indev_init(); // lvgl 输入接口初始化,放在 lv_init()的后面
 ```
 
-- 添加自己的demo。
-- 在循环中执行`lv_task_handler`函数。
+- 添加自己的 demo。
+- 在循环中执行 `lv_task_handler` 函数。

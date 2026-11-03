@@ -1,4 +1,4 @@
-# STM32 LVGL 3_LVGL部件
+# STM32 LVGL 3_LVGL 部件
 
 ## 1. 标签部件(`lv_label`)
 
@@ -6,7 +6,7 @@
 
 标签部件主要用于文本显示，例如标题，提示信息等。
 
-标签部件由主体`LV_PART_MAIN`，滚动条`LV_PART_SCROLLBAR`，选中文本`LV_PART_SELECTED`组成。
+标签部件由主体 `LV_PART_MAIN`，滚动条 `LV_PART_SCROLLBAR`，选中文本 `LV_PART_SELECTED` 组成。
 
 ### 标签部件的创建
 
@@ -344,7 +344,7 @@ void lv_obj_set_style_arc_width(struct _lv_obj_t * obj, lv_coord_t value, lv_sty
 
 ## 7. LED 部件（`lv_led`）
 
-LED部件常用于指示控制对象的状态。
+LED 部件常用于指示控制对象的状态。
 
 ![NULL](picture_7.jpg)
 
@@ -726,11 +726,11 @@ lv_obj_t * lv_img_create(lv_obj_t * parent);
 [LVGL 图像转换器](https://lvgl.io/tools/imageconverter)
 
 > - 一般使用默认选项；
-> - 生成代码后，将`LV_COLOR_SIZE`转换为`LV_COLOR_DEPTH`。将`LV_IMG_CF_TRUE_COLOR`改为`LV_COLOR_FORMAT_RGB565`;
+> - 生成代码后，将 `LV_COLOR_SIZE` 转换为 `LV_COLOR_DEPTH`。将 `LV_IMG_CF_TRUE_COLOR` 改为 `LV_COLOR_FORMAT_RGB565`;
 
 2. 图像的声明
 
-在C文件中使用以下代码链接`img`：
+在 C 文件中使用以下代码链接 `img`：
 
 ```c
 LV_IMG_DECLARE(img_qq);
@@ -781,7 +781,7 @@ void lv_image_set_pivot(lv_obj_t * obj, lv_coord_t x, lv_coord_t y);
 
 ## 15. 色环部件（`lv_colorwheel`）（本版本中无色环部件）
 
-在UI设计中，色环部件一般用作颜色选择器。
+在 UI 设计中，色环部件一般用作颜色选择器。
 
 ![NULL](picture_17.jpg)
 

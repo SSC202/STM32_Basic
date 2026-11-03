@@ -69,7 +69,7 @@ CANfestival 协议栈的目录结构：
   #endif
   ```
 
-  同时移植 `congif.h` 文件 (在  `./example/AVR/Slave` 内)
+  同时移植 `congif.h` 文件 (在 `./example/AVR/Slave` 内)
 
   ```c
   /*

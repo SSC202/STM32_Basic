@@ -64,3 +64,6 @@ Thumbs.db
 *.swp
 *.swo
 *~
+
+# Local hardware design reference PDFs
+/Note/B_硬件设计相关/**/*.[pP][dD][fF]

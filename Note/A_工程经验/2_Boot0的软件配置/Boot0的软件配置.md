@@ -2,7 +2,7 @@
 
 [参考链接](https://shequ.stmicroelectronics.cn/thread-631814-1-1.html)
 
-STM32 一般可以通过 BOOT0 和 BOOT1 的不同组合来设置启动方式。但是在引脚资源稀缺的情况下，有些时候需要将 BOOT0 的引脚配置为其他的功能（比如IIC，此时需要硬件上拉）。
+STM32 一般可以通过 BOOT0 和 BOOT1 的不同组合来设置启动方式。但是在引脚资源稀缺的情况下，有些时候需要将 BOOT0 的引脚配置为其他的功能（比如 IIC，此时需要硬件上拉）。
 
 ![NULL](./assets/picture_1.jpg)
 

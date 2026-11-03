@@ -29,7 +29,7 @@
 4. 代码
 
    - 在 LwIP 初始化之前复位 PHY 芯片。
-   - 在主函数中加入`MX_LWIP_Process();`
+   - 在主函数中加入 `MX_LWIP_Process();`
 
 5. 连接测试
 
@@ -56,7 +56,7 @@
 
   `contrib` 包：提供移植文件及应用实例。
 
-  `lwip` 包：提供TCP/IP协议栈的核心文件。
+  `lwip` 包：提供 TCP/IP 协议栈的核心文件。
 
   - contrib 包文件
 
