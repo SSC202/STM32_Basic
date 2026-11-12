@@ -6,6 +6,7 @@ import { marked } from 'marked';
 import hljs from 'highlight.js';
 import katex from 'katex';
 import markedKatex from 'marked-katex-extension';
+import { sortArticlesByNumber } from './order.mjs';
 
 const scriptDir = path.dirname(fileURLToPath(import.meta.url));
 const blogDir = path.resolve(scriptDir, '..');
@@ -35,7 +36,7 @@ async function walk(directory, extension) {
   for (const entry of entries) {
     const fullPath = path.join(directory, entry.name);
     if (entry.isDirectory()) found.push(...await walk(fullPath, extension));
-    if (entry.isFile() && entry.name.toLowerCase().endsWith(extension)) found.push(fullPath);
+    if (entry.isFile() && entry.name.toLowerCase().endsWith(extension) && entry.name.toLowerCase() !== 'agents.md') found.push(fullPath);
   }
   return found;
 }
@@ -449,9 +450,7 @@ async function build() {
     .map(([name, count]) => ({ name, count, slug: slugFor(`topic:${name}`) }))
     .sort((a, b) => categoryRank(a.name) - categoryRank(b.name));
   for (const category of categories) {
-    category.articles = articles
-      .filter(article => article.category === category.name)
-      .sort((a, b) => a.relativePath.localeCompare(b.relativePath, 'zh-CN', { numeric: true }));
+    category.articles = sortArticlesByNumber(articles.filter(article => article.category === category.name));
     category.articles.forEach((article, index) => {
       article.categorySlug = category.slug;
       article.previous = category.articles[index - 1] || null;
