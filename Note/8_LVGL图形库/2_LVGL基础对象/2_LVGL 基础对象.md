@@ -1,16 +1,16 @@
-# STM32 LVGL 2_LVGL基础对象
+# STM32 LVGL 2_LVGL 基础对象
 
-## 1. 基础对象`lv_obj`
+## 1. 基础对象 `lv_obj`
 
 ### 基础对象的概念
 
-LVGL 通过面向对象的思想进行编程。由于C语言中不存在类的概念，LVGL 通过结构体的方式实现类。
+LVGL 通过面向对象的思想进行编程。由于 C 语言中不存在类的概念，LVGL 通过结构体的方式实现类。
 
 ![NULL](picture_1.jpg)
 
-> 使用`lv_obj_t`结构体实例化当前界面的基础对象`lv_obj`，基础对象是最基本的父对象。由基础对象衍生出对应的子对象。
+> 使用 `lv_obj_t` 结构体实例化当前界面的基础对象 `lv_obj`，基础对象是最基本的父对象。由基础对象衍生出对应的子对象。
 
-基础对象`lv_obj`可以作为父对象，来创建其他对象，同时它也可作为部件使用。
+基础对象 `lv_obj` 可以作为父对象，来创建其他对象，同时它也可作为部件使用。
 
 ![NULL](picture_2.jpg)
 
@@ -28,7 +28,7 @@ LVGL 通过面向对象的思想进行编程。由于C语言中不存在类的�
 
 ## 2. 部件的基本属性
 
-### 大小`size`
+### 大小 `size`
 
 ![NULL](picture_5.jpg)
 
@@ -58,7 +58,7 @@ void lv_obj_set_width(lv_obj_t * obj, lv_coord_t w);
 void lv_obj_set_height(lv_obj_t * obj, lv_coord_t h);
 ```
 
-### 位置`position`
+### 位置 `position`
 
 ![NULL](picture_6.jpg)
 
@@ -66,7 +66,7 @@ void lv_obj_set_height(lv_obj_t * obj, lv_coord_t h);
 
 设置部件位置时，**坐标原点在父对象的左上角**。
 
-API函数：
+API 函数：
 
 ```c
 /**
@@ -93,7 +93,7 @@ void lv_obj_set_x(lv_obj_t * obj, lv_coord_t x);
 void lv_obj_set_y(lv_obj_t * obj, lv_coord_t y);
 ```
 
-### 对齐`alignment`
+### 对齐 `alignment`
 
 - 参照父对象对齐
 
@@ -135,7 +135,7 @@ void lv_obj_align_to(lv_obj_t * obj, const lv_obj_t * base, lv_align_t align, lv
 
 ![NULL](picture_10.jpg)
 
-### 样式`styles`
+### 样式 `styles`
 
 样式用于设置部件的外观，以优化显示界面和实现用户交互。
 
@@ -154,7 +154,7 @@ lv_obj_t * obj = lv_obj_create(lv_scr_act()); 			/* 创建一个部件 */
 lv_obj_set_style_bg_color(obj, lv_color_hex(0xf4b183),LV_STATE_DEFAULT);	/* 设置部件的样式 */
 ```
 
-可以设置以下的样式：大小`Size`，位置`Position`，背景`Background`，轮廓`Outline`，边框`Border`，阴影`Shadow`，其它`Others`。
+可以设置以下的样式：大小 `Size`，位置 `Position`，背景 `Background`，轮廓 `Outline`，边框 `Border`，阴影 `Shadow`，其它 `Others`。
 
 - 样式可以在以下枚举类型的情况下生效：
 
@@ -194,9 +194,9 @@ enum {
 };
 ```
 
-### 事件`event`
+### 事件 `event`
 
-LVGL中，当发生用户感兴趣的事情时，可以触发回调事件，以执行相关的操作。
+LVGL 中，当发生用户感兴趣的事情时，可以触发回调事件，以执行相关的操作。
 
 ```c
 /**

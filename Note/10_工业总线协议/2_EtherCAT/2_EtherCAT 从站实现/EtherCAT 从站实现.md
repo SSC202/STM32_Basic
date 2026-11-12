@@ -390,7 +390,7 @@ ESC 根据倍福公司的 IP core 设计，常见的 ESC 芯片如下：
 
    ---
 
-   注释掉 `HW_SetLed()` 函数内的代码，并删除这之后的所有函数 (PIC32芯片的中断服务程序)。
+   注释掉 `HW_SetLed()` 函数内的代码，并删除这之后的所有函数 (PIC32 芯片的中断服务程序)。
 
    ```c
    void HW_SetLed(UINT8 RunLed,UINT8 ErrLed)

@@ -28,7 +28,7 @@ SOEM 采用分层设计，并且提供了一个抽象层，将 SOEM 协议栈与
 >
 >   `nicdrv` 模块的逻辑结构基本相同，需要实现网口初始化，MAC 层帧发送，MAC 层帧接收
 
-SOEM 中间层是 EtherCAT协议栈的具体实现，包含 BASE 模块、MAIN 模块、CONFIG 模块、CONFIGDC 模块、COE 模块等。
+SOEM 中间层是 EtherCAT 协议栈的具体实现，包含 BASE 模块、MAIN 模块、CONFIG 模块、CONFIGDC 模块、COE 模块等。
 
 | 层       | 功能                                                         |
 | -------- | ------------------------------------------------------------ |
